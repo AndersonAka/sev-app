@@ -1,9 +1,9 @@
-import AdhesionWrapper from '@/components/adhesion/adhesion-wrapper'
+import CollecteWrapper from '@/components/collecte/collecte-wrapper'
 import React from 'react'
 
 const CollectePage = () => {
     return (
-        <> <AdhesionWrapper /></>
+        <> <CollecteWrapper /></>
     )
 }
 

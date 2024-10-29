@@ -48,11 +48,9 @@ const CollecteWrapper = () => {
                         {/* <!-- Input Fields --> */}
                         <div className="rounded-[10px] border  bg-white  border-green-600  shadow-card">
                             <div className="border-b border-stroke px-6.5 p-4 dark:border-dark-3">
-                                <h3 className="font-medium text-dark dark:text-white">
-                                    ADHESIONS / DONS
+                                <h3 className="text-xl md:text-2xl font-medium text-dark dark:text-white">
+                                    COLLECTE DE FONDS POUR EQUIPEMENTS LOGISTIQUES
                                 </h3>
-                                <span> Collecte de fonds pour équipements logistiques</span>
-
                             </div>
                             <div className="flex flex-col gap-5.5 p-6.5 pb-3 ">
                                 <Steps current={current} items={items} />
