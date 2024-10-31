@@ -19,7 +19,15 @@ export default function RootLayout({
         suppressHydrationWarning={true}
         className={`antialiased`}
       >
-        {children}
+        {/* Header */}
+        <header className="bg-green-900 text-white p-4 shadow-lg">
+          <div className="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 className="text-xl sm:text-2xl font-bold">Sev - Semence pour la vie</h1>
+          </div>
+        </header>
+        <main>
+          {children}
+        </main>
       </body>
     </html>
   );
