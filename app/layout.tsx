@@ -29,9 +29,9 @@ export default function RootLayout({
             </span>
           </div>
         </header>
-        <main>
+        <div className="">
           {children}
-        </main>
+        </div>
       </body>
     </html>
   );

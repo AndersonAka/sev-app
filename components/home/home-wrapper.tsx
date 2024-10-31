@@ -52,9 +52,9 @@ const HomePage = () => {
     const router = useRouter();
 
     return (
-        <div className="min-h-screen flex flex-col">
+        <div className="h-full bg-black flex flex-col">
             {/* Main Content */}
-            <div className="flex flex-1 bg-gray-50 flex-col lg:flex-row">
+            <div className="h-full flex items-center bg-gray-50 flex-col lg:flex-row">
                 {/* Left Section */}
                 <div className="flex flex-col justify-center items-center sm:items-start p-6 sm:p-10 space-y-4 sm:space-y-6 max-w-full lg:max-w-xl mx-auto">
                     <ImageTitre width={250} />
@@ -83,11 +83,11 @@ const HomePage = () => {
                 </div>
 
                 {/* Right Image (visible on large screens and above)  bg-gradient-to-br from-white to-green-200 */}
-                <div className="hidden lg:flex flex-1 justify-center items-center p-8 bg-cover">
+                <div className="hidden lg:flex flex-1 justify-end items-center p-8 bg-cover">
                     <Image
                         src={'/images/landingpage.webp'}
                         alt="sev-logo"
-                        width={2000}
+                        width={1000}
                         height={500}
                         priority
                         className="shadow-lg"
