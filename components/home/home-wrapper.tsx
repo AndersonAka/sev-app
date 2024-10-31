@@ -46,6 +46,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import ImageTitre from "../communs/image-titre";
 
 const HomePage = () => {
     const router = useRouter();
@@ -55,7 +56,8 @@ const HomePage = () => {
             {/* Main Content */}
             <div className="flex flex-1 bg-gray-50 flex-col lg:flex-row">
                 {/* Left Section */}
-                <div className="flex flex-col justify-center items-start p-6 sm:p-10 space-y-4 sm:space-y-6 max-w-full lg:max-w-xl mx-auto">
+                <div className="flex flex-col justify-center items-center sm:items-start p-6 sm:p-10 space-y-4 sm:space-y-6 max-w-full lg:max-w-xl mx-auto">
+                    <ImageTitre width={250} />
                     <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-gray-800 leading-snug sm:leading-tight">
                         Bienvenue à la Communauté!
                     </h2>
