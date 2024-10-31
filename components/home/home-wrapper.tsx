@@ -54,15 +54,15 @@ const HomePage = () => {
     return (
         <div className="h-full flex flex-col">
             {/* Main Content */}
-            <div className="h-full flex items-center  flex-col lg:flex-row">
+            <div className="flex items-center  flex-col lg:flex-row">
                 {/* Left Section */}
                 <div className="flex flex-col justify-center items-center sm:items-start p-6 sm:p-10 space-y-4 sm:space-y-6 max-w-full lg:max-w-xl mx-auto">
-                    <ImageTitre width={250} />
+                    {/* <ImageTitre width={250} /> */}
                     <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-gray-800 leading-snug sm:leading-tight">
                         Bienvenue à la Communauté!
                     </h2>
                     <p className="text-md sm:text-lg lg:text-xl font-satoshi text-gray-700">
-                        Rejoignez-nous pour contribuer à l'avancement de notre communauté.
+                        Bienvenu-e, contribuez à soutenir les actions en faveur des communautés.<br />
                         Que vous souhaitiez adhérer, faire un don, ou participer aux
                         événements, il y a une place pour vous.
                     </p>
