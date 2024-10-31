@@ -10,10 +10,10 @@ interface Props {
 
 const ImageTitre = ({ image = logoSev, width = 200, height = 50 }: Props) => {
     return (
-        < div className="image-container flex justify-center mb-6" >
+        < div className="image-container flex justify-center" >
             <Image
                 src={image}
-                alt="Gestion des adhésions à une salle de sport"
+                alt="sev-semence pour la vie"
                 width={width}
                 height={height}
                 priority
