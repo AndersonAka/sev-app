@@ -15,6 +15,7 @@ const TypePersonne = () => {
 
     }
 
+
     return (
         <>
             <div className='flex flex-col space-y-2'>
