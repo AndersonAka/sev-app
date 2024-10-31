@@ -17,7 +17,7 @@ const ImageTitre = ({ image = logoSev, width = 200, height = 50 }: Props) => {
                 width={width}
                 height={height}
                 priority
-                className=" rounded-md shadow-lg"
+                className="rounded-md shadow-lg"
                 placeholder="blur"
             />
         </ div>
