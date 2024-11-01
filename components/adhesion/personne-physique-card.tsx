@@ -4,15 +4,17 @@ import { Button, Input } from 'antd'
 import { Formik } from 'formik'
 import ChoixMembre from './membre-card'
 import useDataStore from '@/store/dataStore'
+import AdhesionCollecte from '../collecte/adhesion-collecte'
 
 interface Props {
     prev: () => void
     next: () => void
+    adhesionCollecte?: boolean
 }
 
-const PersonnePhysique = ({ prev, next }: Props) => {
+const PersonnePhysique = ({ prev, next, adhesionCollecte }: Props) => {
     const { dataPersonnePhysique, setCurrent, setDataPersonnePhysique } = useDataStore()
-    
+
     const initialValues: IPersonnePhysique = {
         nom: dataPersonnePhysique?.nom || null,
         prenom: dataPersonnePhysique?.prenom || null,
@@ -143,7 +145,10 @@ const PersonnePhysique = ({ prev, next }: Props) => {
                                 </div>
                             </div >
                             <div className='flex flex-row justify-between space-x-2'>
-                                <ChoixMembre />
+                                {!adhesionCollecte ? (<><ChoixMembre /></>) : (<>
+                                    <AdhesionCollecte />
+                                </>)}
+
                             </div >
                             <div className=' flex justify-end space-x-2'>
                                 <Button

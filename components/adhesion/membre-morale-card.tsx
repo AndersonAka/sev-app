@@ -28,6 +28,7 @@ const ChoixMembreMorale = () => {
             option: value
         }
         setDataChoixMembre(choix)
+        setOption(choix.option!)
     }
 
     return (
@@ -37,7 +38,7 @@ const ChoixMembreMorale = () => {
                 <Radio.Group
                     block
                     options={options}
-                    defaultValue={dataChoixMembre.type ? dataChoixMembre.type : "d"}
+                    defaultValue={dataChoixMembre.type}
                     optionType="button"
                     buttonStyle="solid"
                     size='middle'

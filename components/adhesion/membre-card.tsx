@@ -30,6 +30,7 @@ const ChoixMembre = () => {
             type: option,
             option: value
         }
+        setOption(choix.option!)
         setDataChoixMembre(choix)
     }
 

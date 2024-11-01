@@ -1,11 +1,10 @@
 "use client";
-import { Button, message, Steps } from 'antd';
-import { useMemo, useState } from 'react';
-import MoyenDePaiment from './moyen-paiement-card';
-import PersonneWrapper from './personne-wrapper';
-import TypePersonne from './type-personne-card';
 import useDataStore from '@/store/dataStore';
+import { message, Steps } from 'antd';
+import MoyenPaiement from './moyen-paiement-card';
+import PersonneWrapper from './personne-wrapper';
 import ResumeCard from './resume-card';
+import TypePersonne from './type-personne-card';
 const AdhesionWrapper = () => {
     // const [current, setCurrent] = useState(0);
     const { current, setCurrent } = useDataStore()
@@ -35,7 +34,7 @@ const AdhesionWrapper = () => {
         },
         {
             title: 'Etape 4',
-            content: <MoyenDePaiment next={next} prev={prev} />,
+            content: <MoyenPaiement next={next} prev={prev} />,
         },
     ];
 
@@ -59,19 +58,10 @@ const AdhesionWrapper = () => {
                                 </h3>
                             </div>
                             <div className="flex flex-col gap-6 p-6">
-                                <Steps type="navigation" current={current} items={items} />
+                                <div className='hidden sm:block'>
+                                    <Steps type="navigation" current={current} items={items} />
+                                </div>
                                 <div>{steps[current].content}</div>
-                                {/* <div className="mt-6 flex gap-4">
-                                    {current === steps.length - 1 && (
-                                        <Button
-                                            type='primary'
-                                            variant='solid'
-                                            onClick={() => message.success('Traitement terminé !')}
-                                        >
-                                            Terminer
-                                        </Button>
-                                    )}
-                                </div> */}
                             </div>
                         </div>
                     </div>

@@ -23,3 +23,8 @@ export interface IChoixMembre {
   type?: string | null;
   option?: string | null;
 }
+
+export interface IAdhesiionCollecte {
+  montant?: string | null;
+  date?: string | null;
+}

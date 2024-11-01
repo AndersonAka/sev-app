@@ -1,19 +1,22 @@
 'use client'
 import { retournerChoixMembre } from '@/helpers/fonctions'
-import { IPersonnePhysique } from '@/helpers/interface'
+import { IPersonneMorale, IPersonnePhysique } from '@/helpers/interface'
 import useDataStore from '@/store/dataStore'
 import { Button, Divider } from 'antd'
 import React from 'react'
+import ResumeCardPersonnePhysique from './resume-card-personne-physique'
+import ResumeCardPersonneMorale from './resume-card-personne-morale'
 
 interface Props {
     typePersonne: string
-    personnePhysique: IPersonnePhysique
+    personnePhysique?: IPersonnePhysique
+    personneMorale?: IPersonneMorale
     next: () => void
     prev: () => void
 }
 
-const ResumeCardContent = ({ typePersonne, personnePhysique, next, prev }: Props) => {
-    const { dataChoixMembre, setCurrent } = useDataStore()
+const ResumeCardContent = ({ typePersonne, personnePhysique, personneMorale, next, prev }: Props) => {
+    const { dataTypePersonne, dataChoixMembre, setCurrent } = useDataStore()
 
     const retour = () => {
         setCurrent(2)
@@ -37,60 +40,9 @@ const ResumeCardContent = ({ typePersonne, personnePhysique, next, prev }: Props
                 </div>
             </div>
             <div className='flex flex-col space-y-2 rounded-lg border p-3'>
-                <div className='flex flex-row justify-between space-x-2'>
-                    <div className='w-1/2'>
-                        <span className="block text-lg">
-                            Nom
-                        </span>
-                        <span className='text-xl font-medium'>
-                            {personnePhysique?.nom}
-                        </span>
-                    </div>
-                    <div className='w-1/2'>
-                        <span className="block text-lg">
-                            Prenom(s)
-                        </span>
-                        <span className='text-xl font-medium'>
-                            {personnePhysique?.prenom}
-                        </span>
-                    </div>
-                </div >
 
-                <div className='flex flex-row justify-between space-x-2'>
-                    <div className='w-1/2'>
-                        <span className="block text-lg">
-                            Lieu de résidence
-                        </span>
-                        <span className='text-xl font-medium'>
-                            {personnePhysique?.lieuDeResidence}
-                        </span>
-                    </div>
-                    <div className='w-1/2'>
-                        <span className="block text-lg">
-                            Eglise fréquentée actuellement
-                        </span>
-                        <span className='text-xl font-medium'> {personnePhysique?.eglise}
-                        </span>
-                    </div>
-                </div >
-                <div className='flex flex-row justify-between space-x-2'>
-                    <div className='w-1/2'>
-                        <span className="block text-lg">
-                            Profession
-                        </span>
-                        <span className='text-xl font-medium'>
-                            {personnePhysique?.profession}
-                        </span>
-                    </div>
-                    <div className='w-1/2'>
-                        <span className="block text-lg">
-                            N° de téléphone (WhatSapp)
-                        </span>
-                        <span className='text-xl font-medium'>
-                            {personnePhysique?.telephone}
-                        </span>
-                    </div>
-                </div>
+                {dataTypePersonne.typePersonne === "1" && <ResumeCardPersonnePhysique personnePhysique={personnePhysique!} />}
+                {dataTypePersonne.typePersonne === "2" && <ResumeCardPersonneMorale personneMorale={personneMorale!} />}
                 <div className='p-2 bg-slate-50 flex rounded-lg flex-col justify-between space-y-2'>
                     <span>Vous souhaitez devenir :</span>
                     <span className='text-xl font-medium'>{dataChoixMembre?.type === "m" ? "Membre" : "Donateur"}</span>
@@ -129,3 +81,12 @@ const ResumeCardContent = ({ typePersonne, personnePhysique, next, prev }: Props
 }
 
 export default ResumeCardContent
+
+
+export const resumeCardPersonneMorale = () => {
+    return (
+        <>
+        </>
+    )
+}
+

@@ -24,3 +24,8 @@ export const personneMoraleSchema = Yup.object().shape({
     .min(5, "5 caractères minimun")
     .required("Ce champ est obligatoire"),
 });
+
+export const adhesionCollectSchema = Yup.object().shape({
+  montant: Yup.number().required("Ce champ est obligatoire"),
+  date: Yup.date().required("Ce champ est obligatoire"),
+});

@@ -4,19 +4,21 @@ import useDataStore from '@/store/dataStore'
 import { Button, Input } from 'antd'
 import { Formik } from 'formik'
 import ChoixMembreMorale from './membre-morale-card'
+import AdhesionCollecte from '../collecte/adhesion-collecte'
 interface Props {
     prev: () => void
     next: () => void
+    adhesionCollecte?: boolean
 }
-const PersonneMorale = ({ prev, next }: Props) => {
-    const { setCurrent, setDataPersonneMorale } = useDataStore()
+const PersonneMorale = ({ prev, next, adhesionCollecte }: Props) => {
+    const { setCurrent, dataPersonneMorale, setDataPersonneMorale } = useDataStore()
 
     const initialValues: IPersonneMorale = {
-        raisonSociale: null,
-        personneDeReference: null,
-        fonction: null,
-        adresseEmail: null,
-        telephone: null
+        raisonSociale: dataPersonneMorale.raisonSociale || null,
+        personneDeReference: dataPersonneMorale.personneDeReference || null,
+        fonction: dataPersonneMorale.fonction || null,
+        adresseEmail: dataPersonneMorale.adresseEmail || null,
+        telephone: dataPersonneMorale.telephone || null
     }
 
     const handleSubmit = async (value: IPersonneMorale) => {
@@ -52,6 +54,7 @@ const PersonneMorale = ({ prev, next }: Props) => {
                                         name='raisonSociale'
                                         placeholder="Raison sociale"
                                         allowClear
+                                        value={values.raisonSociale!}
                                         onChange={handleChange}
                                         style={{ height: 35 }}
                                         status={errors.raisonSociale && touched.raisonSociale ? 'error' : ''}
@@ -70,6 +73,7 @@ const PersonneMorale = ({ prev, next }: Props) => {
                                         placeholder="Personne de référence"
                                         allowClear
                                         onChange={handleChange}
+                                        value={values.personneDeReference!}
                                         style={{ height: 35 }}
                                         status={errors.personneDeReference && touched.personneDeReference ? 'error' : ''}
                                     />
@@ -90,6 +94,7 @@ const PersonneMorale = ({ prev, next }: Props) => {
                                         placeholder="Fonction"
                                         allowClear
                                         onChange={handleChange}
+                                        value={values.fonction!}
                                         style={{ height: 35 }}
                                         status={errors.fonction && touched.fonction ? 'error' : ''}
                                     />
@@ -107,6 +112,7 @@ const PersonneMorale = ({ prev, next }: Props) => {
                                         placeholder="Adresse email"
                                         allowClear
                                         onChange={handleChange}
+                                        value={values.adresseEmail!}
                                         style={{ height: 35 }}
                                     />
                                 </div>
@@ -119,8 +125,10 @@ const PersonneMorale = ({ prev, next }: Props) => {
                                     <Input
                                         type="text"
                                         placeholder="N° de téléphone"
+                                        name='telephone'
                                         allowClear
                                         onChange={handleChange}
+                                        value={values.telephone!}
                                         style={{ height: 35 }}
                                         status={errors.telephone && touched.telephone ? 'error' : ''}
                                     />
@@ -128,9 +136,9 @@ const PersonneMorale = ({ prev, next }: Props) => {
                                         <div className="text-red-500">{errors.telephone}</div>
                                     )}
                                 </div>
-                            </div >
+                            </div>
                             <div className='flex flex-row justify-between space-x-2'>
-                                <ChoixMembreMorale />
+                                {!adhesionCollecte ? (<><ChoixMembreMorale /></>) : (<><AdhesionCollecte /></>)}
                             </div >
 
                             <div className=' flex justify-end space-x-2'>
