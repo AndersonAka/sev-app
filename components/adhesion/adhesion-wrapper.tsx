@@ -2,34 +2,42 @@
 import { Button, message, Steps } from 'antd';
 import { useMemo, useState } from 'react';
 import MoyenDePaiment from './moyen-paiement-card';
-import PersonnePhysique from './personne-physique-card';
+import PersonneWrapper from './personne-wrapper';
 import TypePersonne from './type-personne-card';
+import useDataStore from '@/store/dataStore';
 const AdhesionWrapper = () => {
-    const [current, setCurrent] = useState(0);
+    // const [current, setCurrent] = useState(0);
+    const { current, setCurrent } = useDataStore()
 
-    const steps = useMemo(() => [
+    const next = async () => {
+        if (current === steps.length - 1) {
+            message.success('Adhésion enregistrée');
+            return
+        }
+        setCurrent(current + 1);
+    };
+    const prev = async () => {
+        setCurrent(current - 1);
+    };
+    const steps = [
         {
             title: 'Etape 1',
-            content: <TypePersonne />,
+            content: <TypePersonne next={next} />,
         },
         {
             title: 'Etape 2',
-            content: <PersonnePhysique />,
+            content: <PersonneWrapper next={next} prev={prev} />,
         },
         {
             title: 'Etape 3',
-            content: <MoyenDePaiment />,
+            content: <MoyenDePaiment next={next} prev={prev} />,
         },
-    ], []);
+        {
+            title: 'Etape 4',
+            content: <>Page de résumer</>,
+        },
+    ];
 
-
-    const next = () => {
-        setCurrent(current + 1);
-    };
-
-    const prev = () => {
-        setCurrent(current - 1);
-    };
 
     const items = steps.map((item) => ({ key: item.title, title: item.title }));
 
@@ -49,30 +57,10 @@ const AdhesionWrapper = () => {
                                     ADHESION / DONATIONS
                                 </h3>
                             </div>
-
                             <div className="flex flex-col gap-6 p-6">
                                 <Steps type="navigation" current={current} items={items} />
-
                                 <div>{steps[current].content}</div>
-
-                                <div className="mt-6 flex gap-4">
-                                    {current > 0 && (
-                                        <Button
-                                            style={{ marginLeft: '0.5rem' }}
-                                            onClick={() => prev()}
-                                        >
-                                            Retour
-                                        </Button>
-                                    )}
-                                    {/* {current < steps.length - 1 && (
-                                        <Button
-                                            variant='solid'
-                                            type='primary'
-                                            onClick={() => next()}
-                                        >
-                                            Suivant
-                                        </Button>
-                                    )} */}
+                                {/* <div className="mt-6 flex gap-4">
                                     {current === steps.length - 1 && (
                                         <Button
                                             type='primary'
@@ -82,7 +70,7 @@ const AdhesionWrapper = () => {
                                             Terminer
                                         </Button>
                                     )}
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                     </div>

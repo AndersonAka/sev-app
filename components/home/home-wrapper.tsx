@@ -43,13 +43,19 @@
 
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import ImageTitre from "../communs/image-titre";
+import useDataStore from "@/store/dataStore";
 
 const HomePage = () => {
     const router = useRouter();
+    const { setCurrent } = useDataStore();
+
+    useEffect(() => {
+        setCurrent(0);
+    }, []);
 
     return (
         <div className="h-full flex flex-col">
