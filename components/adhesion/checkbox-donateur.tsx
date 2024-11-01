@@ -1,19 +1,41 @@
 import React from 'react';
-import { Checkbox } from 'antd';
-import type { GetProp } from 'antd';
+import { Flex, Radio } from 'antd';
 
-const onChange: GetProp<typeof Checkbox.Group, 'onChange'> = (checkedValues) => {
-    console.log('checked = ', checkedValues);
+interface Props {
+    onSelected: (value: string) => void
+    value: string
+}
+
+
+const CheckBoxDonateur = ({ onSelected, value }: Props) => {
+
+    const choix = (value: string) => {
+        onSelected(value)
+    }
+
+    return (
+        <Flex vertical gap="middle">
+            <Radio.Group
+                size='large'
+                name="radiogroup"
+                defaultValue={value}
+                onChange={e => choix(e.target.value)}
+            >
+                <div className='flex flex-row p-2 justify-center'>
+                    <div className='flex flex-col'>
+                        <Radio value="b">
+                            Bronze (20.000 F CFA/mois)
+                        </Radio>
+                        <Radio value="a">Argent (10.000 F CFA/mois)</Radio>
+                    </div>
+                    <div className='flex flex-col'>
+                        <Radio value="o">Or (100.000 F CFA/mois)</Radio>
+                        <Radio value="d">Diamant (+100.000 F CFA/mois)</Radio>
+                    </div>
+                </div>
+            </Radio.Group>
+        </Flex>
+    )
 };
 
-const plainOptions = ['Bronze (20.000 F CFA/mois)', 'Argent(10.000 F CFA/mois)', 'Or(100.000 F CFA/mois)', 'Diamant(+100.000 F CFA/mois)'];
-
-
-
-const ChexBoxDonateur: React.FC = () => (
-    <>
-        <Checkbox.Group options={plainOptions} onChange={onChange} />
-    </>
-);
-
-export default ChexBoxDonateur;
+export default CheckBoxDonateur;

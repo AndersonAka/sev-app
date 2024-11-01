@@ -5,6 +5,7 @@ import MoyenDePaiment from './moyen-paiement-card';
 import PersonneWrapper from './personne-wrapper';
 import TypePersonne from './type-personne-card';
 import useDataStore from '@/store/dataStore';
+import ResumeCard from './resume-card';
 const AdhesionWrapper = () => {
     // const [current, setCurrent] = useState(0);
     const { current, setCurrent } = useDataStore()
@@ -30,11 +31,11 @@ const AdhesionWrapper = () => {
         },
         {
             title: 'Etape 3',
-            content: <MoyenDePaiment next={next} prev={prev} />,
+            content: <ResumeCard next={next} prev={prev} />,
         },
         {
             title: 'Etape 4',
-            content: <>Page de résumer</>,
+            content: <MoyenDePaiment next={next} prev={prev} />,
         },
     ];
 

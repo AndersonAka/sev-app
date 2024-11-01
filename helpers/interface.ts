@@ -10,3 +10,16 @@ export interface IPersonnePhysique {
   profession?: string | null;
   telephone: string | null;
 }
+
+export interface IPersonneMorale {
+  raisonSociale?: string | null;
+  personneDeReference?: string | null;
+  fonction?: string | null;
+  adresseEmail?: string | null;
+  telephone?: string | null;
+}
+
+export interface IChoixMembre {
+  type?: string | null;
+  option?: string | null;
+}

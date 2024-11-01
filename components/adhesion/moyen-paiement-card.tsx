@@ -14,7 +14,6 @@ const MoyenPaiement = ({ next, prev }: Props) => {
     const { setCurrent } = useDataStore()
     const [activeTabKey1, setActiveTabKey1] = useState<string>('vm');
 
-
     const tabList = [
         {
             key: 'vm',
@@ -41,8 +40,13 @@ const MoyenPaiement = ({ next, prev }: Props) => {
         setActiveTabKey1(key);
     };
 
+    const suivant = () => {
+        setCurrent(3);
+        next()
+    }
+
     const retour = () => {
-        setCurrent(2);
+        setCurrent(3);
         prev()
     }
 
@@ -68,10 +72,10 @@ const MoyenPaiement = ({ next, prev }: Props) => {
                 </Button>
                 <Button
                     type='primary'
-                    onClick={() => next()}
+                    onClick={() => suivant()}
                     style={{ marginTop: 20, height: 35, width: 150, fontSize: 15, backgroundColor: 'brown' }}
                 >
-                    Suivant
+                    Terminer
                 </Button>
             </div>
         </>

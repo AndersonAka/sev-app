@@ -12,6 +12,7 @@ interface Props {
 
 const PersonnePhysique = ({ prev, next }: Props) => {
     const { dataPersonnePhysique, setCurrent, setDataPersonnePhysique } = useDataStore()
+    
     const initialValues: IPersonnePhysique = {
         nom: dataPersonnePhysique?.nom || null,
         prenom: dataPersonnePhysique?.prenom || null,
