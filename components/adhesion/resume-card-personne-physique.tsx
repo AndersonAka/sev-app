@@ -4,7 +4,7 @@ import { IPersonnePhysique } from "@/helpers/interface"
 const ResumeCardPersonnePhysique = ({ personnePhysique }: { personnePhysique: IPersonnePhysique }) => {
     return (
         <>
-            <div className='flex flex-col space-y-2 rounded-lg border p-3'>
+            <div className='flex flex-col space-y-2  p-3'>
                 <div className='flex flex-row justify-between space-x-2'>
                     <div className='w-1/2'>
                         <span className="block text-lg">
@@ -35,7 +35,7 @@ const ResumeCardPersonnePhysique = ({ personnePhysique }: { personnePhysique: IP
                     </div>
                     <div className='w-1/2'>
                         <span className="block text-lg">
-                            Eglise fréquentée actuellement
+                            Eglise
                         </span>
                         <span className='text-xl font-medium'> {personnePhysique?.eglise}
                         </span>

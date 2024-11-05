@@ -43,9 +43,9 @@ const PersonneMorale = ({ prev, next, adhesionCollecte }: Props) => {
             >
                 {({ values, errors, touched, handleSubmit, handleChange }) => (
                     <form onSubmit={handleSubmit}>
-                        <div className='flex flex-col space-y-2 rounded-lg border p-3'>
-                            <div className='flex flex-row justify-between space-x-2'>
-                                <div className='w-1/2'>
+                        <div className='flex flex-col space-y-2 p-2'>
+                            <div className=' flex flex-col md:flex-row justify-between md:space-x-2'>
+                                <div className='w-full md:w-1/2'>
                                     <label className="mb-3 block text-lg font-medium text-dark ">
                                         Raison sociale*
                                     </label>
@@ -63,7 +63,7 @@ const PersonneMorale = ({ prev, next, adhesionCollecte }: Props) => {
                                         <div className="text-red-500">{errors.raisonSociale}</div>
                                     )}
                                 </div>
-                                <div className='w-1/2'>
+                                <div className='w-full md:w-1/2'>
                                     <label className="mb-3 block text-lg font-medium text-dark ">
                                         Personne de référence*
                                     </label>
@@ -83,8 +83,8 @@ const PersonneMorale = ({ prev, next, adhesionCollecte }: Props) => {
                                 </div>
                             </div >
 
-                            <div className='flex flex-row justify-between space-x-2'>
-                                <div className='w-1/2'>
+                            <div className='flex flex-col md:flex-row justify-between md:space-x-2'>
+                                <div className='w-full md:w-1/2'>
                                     <label className="mb-3 block text-lg font-medium text-dark ">
                                         Fonction*
                                     </label>
@@ -102,7 +102,7 @@ const PersonneMorale = ({ prev, next, adhesionCollecte }: Props) => {
                                         <div className="text-red-500">{errors.fonction}</div>
                                     )}
                                 </div>
-                                <div className='w-1/2'>
+                                <div className='w-full md:w-1/2'>
                                     <label className="mb-3 block text-lg font-medium text-dark ">
                                         Adresse email
                                     </label>
@@ -118,7 +118,7 @@ const PersonneMorale = ({ prev, next, adhesionCollecte }: Props) => {
                                 </div>
                             </div >
                             <div className='flex flex-row justify-between space-x-2'>
-                                <div className='w-1/2'>
+                                <div className='w-full md:w-1/2'>
                                     <label className="mb-3 block text-lg font-medium text-dark ">
                                         N° de téléphone* (WhatSapp)
                                     </label>

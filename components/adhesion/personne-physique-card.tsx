@@ -46,10 +46,10 @@ const PersonnePhysique = ({ prev, next, adhesionCollecte }: Props) => {
             >
                 {({ values, errors, touched, handleSubmit, handleChange }) => (
                     <form onSubmit={handleSubmit} >
-                        <div className='flex flex-col space-y-2 rounded-lg border p-3'>
-                            <div className='flex flex-row justify-between space-x-2'>
-                                <div className='w-1/2'>
-                                    <label className="mb-3 block text-lg font-medium text-dark ">
+                        <div className='flex flex-col space-y-2 p-2'>
+                            <div className=' flex flex-col md:flex-row justify-between md:space-x-2'>
+                                <div className='w-full md:w-1/2'>
+                                    <label className="block text-sm md:text-lg font-medium text-dark ">
                                         Nom*
                                     </label>
                                     <Input
@@ -64,8 +64,8 @@ const PersonnePhysique = ({ prev, next, adhesionCollecte }: Props) => {
                                     />
                                     {errors.nom && touched.nom && <p className='text-red-500'>{errors.nom}</p>}
                                 </div>
-                                <div className='w-1/2'>
-                                    <label className="mb-3 block text-lg font-medium text-dark ">
+                                <div className=' w-full md:w-1/2'>
+                                    <label className="block text-sm md:text-lg font-medium text-dark ">
                                         Prenom*
                                     </label>
                                     <Input
@@ -81,10 +81,9 @@ const PersonnePhysique = ({ prev, next, adhesionCollecte }: Props) => {
                                     {errors.prenom && touched.prenom && <p className='text-red-500'>{errors.prenom}</p>}
                                 </div>
                             </div >
-
-                            <div className='flex flex-row justify-between space-x-2'>
-                                <div className='w-1/2'>
-                                    <label className="mb-3 block text-lg font-medium text-dark ">
+                            <div className='flex flex-col md:flex-row justify-between md:space-x-2'>
+                                <div className='w-full md:w-1/2'>
+                                    <label className="block text-sm md:text-lg font-medium text-dark ">
                                         Lieu de résidence
                                     </label>
                                     <Input
@@ -97,8 +96,8 @@ const PersonnePhysique = ({ prev, next, adhesionCollecte }: Props) => {
                                         style={{ height: 35 }}
                                     />
                                 </div>
-                                <div className='w-1/2'>
-                                    <label className="mb-3 block text-lg font-medium text-dark ">
+                                <div className='w-full md:w-1/2'>
+                                    <label className="block text-sm md:text-lg font-medium text-dark ">
                                         Eglise fréquentée actuellement
                                     </label>
                                     <Input
@@ -112,9 +111,9 @@ const PersonnePhysique = ({ prev, next, adhesionCollecte }: Props) => {
                                     />
                                 </div>
                             </div >
-                            <div className='flex flex-row justify-between space-x-2'>
-                                <div className='w-1/2'>
-                                    <label className="mb-3 block text-lg font-medium text-dark ">
+                            <div className=' flex flex-col md:flex-row justify-between md:space-x-2'>
+                                <div className='w-full md:w-1/2'>
+                                    <label className="block text-sm md:text-lg font-medium text-dark ">
                                         Profession
                                     </label>
                                     <Input
@@ -127,8 +126,8 @@ const PersonnePhysique = ({ prev, next, adhesionCollecte }: Props) => {
                                         style={{ height: 35 }}
                                     />
                                 </div>
-                                <div className='w-1/2'>
-                                    <label className="mb-3 block text-lg font-medium text-dark ">
+                                <div className='w-full md:w-1/2'>
+                                    <label className="block text-sm md:text-lg font-medium text-dark ">
                                         N° de téléphone* (WhatSapp)
                                     </label>
                                     <Input
@@ -144,7 +143,7 @@ const PersonnePhysique = ({ prev, next, adhesionCollecte }: Props) => {
                                     {errors.telephone && touched.telephone && <p className='text-red-500'>{errors.telephone}</p>}
                                 </div>
                             </div >
-                            <div className='flex flex-row justify-between space-x-2'>
+                            <div className='mb-3 flex flex-col md:flex-row justify-between md:space-x-2'>
                                 {!adhesionCollecte ? (<><ChoixMembre /></>) : (<>
                                     <AdhesionCollecte />
                                 </>)}
@@ -171,8 +170,6 @@ const PersonnePhysique = ({ prev, next, adhesionCollecte }: Props) => {
                 )}
 
             </Formik>
-
-
         </div>
     )
 }

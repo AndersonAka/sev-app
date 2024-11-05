@@ -24,11 +24,19 @@ const ChoixMembreMorale = () => {
 
     const choixDonateur = (value: string) => {
         const choix: IChoixMembre = {
-            type: option,
+            type: dataChoixMembre.type,
             option: value
         }
         setDataChoixMembre(choix)
-        setOption(choix.option!)
+    }
+
+    const choixDonateurdiamant = (value: string) => {
+        const choix: IChoixMembre = {
+            type: dataChoixMembre.type,
+            option: dataChoixMembre.option,
+            montant: value
+        }
+        setDataChoixMembre(choix)
     }
 
     return (
@@ -47,7 +55,7 @@ const ChoixMembreMorale = () => {
             </Flex>
             <Divider />
             {option === 'd' || dataChoixMembre.type === 'd' ?
-                <ChexBoxDonateur onSelected={choixDonateur} value={dataChoixMembre.option ? dataChoixMembre.option : ""} />
+                <ChexBoxDonateur onSelected={choixDonateur} value={dataChoixMembre.option!} onSelectedDiamant={choixDonateurdiamant} />
                 :
                 null}
         </div>

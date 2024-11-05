@@ -65,7 +65,7 @@ const HomePage = () => {
                 <div className="flex flex-col justify-center items-center sm:items-start p-6 sm:p-10 space-y-4 sm:space-y-6 max-w-full lg:max-w-xl mx-auto">
                     {/* <ImageTitre width={250} /> */}
                     <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-gray-800 leading-snug sm:leading-tight">
-                        Bienvenue à la Communauté!
+                        Bienvenue à la Communauté des Semeurs!
                     </h2>
                     <p className="text-md sm:text-lg lg:text-xl font-satoshi text-gray-700">
                         Bienvenu-e, contribuez à soutenir les actions en faveur des communautés.<br />

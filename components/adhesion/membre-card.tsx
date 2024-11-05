@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
-import { Card, Divider, Flex, Radio } from 'antd';
-import ChexBoxMembre from './checkbox-membre';
-import ChexBoxDonateur from './checkbox-donateur';
-import useDataStore from '@/store/dataStore';
 import { IChoixMembre } from '@/helpers/interface';
+import useDataStore from '@/store/dataStore';
+import { Divider, Flex, Radio } from 'antd';
+import { useState } from 'react';
+import ChexBoxDonateur from './checkbox-donateur';
 
 
 
@@ -27,10 +26,20 @@ const ChoixMembre = () => {
 
     const choixDonateur = (value: string) => {
         const choix: IChoixMembre = {
-            type: option,
+            type: dataChoixMembre.type,
             option: value
         }
-        setOption(choix.option!)
+        console.log(choix)
+        // setOption(choix.option!)
+        setDataChoixMembre(choix)
+    }
+
+    const choixDonateurdiamant = (value: string) => {
+        const choix: IChoixMembre = {
+            type: dataChoixMembre.type,
+            option: dataChoixMembre.option,
+            montant: value
+        }
         setDataChoixMembre(choix)
     }
 
@@ -55,7 +64,7 @@ const ChoixMembre = () => {
                     <span className='text-black italic'>Cotisation mensuelle (10.000 F CFA / mois)</span>
                 </div> :
                 option === 'd' || dataChoixMembre.type === 'd' ?
-                    <ChexBoxDonateur onSelected={choixDonateur} value={dataChoixMembre.option ? dataChoixMembre.option : ""} />
+                    <ChexBoxDonateur onSelected={choixDonateur} onSelectedDiamant={choixDonateurdiamant} value={dataChoixMembre.option!} />
                     :
                     null
             }

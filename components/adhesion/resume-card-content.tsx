@@ -30,12 +30,12 @@ const ResumeCardContent = ({ typePersonne, personnePhysique, personneMorale, nex
     }
 
     return (
-        <div className='flex flex-col space-y-3 rounded-lg border p-3'>
+        <div className='flex flex-col space-y-3 '>
             <span className='text-xl font-medium '>Résumer des informations</span>
             <div className='flex flex-row justify-between space-x-2'>
                 <div className='w-1/2'>
                     <span className="block text-lg ">
-                        Type de personne : {typePersonne}
+                        {typePersonne}
                     </span>
                 </div>
             </div>
@@ -44,12 +44,12 @@ const ResumeCardContent = ({ typePersonne, personnePhysique, personneMorale, nex
                 {dataTypePersonne.typePersonne === "1" && <ResumeCardPersonnePhysique personnePhysique={personnePhysique!} />}
                 {dataTypePersonne.typePersonne === "2" && <ResumeCardPersonneMorale personneMorale={personneMorale!} />}
                 <div className='p-2 bg-slate-50 flex rounded-lg flex-col justify-between space-y-2'>
-                    <span>Vous souhaitez devenir :</span>
                     <span className='text-xl font-medium'>{dataChoixMembre?.type === "m" ? "Membre" : "Donateur"}</span>
                     <span className='text-xl font-medium'>{dataChoixMembre?.type === "d" ?
                         (
                             <>
-                                <span className='text-lg italic'>{retournerChoixMembre(dataChoixMembre?.option!)}</span>
+                                <span className='text-lg italic'>{retournerChoixMembre(dataChoixMembre?.option!)} {dataChoixMembre?.option === 'd' ? `${dataChoixMembre?.montant} F CFA/mois` : null}</span><br />
+                                <span className='text-lg italic'></span><br />
                             </>) : <>
                             <div className='flex flex-col space-y-2'>
                                 <span className='text-lg italic'>Droit d\'adhésion (10.000 F CFA)</span>

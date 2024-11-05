@@ -22,6 +22,7 @@ export interface IPersonneMorale {
 export interface IChoixMembre {
   type?: string | null;
   option?: string | null;
+  montant?: string | null;
 }
 
 export interface IAdhesiionCollecte {
