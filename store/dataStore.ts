@@ -1,5 +1,6 @@
 import {
   IChoixMembre,
+  IChoixMoyenPaiement,
   IPersonneMorale,
   IPersonnePhysique,
   ITypePersonne,
@@ -13,6 +14,8 @@ interface DataStoreState {
   dataPersonnePhysique: IPersonnePhysique;
   dataChoixMembre: IChoixMembre;
   dataPersonneMorale: IPersonneMorale;
+  dataChoixPaiement: IChoixMoyenPaiement;
+  setDataChoixPaiement: (dataChoixPaiement: IChoixMoyenPaiement) => void;
   setDataPersonneMorale: (dataPersonneMorale: IPersonneMorale) => void;
   setDataChoixMembre: (dataChoixMembre: IChoixMembre) => void;
   setDataPersonnePhysique: (dataPersonnePhysique: IPersonnePhysique) => void;
@@ -46,6 +49,12 @@ const useDataStore = create<DataStoreState>()(
         adresseEmail: null,
         telephone: null,
       },
+      dataChoixPaiement: {
+        option: null,
+        numero: null,
+      },
+      setDataChoixPaiement: (dataChoixPaiement: IChoixMoyenPaiement) =>
+        set({ dataChoixPaiement }),
       setDataPersonneMorale: (dataPersonneMorale: IPersonneMorale) =>
         set({ dataPersonneMorale }),
 

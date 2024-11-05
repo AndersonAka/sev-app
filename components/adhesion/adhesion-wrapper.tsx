@@ -5,6 +5,7 @@ import MoyenPaiement from './moyen-paiement-card';
 import PersonneWrapper from './personne-wrapper';
 import ResumeCard from './resume-card';
 import TypePersonne from './type-personne-card';
+import ApiPaiementCard from '../communs/api-paiement-card';
 const AdhesionWrapper = () => {
     // const [current, setCurrent] = useState(0);
     const { current, setCurrent } = useDataStore()
@@ -35,6 +36,10 @@ const AdhesionWrapper = () => {
         {
             title: 'Etape 4',
             content: <MoyenPaiement next={next} prev={prev} />,
+        },
+        {
+            title: 'Etape 5',
+            content: <ApiPaiementCard next={next} prev={prev} />,
         },
     ];
 

@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react';
 import { Button, Card } from 'antd';
-import QrCodeMobileMoney from './qr-code';
+import ChoixMoyenPaiement from './choix-moyen-paiement';
 import useDataStore from '@/store/dataStore';
 
 
@@ -12,30 +12,7 @@ interface Props {
 
 const MoyenPaiement = ({ next, prev }: Props) => {
     const { setCurrent } = useDataStore()
-    const [activeTabKey1, setActiveTabKey1] = useState<string>('vm');
-
-    const tabList = [
-        {
-            key: 'vm',
-            tab: 'Virement ou chèque',
-        },
-        {
-            key: 'mm',
-            tab: 'Mobile Money',
-        },
-    ];
-
-    const contentList: Record<string, React.ReactNode> = {
-        vm: <>
-            <p>ONG SEMENCE POUR LA VIE</p>
-            <br />
-            <p className='font-bold'>Compte UBA: CI150 01001 101100005956 78</p>
-        </>,
-        mm:
-            <>
-                <QrCodeMobileMoney />
-            </>,
-    };
+    const [activeTabKey1, setActiveTabKey1] = useState<string>('mm');
     const onTab1Change = (key: string) => {
         setActiveTabKey1(key);
     };
@@ -49,20 +26,18 @@ const MoyenPaiement = ({ next, prev }: Props) => {
         setCurrent(3);
         prev()
     }
-
     return (
         <>
             <Card
                 style={{ width: '100%' }}
                 title="Moyen de paiement : "
-                extra={<a href="#">More</a>}
-                tabList={tabList}
-                activeTabKey={activeTabKey1}
+                // tabList={tabList}
+                // activeTabKey={activeTabKey1}
                 onTabChange={onTab1Change}
             >
-                {contentList[activeTabKey1]}
+                <ChoixMoyenPaiement />
             </Card>
-            <div className=' flex justify-end space-x-2'>
+            <div className='flex justify-end space-x-2'>
                 <Button
                     type='default'
                     onClick={() => retour()}

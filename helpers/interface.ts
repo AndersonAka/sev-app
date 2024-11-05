@@ -29,3 +29,8 @@ export interface IAdhesiionCollecte {
   montant?: string | null;
   date?: string | null;
 }
+
+export interface IChoixMoyenPaiement {
+  option?: string | null;
+  numero?: string | null;
+}

@@ -48,6 +48,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import ImageTitre from "../communs/image-titre";
 import useDataStore from "@/store/dataStore";
+import Link from "next/link";
 
 const HomePage = () => {
     const router = useRouter();
@@ -55,6 +56,9 @@ const HomePage = () => {
 
     useEffect(() => {
         setCurrent(0);
+        // Préchargez les routes de destination
+        router.prefetch("/adhesion");
+        router.prefetch("/collecte");
     }, []);
 
     return (
@@ -73,18 +77,17 @@ const HomePage = () => {
                         événements, il y a une place pour vous.
                     </p>
                     <div className="flex space-x-3 sm:space-x-4">
-                        <button
-                            className="bg-amber-800 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition text-sm sm:text-base"
-                            onClick={() => router.push("/adhesion")}
-                        >
-                            Adhésion
-                        </button>
-                        <button
-                            className="bg-amber-800 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition text-sm sm:text-base"
-                            onClick={() => router.push("/collecte")}
-                        >
-                            Collecte de Fonds
-                        </button>
+                        {/* Utilisation de Link pour le préchargement */}
+                        <Link href="/adhesion" prefetch>
+                            <button className="bg-amber-800 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition text-sm sm:text-base">
+                                Adhésion
+                            </button>
+                        </Link>
+                        <Link href="/collecte" prefetch>
+                            <button className="bg-amber-800 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition text-sm sm:text-base">
+                                Collecte de Fonds
+                            </button>
+                        </Link>
                     </div>
                 </div>
 
