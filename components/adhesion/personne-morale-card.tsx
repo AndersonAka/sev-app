@@ -1,6 +1,6 @@
 
 'use client'
-import { IAdhesionCollecte, IPersonneMorale } from '@/helpers/interface'
+import { IAdhesionCollecte, IChoixMembre, IPersonneMorale } from '@/helpers/interface'
 import { personneMoraleSchema } from '@/helpers/schema'
 import useDataStore from '@/store/dataStore'
 import { Button, Input } from 'antd'
@@ -11,11 +11,12 @@ import { useState } from 'react'
 interface Props {
     prev: () => void
     next: () => void
-    adhesionCollecte?: boolean
+    modeCollecte?: boolean
 }
-const PersonneMorale = ({ prev, next, adhesionCollecte }: Props) => {
-    const { setCurrent, dataPersonneMorale, dataEngagementCollecte, setDataEngagementCollecte, setDataPersonneMorale } = useDataStore()
+const PersonneMorale = ({ prev, next, modeCollecte }: Props) => {
+    const { setCurrent, dataPersonneMorale, dataEngagementCollecte, dataChoixMembre, setDataChoixMembre, setDataEngagementCollecte, setDataPersonneMorale } = useDataStore()
     const [isDisabled, setIsDisabled] = useState(!dataEngagementCollecte.option && !dataEngagementCollecte.date)
+    const [isDisabledMembre, setIsDisabledMembre] = useState(!dataChoixMembre.type || !dataChoixMembre.passe)
 
     const initialValues: IPersonneMorale = {
         raisonSociale: dataPersonneMorale.raisonSociale || null,
@@ -43,6 +44,16 @@ const PersonneMorale = ({ prev, next, adhesionCollecte }: Props) => {
             setIsDisabled(true)
         }
     }
+
+    const handleMembre = (choixMembre: IChoixMembre) => {
+        setDataChoixMembre(choixMembre)
+        if (choixMembre.type && choixMembre.passe) {
+            setIsDisabledMembre(false)
+        } else {
+            setIsDisabledMembre(true)
+        }
+    }
+
     return (
         <div className='space-y-2 overflow-y-auto'>
             <span className='text-lg text-center'> Veuillez renseigner les informations ci-dessous</span><br />
@@ -125,9 +136,14 @@ const PersonneMorale = ({ prev, next, adhesionCollecte }: Props) => {
                                         onChange={handleChange}
                                         value={values.adresseEmail!}
                                         style={{ height: 35 }}
+                                        status={errors.adresseEmail && touched.adresseEmail ? 'error' : ''}
                                     />
+                                    {errors.adresseEmail && touched.adresseEmail && (
+                                        <div className="text-red-500">{errors.adresseEmail}</div>
+                                    )}
                                 </div>
                             </div >
+
                             <div className='flex flex-row justify-between space-x-2'>
                                 <div className='w-full md:w-1/2'>
                                     <label className="mb-3 block text-lg font-medium text-dark ">
@@ -149,7 +165,7 @@ const PersonneMorale = ({ prev, next, adhesionCollecte }: Props) => {
                                 </div>
                             </div>
                             <div className='flex flex-row justify-between space-x-2'>
-                                {!adhesionCollecte ? (<><ChoixMembreMorale /></>) : (<>
+                                {!modeCollecte ? (<><ChoixMembreMorale handleMembre={handleMembre} choixMembre={dataChoixMembre} /></>) : (<>
                                     <AdhesionCollecte handleEngagement={handleEngagement} collecteEngagement={dataEngagementCollecte} />
                                 </>)}
                             </div >
@@ -162,15 +178,31 @@ const PersonneMorale = ({ prev, next, adhesionCollecte }: Props) => {
                                 >
                                     Retour
                                 </Button>
-                                <Button
-                                    type='primary'
-                                    onClick={() => handleSubmit()}
-                                    style={dataEngagementCollecte.option === "1" ? { marginTop: 20, height: 35, width: 150, fontSize: 15, backgroundColor: 'maroon' } : { marginTop: 20, height: 35, width: 150, fontSize: 15, backgroundColor: 'green' }}
-                                    disabled={isDisabled}
-                                >
-                                    {dataEngagementCollecte.option === "1" ? "Suivant" : "Enregitrer"}
-
-                                </Button>
+                                {modeCollecte ?
+                                    (
+                                        <>
+                                            <Button
+                                                type='primary'
+                                                onClick={() => handleSubmit()}
+                                                style={dataEngagementCollecte.option === "1" ? { marginTop: 20, height: 35, width: 150, fontSize: 15, backgroundColor: 'maroon' } : { marginTop: 20, height: 35, width: 150, fontSize: 15, backgroundColor: 'green' }}
+                                                disabled={modeCollecte ? isDisabled : isDisabledMembre}
+                                            >
+                                                {dataEngagementCollecte.option === "1" ? "Suivant" : "Enregitrer"}
+                                            </Button>
+                                        </>
+                                    ) :
+                                    (
+                                        <>
+                                            <Button
+                                                type='primary'
+                                                onClick={() => handleSubmit()}
+                                                style={{ marginTop: 20, height: 35, width: 150, fontSize: 15, backgroundColor: 'maroon' }}
+                                                disabled={modeCollecte ? isDisabled : isDisabledMembre}
+                                            >
+                                                Suivant
+                                            </Button>
+                                        </>)
+                                }
                             </div>
                         </div>
                     </form>

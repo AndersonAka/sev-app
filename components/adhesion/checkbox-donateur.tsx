@@ -12,11 +12,13 @@ interface Props {
 const CheckBoxDonateur = ({ onSelected, value, onSelectedDiamant }: Props) => {
     const [inputValue, setInputValue] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
+
     const choix = (value: string) => {
-        onSelected(value)
+        // let montant: string = '';
         if (value !== 'd') {
             setInputValue(''); // Réinitialise l'input si ce n'est pas "Diamant"
         }
+        onSelected(value)
     }
     const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = e.target.value;

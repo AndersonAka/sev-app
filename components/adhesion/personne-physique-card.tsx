@@ -1,11 +1,13 @@
-import { IAdhesionCollecte, IPersonnePhysique } from '@/helpers/interface'
+import { IAdhesionCollecte, IChoixMembre, IPersonnePhysique } from '@/helpers/interface'
 import { personnePhysiqueSchema } from '@/helpers/schema'
-import { Button, Input } from 'antd'
-import { Formik } from 'formik'
-import ChoixMembre from './membre-card'
 import useDataStore from '@/store/dataStore'
-import AdhesionCollecte from '../collecte/adhesion-collecte'
+import { Button, Input } from 'antd'
+import clsx from 'clsx'
+import { Formik } from 'formik'
 import { useState } from 'react'
+import { PhoneInput } from 'react-international-phone'
+import AdhesionCollecte from '../collecte/adhesion-collecte'
+import ChoixMembre from './membre-card'
 
 interface Props {
     prev: () => void
@@ -13,10 +15,11 @@ interface Props {
     modeCollecte?: boolean
 }
 
-const PersonnePhysique = ({ prev, next, modeCollecte: adhesionCollecte }: Props) => {
-    const { dataPersonnePhysique, dataEngagementCollecte, setDataEngagementCollecte, setCurrent, setDataPersonnePhysique } = useDataStore()
+const PersonnePhysique = ({ prev, next, modeCollecte }: Props) => {
+    const { dataPersonnePhysique, dataEngagementCollecte, dataChoixMembre, setDataChoixMembre, setDataEngagementCollecte, setCurrent, setDataPersonnePhysique } = useDataStore()
     const [error, setError] = useState(false)
     const [isDisabled, setIsDisabled] = useState(!dataEngagementCollecte.option || !dataEngagementCollecte.date)
+    const [isDisabledMembre, setIsDisabledMembre] = useState(!dataChoixMembre.type || !dataChoixMembre.passe)
 
     const initialValues: IPersonnePhysique = {
         nom: dataPersonnePhysique?.nom || null,
@@ -24,7 +27,7 @@ const PersonnePhysique = ({ prev, next, modeCollecte: adhesionCollecte }: Props)
         lieuDeResidence: dataPersonnePhysique?.lieuDeResidence || null,
         eglise: dataPersonnePhysique?.eglise || null,
         profession: dataPersonnePhysique?.profession || null,
-        telephone: dataPersonnePhysique?.telephone || null,
+        telephone: dataPersonnePhysique?.telephone || '',
     }
 
     const handleSubmit = async (value: IPersonnePhysique) => {
@@ -47,6 +50,15 @@ const PersonnePhysique = ({ prev, next, modeCollecte: adhesionCollecte }: Props)
         }
     }
 
+    const handleMembre = (choixMembre: IChoixMembre) => {
+        setDataChoixMembre(choixMembre)
+        if (choixMembre.type && choixMembre.passe) {
+            setIsDisabledMembre(false)
+        } else {
+            setIsDisabledMembre(true)
+        }
+    }
+
     return (
         <div className='space-y-2 overflow-y-auto'>
             <span className='text-sm md:text-lg text-center '> Veuillez renseigner les informations ci-dessous</span><br />
@@ -56,7 +68,7 @@ const PersonnePhysique = ({ prev, next, modeCollecte: adhesionCollecte }: Props)
                 onSubmit={handleSubmit}
                 validationSchema={personnePhysiqueSchema}
             >
-                {({ values, errors, touched, handleSubmit, handleChange }) => (
+                {({ values, errors, touched, handleSubmit, handleChange, setFieldValue }) => (
                     <form onSubmit={handleSubmit} >
                         <div className='flex flex-col space-y-3 p-2'>
                             <div className='flex flex-col md:flex-row justify-between md:space-x-2'>
@@ -144,7 +156,17 @@ const PersonnePhysique = ({ prev, next, modeCollecte: adhesionCollecte }: Props)
                                     <label className="text-sm md:text-lg font-medium text-dark ">
                                         N° de téléphone* (WhatSapp)
                                     </label>
-                                    <Input
+                                    <PhoneInput
+                                        preferredCountries={['ci']}
+                                        hideDropdown
+                                        defaultCountry="ci"
+                                        value={values.telephone!}
+                                        onChange={(values) => setFieldValue('telephone', values)}
+                                        inputClassName="w-full border rounded-lg" // Input plein avec style
+                                        className={clsx(
+                                            errors.telephone && touched.telephone ? 'border-red-500' : '',)}
+                                    />
+                                    {/* <Input
                                         type="text"
                                         name='telephone'
                                         onChange={handleChange}
@@ -153,12 +175,12 @@ const PersonnePhysique = ({ prev, next, modeCollecte: adhesionCollecte }: Props)
                                         allowClear
                                         style={{ height: 35, textTransform: 'uppercase' }}
                                         status={errors.telephone && touched.telephone ? 'error' : ''}
-                                    />
+                                    /> */}
                                     {errors.telephone && touched.telephone && <p className='text-red-500'>{errors.telephone}</p>}
                                 </div>
                             </div >
                             <div className='mb-3 flex flex-col md:flex-row justify-between md:space-x-2'>
-                                {!adhesionCollecte ? (<><ChoixMembre /></>) : (<>
+                                {!modeCollecte ? (<><ChoixMembre handleMembre={handleMembre} choixMembre={dataChoixMembre} /></>) : (<>
                                     <AdhesionCollecte handleEngagement={handleEngagement} collecteEngagement={dataEngagementCollecte} />
                                 </>)}
                             </div >
@@ -174,7 +196,7 @@ const PersonnePhysique = ({ prev, next, modeCollecte: adhesionCollecte }: Props)
                                     type='primary'
                                     onClick={() => handleSubmit()}
                                     style={{ marginTop: 20, height: 35, width: 150, fontSize: 15, backgroundColor: 'maroon' }}
-                                    disabled={isDisabled}
+                                    disabled={modeCollecte ? isDisabled : isDisabledMembre}
                                 >
                                     Suivant
                                 </Button>

@@ -12,18 +12,11 @@ export const personnePhysiqueSchema = Yup.object().shape({
 });
 
 export const personneMoraleSchema = Yup.object().shape({
-  raisonSociale: Yup.string()
-    .min(5, "5 caractères minimun")
-    .required("Ce champ est obligatoire"),
-  personneDeReference: Yup.string()
-    .min(5, "5 caractères minimun")
-    .required("Ce champ est obligatoire"),
-  fonction: Yup.string()
-    .min(5, "5 caractères minimun")
-    .required("Ce champ est obligatoire"),
-  telephone: Yup.string()
-    .min(5, "5 caractères minimun")
-    .required("Ce champ est obligatoire"),
+  raisonSociale: Yup.string().required("Ce champ est obligatoire"),
+  personneDeReference: Yup.string().required("Ce champ est obligatoire"),
+  fonction: Yup.string().required("Ce champ est obligatoire"),
+  adresseEmail: Yup.string().email("Email non valide"),
+  telephone: Yup.string().required("Ce champ est obligatoire"),
 });
 
 export const adhesionCollectSchema = Yup.object().shape({

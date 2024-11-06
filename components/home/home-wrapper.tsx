@@ -62,7 +62,7 @@ const HomePage = () => {
     }, []);
 
     return (
-        <div className="h-full flex flex-col">
+        <div className="min-h-screen flex flex-col justify-center overflow-y-auto">
             {/* Main Content */}
             <div className="flex items-center  flex-col lg:flex-row">
                 {/* Left Section */}
@@ -99,7 +99,7 @@ const HomePage = () => {
                         width={1000}
                         height={500}
                         priority
-                        className="shadow-lg"
+                    // className="shadow-lg"
                     />
                 </div>
             </div>

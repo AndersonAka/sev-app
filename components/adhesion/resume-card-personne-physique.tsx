@@ -6,7 +6,7 @@ const ResumeCardPersonnePhysique = ({ personnePhysique }: { personnePhysique: IP
     const style: React.CSSProperties = { background: '#0092ff', padding: '8px 0', };
     return (
         <>
-            <div className='flex flex-col space-y-2  p-3'>
+            <div className='flex flex-col space-y-2 p-3'>
                 <div className='flex flex-col md:flex-row justify-between md:space-x-2'>
                     <div className='flex flex-col md:w-1/2'>
                         <span className="md:text-lg">
@@ -16,7 +16,7 @@ const ResumeCardPersonnePhysique = ({ personnePhysique }: { personnePhysique: IP
                             {personnePhysique?.nom}
                         </span>
                     </div>
-                    <div className='md:w-1/2'>
+                    <div className='flex flex-col  md:w-1/2'>
                         <span className="md:text-lg">
                             Prenom(s)
                         </span>

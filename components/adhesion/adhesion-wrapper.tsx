@@ -47,23 +47,23 @@ const AdhesionWrapper = () => {
     const items = steps.map((item) => ({ key: item.title, title: item.title }));
 
     return (
-        <div className="flex flex-col bg-gray-100 items-center min-h-screen p-6 sm:p-12 font-sans">
-            <div className="flex flex-col bg-white shadow-xl justify-center rounded-lg max-w-3xl w-full overflow-auto">
-                <span className="p-4 md:p-6 mb-5 rounded-t-lg text-lg md:text-2xl text-center text-white font-semibold bg-green-900">
+        <div className="flex flex-col bg-gray-100 items-center min-h-screen  sm:p-12 font-sans">
+            <div className="flex flex-col bg-white shadow-xl justify-center max-w-3xl w-full overflow-auto">
+                {/* <span className="p-4 md:p-6 mb-5 rounded-t-lg text-lg md:text-2xl text-center text-white font-semibold bg-green-900">
                     {"L'EVANGILE AU SERVICE DE LA COMMUNAUTE"}
-                </span>
+                </span> */}
 
                 <div className="p-2 sm:p-4">
                     <div className="flex flex-col gap-6">
                         {/* Section d'adhésion/donations */}
-                        <div className=" bg-white">
-                            <div className="border-b border-gray-300 px-5 py-4 bg-gray-50 rounded-t-lg">
-                                <h3 className="text-lg md:text-xl font-medium text-gray-800">
+                        <div className="bg-white">
+                            <div className="border-b text-center px-5 py-2 rounded-t-lg">
+                                <h3 className="text-sm md:text-lg font-medium text-gray-800">
                                     ADHESION / DONATIONS
                                 </h3>
                             </div>
                             <div className="flex flex-col gap-6 p-6">
-                                <div className='hidden sm:block'>
+                                <div className='hidden'>
                                     <Steps type="navigation" current={current} items={items} />
                                 </div>
                                 <div>{steps[current].content}</div>
@@ -72,7 +72,7 @@ const AdhesionWrapper = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
 
     )
 }

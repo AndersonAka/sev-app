@@ -20,7 +20,7 @@ const PersonneWrapper = ({ next, prev, modeCollecte: adhesionCollecte }: Props) 
             )
         case "2":
             return (
-                <PersonneMorale next={next} prev={prev} adhesionCollecte={adhesionCollecte} />
+                <PersonneMorale next={next} prev={prev} modeCollecte={adhesionCollecte} />
             )
         default:
             break;

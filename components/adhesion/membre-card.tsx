@@ -4,12 +4,15 @@ import { Divider, Flex, Radio } from 'antd';
 import { useState } from 'react';
 import ChexBoxDonateur from './checkbox-donateur';
 
+interface Props {
+    handleMembre: (choixMembre: IChoixMembre) => void
+    choixMembre: IChoixMembre
+}
+const ChoixMembre = ({ handleMembre, choixMembre }: Props) => {
 
+    const [option, setOption] = useState<IChoixMembre>(choixMembre);
 
-const ChoixMembre = () => {
-
-    const [option, setOption] = useState('');
-    const { dataChoixMembre, setDataChoixMembre } = useDataStore()
+    // const { dataChoixMembre, setDataChoixMembre } = useDataStore()
 
     const options = [
         { label: 'Membre', value: 'm' },
@@ -17,30 +20,35 @@ const ChoixMembre = () => {
     ];
 
     const afficherOption = (value: string) => {
-        setOption(value)
-        const choix: IChoixMembre = {
-            type: value
+        const membre: IChoixMembre = {
+            type: value,
+            passe: value === 'm'
         }
-        setDataChoixMembre(choix)
+        setOption(membre)
+        handleMembre(membre)
+        // setDataChoixMembre(choix)
     }
 
     const choixDonateur = (value: string) => {
-        const choix: IChoixMembre = {
-            type: dataChoixMembre.type,
-            option: value
+        const membre: IChoixMembre = {
+            type: option.type,
+            option: value,
+            passe: true
         }
-        console.log(choix)
-        // setOption(choix.option!)
-        setDataChoixMembre(choix)
+        setOption(membre)
+        handleMembre(membre)
     }
 
     const choixDonateurdiamant = (value: string) => {
-        const choix: IChoixMembre = {
-            type: dataChoixMembre.type,
-            option: dataChoixMembre.option,
-            montant: value
+        const membre: IChoixMembre = {
+            type: option.type,
+            option: option.option,
+            montant: value,
+            passe: true
         }
-        setDataChoixMembre(choix)
+        // setDataChoixMembre(choix)
+        setOption(membre)
+        handleMembre(membre)
     }
 
     return (
@@ -50,7 +58,7 @@ const ChoixMembre = () => {
                 <Radio.Group
                     block
                     options={options}
-                    defaultValue={dataChoixMembre.type}
+                    defaultValue={option.type}
                     optionType="button"
                     buttonStyle="solid"
                     size='middle'
@@ -58,13 +66,13 @@ const ChoixMembre = () => {
                 />
             </Flex>
             <Divider />
-            {option === 'm' || dataChoixMembre.type === 'm' ?
+            {option.type === 'm' || choixMembre.type === 'm' ?
                 <div className='flex flex-col p-2 justify-center'>
                     <span className='text-black italic'>Droit d\'adhésion (10.000 F CFA)</span>
                     <span className='text-black italic'>Cotisation mensuelle (10.000 F CFA / mois)</span>
                 </div> :
-                option === 'd' || dataChoixMembre.type === 'd' ?
-                    <ChexBoxDonateur onSelected={choixDonateur} onSelectedDiamant={choixDonateurdiamant} value={dataChoixMembre.option!} />
+                option.type === 'd' || choixMembre.type === 'd' ?
+                    <ChexBoxDonateur onSelected={choixDonateur} onSelectedDiamant={choixDonateurdiamant} value={choixMembre.option!} />
                     :
                     null
             }
