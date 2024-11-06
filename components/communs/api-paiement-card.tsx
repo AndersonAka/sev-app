@@ -8,6 +8,7 @@ import MtnPaiementCard from './mtn-paiement-card'
 import MoovPaiementCard from './moov-paiement-card'
 import { Button, message } from 'antd'
 import Image from 'next/image'
+import BankPaiementCard from './bank-paiement-card'
 interface Props {
     next: () => void
     prev: () => void
@@ -43,6 +44,10 @@ const ApiPaiementCard = ({ next, prev }: Props) => {
         {
             key: '4',
             content: <MoovPaiementCard />,
+        },
+        {
+            key: '5',
+            content: <BankPaiementCard />,
         },
     ], [dataChoixPaiement.option])
 
