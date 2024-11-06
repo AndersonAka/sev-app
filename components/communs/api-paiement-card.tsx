@@ -6,7 +6,8 @@ import WavePaiementCard from './wave-paiement-card'
 import OrangePaiementCard from './orange-paiement-card'
 import MtnPaiementCard from './mtn-paiement-card'
 import MoovPaiementCard from './moov-paiement-card'
-import { Button } from 'antd'
+import { Button, message } from 'antd'
+import Image from 'next/image'
 interface Props {
     next: () => void
     prev: () => void
@@ -16,8 +17,9 @@ const ApiPaiementCard = ({ next, prev }: Props) => {
     const [choixPaiement, setChoixPaimenet] = useState<number>(Number(dataChoixPaiement.option))
 
     const suivant = () => {
-        setCurrent(4);
-        next()
+        message.success('Paiement enregistré')
+        // setCurrent(4);
+        // next()
     }
 
     const retour = () => {
@@ -45,34 +47,38 @@ const ApiPaiementCard = ({ next, prev }: Props) => {
     ], [dataChoixPaiement.option])
 
     return (
-        <div className='flex flex-col items-center'>
-            <div className='p-3 flex flex-col items-center justify-center space-y-3 border rounded-lg'>
-                <div className='text-xl font-medium text-center '>
-                    Paiement Sécurisé
+        <div className='p-3 flex flex-col items-center border rounded-lg'>
+            <div className='p-3 flex flex-col items-center justify-center space-y-3 '>
+                <div className='p-2 w-full bg-gray-50  flex flex-row justify-center space-x-4 text-xl font-medium text-center '>
+                    <Image src="/images/credit-card.webp" alt="credit card" width={50} height={100} />
+                    <span className='self-center'>
+                        Paiement Sécurisé
+                    </span>
                 </div>
-                {items[Number(dataChoixPaiement.option) - 1].content}
-                <div className='w-full flex flex-row items-center space-x-2'>
-                    <Button
-                        type='default'
-                        className='w-full'
-                        onClick={() => retour()}
-                        style={{ padding: 20, height: 35, width: 150, fontSize: 15 }}
-                    >
-                        Annuler
-                    </Button>
+                <div className='p-3 flex flex-col items-center justify-center space-y-3'>
+                    {items[Number(dataChoixPaiement.option) - 1].content}
+                </div>
 
-                    <Button
-                        type='primary'
-                        className='w-full'
-                        // onClick={() => suivant()}
-                        style={{ padding: 20, height: 35, width: 150, fontSize: 15, backgroundColor: 'green' }}
-                    >
-                        Paiement
-                    </Button>
-                </div>
             </div>
+            <div className='w-full flex flex-row items-center justify-center space-x-2'>
+                <Button
+                    type='default'
+                    className='w-full'
+                    onClick={() => retour()}
+                    style={{ padding: 20, height: 35, width: 150, fontSize: 15 }}
+                >
+                    Annuler
+                </Button>
 
-
+                <Button
+                    type='primary'
+                    className='w-full'
+                    onClick={() => suivant()}
+                    style={{ padding: 20, height: 35, width: 150, fontSize: 15, backgroundColor: 'green' }}
+                >
+                    Paiement
+                </Button>
+            </div>
         </div>
     )
 

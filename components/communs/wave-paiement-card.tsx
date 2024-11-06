@@ -19,13 +19,13 @@ const WavePaiementCard = () => {
     };
 
     return (
-        <div className='p-3 flex flex-col items-center justify-center space-y-3 border rounded-lg'>
+        <>
             <div className='text-xl font-medium text-center '>
                 <Image src="/images/logoWave.webp" alt="logo wave" width={150} height={100} style={{ borderRadius: '20%' }} />
             </div>
             <Flex vertical gap={32}>
                 <div className='w-full'>
-                    <label className="block text-lg font-medium text-dark ">
+                    <label className="block text-sm md:text-lg font-medium text-dark ">
                         Entrer votre numéro de téléphone
                     </label>
                     <PhoneInput
@@ -38,7 +38,7 @@ const WavePaiementCard = () => {
                     />
                 </div>
                 <div className='flex flex-col'>
-                    <label className="block text-lg font-medium text-dark ">
+                    <label className="block text-sm md:text-lg font-medium text-dark ">
                         Montant à débiter
                     </label>
                     <CurrencyInput
@@ -52,7 +52,7 @@ const WavePaiementCard = () => {
                     />
                 </div>
             </Flex >
-        </div>
+        </>
 
     )
 }

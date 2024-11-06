@@ -29,7 +29,7 @@ const ResumeCardContent = ({ typePersonne, personnePhysique, personneMorale, mod
 
     return (
         <div className='flex flex-col space-y-3 '>
-            <span className='text-xl font-medium '>Résumer des informations</span>
+            <span className='text-lg font-medium '>Résumer des informations</span>
             <div className='flex flex-row justify-between space-x-2'>
                 <div className='w-1/2'>
                     <span className="block text-lg ">
@@ -71,7 +71,7 @@ const ResumeCardContent = ({ typePersonne, personnePhysique, personneMorale, mod
 
             </div>
 
-            <div className=' flex justify-end space-x-2'>
+            <div className='flex  justify-center md:justify-end space-x-2'>
                 <Button
                     type='default'
                     onClick={() => retour()}
