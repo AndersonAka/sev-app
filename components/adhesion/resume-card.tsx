@@ -7,9 +7,10 @@ import ResumeCardContent from './resume-card-content'
 interface Props {
     next: () => void
     prev: () => void
+    modeCollecte?: boolean
 }
 
-const ResumeCard = ({ next, prev }: Props) => {
+const ResumeCard = ({ next, prev, modeCollecte }: Props) => {
     const { dataTypePersonne, dataPersonnePhysique, dataPersonneMorale } = useDataStore()
     const [typePersonne, setTypePersonne] = useState("")
     const [personnePhysique, setPersonnePhysique] = useState<IPersonnePhysique>()
@@ -37,7 +38,7 @@ const ResumeCard = ({ next, prev }: Props) => {
 
     return (
         <>
-            {loading ? <>Chargement ...</> : <ResumeCardContent next={next} prev={prev} typePersonne={typePersonne} personnePhysique={personnePhysique!} personneMorale={personneMorale!} />}
+            {loading ? <>Chargement ...</> : <ResumeCardContent next={next} prev={prev} typePersonne={typePersonne} personnePhysique={personnePhysique!} personneMorale={personneMorale!} modeCollecte={modeCollecte} />}
         </>
     )
 }

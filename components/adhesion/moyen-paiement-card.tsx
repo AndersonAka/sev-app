@@ -50,7 +50,7 @@ const MoyenPaiement = ({ next, prev }: Props) => {
                     onClick={() => suivant()}
                     style={{ marginTop: 20, height: 35, width: 150, fontSize: 15, backgroundColor: 'brown' }}
                 >
-                    Terminer
+                    Suivant
                 </Button>
             </div>
         </>

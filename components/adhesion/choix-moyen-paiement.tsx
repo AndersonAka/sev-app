@@ -24,8 +24,8 @@ const ChoixMoyenPaiement = () => {
                 // defaultValue={value}
                 onChange={e => choix(e.target.value)}
             >
-                <div className='flex flex-col p-2 items-center md:items-start justify-center space-y-4'>
-                    <Radio value="wave">
+                <div className='flex flex-col p-2 items-center justify-center space-y-4'>
+                    <Radio value="1">
                         <Image
                             width={100}
                             height={100}
@@ -33,7 +33,7 @@ const ChoixMoyenPaiement = () => {
                             alt="logo wave"
                         />
                     </Radio>
-                    <Radio value="orange">
+                    <Radio value="2">
                         <Image
                             width={100}
                             height={100}
@@ -41,14 +41,14 @@ const ChoixMoyenPaiement = () => {
                             alt="logo orange money"
                         />
                     </Radio>
-                    <Radio value="mtn">
+                    <Radio value="3">
                         <Image
                             width={100}
                             height={100}
                             src="/images/logoMtnOm.webp"
                             alt="logo mtn momo"
                         /></Radio>
-                    <Radio value="moov">
+                    <Radio value="4">
                         <Image
                             width={100}
                             height={100}

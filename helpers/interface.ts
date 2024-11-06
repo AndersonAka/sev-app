@@ -25,7 +25,8 @@ export interface IChoixMembre {
   montant?: string | null;
 }
 
-export interface IAdhesiionCollecte {
+export interface IAdhesionCollecte {
+  option?: string | null; //1:payer maintenant ; 2:payer plus tard
   montant?: string | null;
   date?: string | null;
 }

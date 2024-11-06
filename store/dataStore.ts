@@ -1,4 +1,5 @@
 import {
+  IAdhesionCollecte,
   IChoixMembre,
   IChoixMoyenPaiement,
   IPersonneMorale,
@@ -15,12 +16,17 @@ interface DataStoreState {
   dataChoixMembre: IChoixMembre;
   dataPersonneMorale: IPersonneMorale;
   dataChoixPaiement: IChoixMoyenPaiement;
+  dataEngagementCollecte: IAdhesionCollecte;
+  setDataEngagementCollecte: (
+    dataEngagementCollecte: IAdhesionCollecte
+  ) => void;
   setDataChoixPaiement: (dataChoixPaiement: IChoixMoyenPaiement) => void;
   setDataPersonneMorale: (dataPersonneMorale: IPersonneMorale) => void;
   setDataChoixMembre: (dataChoixMembre: IChoixMembre) => void;
   setDataPersonnePhysique: (dataPersonnePhysique: IPersonnePhysique) => void;
   setDataTypePersonne: (dataTypePersonne: ITypePersonne) => void;
   setCurrent: (current: number) => void;
+  resetStore: () => void; //  fonction resetStore ici
 }
 
 const useDataStore = create<DataStoreState>()(
@@ -53,6 +59,13 @@ const useDataStore = create<DataStoreState>()(
         option: null,
         numero: null,
       },
+      dataEngagementCollecte: {
+        option: null,
+        montant: null,
+        date: null,
+      },
+      setDataEngagementCollecte: (dataEngagementCollecte: IAdhesionCollecte) =>
+        set({ dataEngagementCollecte }),
       setDataChoixPaiement: (dataChoixPaiement: IChoixMoyenPaiement) =>
         set({ dataChoixPaiement }),
       setDataPersonneMorale: (dataPersonneMorale: IPersonneMorale) =>
@@ -65,6 +78,42 @@ const useDataStore = create<DataStoreState>()(
       setDataTypePersonne: (dataTypePersonne: ITypePersonne) =>
         set({ dataTypePersonne }),
       setCurrent: (current: number) => set({ current }),
+      // Fonction de réinitialisation
+      resetStore: () =>
+        set({
+          current: 0,
+          dataTypePersonne: {
+            typePersonne: null,
+          },
+          dataPersonnePhysique: {
+            nom: null,
+            prenom: null,
+            lieuDeResidence: null,
+            eglise: null,
+            profession: null,
+            telephone: null,
+          },
+          dataChoixMembre: {
+            type: null,
+            option: null,
+          },
+          dataPersonneMorale: {
+            raisonSociale: null,
+            personneDeReference: null,
+            fonction: null,
+            adresseEmail: null,
+            telephone: null,
+          },
+          dataChoixPaiement: {
+            option: null,
+            numero: null,
+          },
+          dataEngagementCollecte: {
+            option: null,
+            montant: null,
+            date: null,
+          },
+        }),
     }),
     {
       name: "dataStore",

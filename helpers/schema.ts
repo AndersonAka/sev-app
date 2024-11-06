@@ -7,6 +7,7 @@ export const typePersonneSchema = Yup.object().shape({
 export const personnePhysiqueSchema = Yup.object().shape({
   nom: Yup.string().required("Ce champ est obligatoire"),
   prenom: Yup.string().required("Ce champ est obligatoire"),
+  eglise: Yup.string().required("Ce champ est obligatoire"),
   telephone: Yup.string().required("Ce champ est obligatoire"),
 });
 

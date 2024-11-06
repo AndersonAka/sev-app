@@ -1,17 +1,21 @@
-import { IPersonneMorale } from '@/helpers/interface'
+
+'use client'
+import { IAdhesionCollecte, IPersonneMorale } from '@/helpers/interface'
 import { personneMoraleSchema } from '@/helpers/schema'
 import useDataStore from '@/store/dataStore'
 import { Button, Input } from 'antd'
 import { Formik } from 'formik'
 import ChoixMembreMorale from './membre-morale-card'
 import AdhesionCollecte from '../collecte/adhesion-collecte'
+import { useState } from 'react'
 interface Props {
     prev: () => void
     next: () => void
     adhesionCollecte?: boolean
 }
 const PersonneMorale = ({ prev, next, adhesionCollecte }: Props) => {
-    const { setCurrent, dataPersonneMorale, setDataPersonneMorale } = useDataStore()
+    const { setCurrent, dataPersonneMorale, dataEngagementCollecte, setDataEngagementCollecte, setDataPersonneMorale } = useDataStore()
+    const [isDisabled, setIsDisabled] = useState(!dataEngagementCollecte.option && !dataEngagementCollecte.date)
 
     const initialValues: IPersonneMorale = {
         raisonSociale: dataPersonneMorale.raisonSociale || null,
@@ -31,7 +35,14 @@ const PersonneMorale = ({ prev, next, adhesionCollecte }: Props) => {
         setCurrent(1);
         prev()
     }
-
+    const handleEngagement = (collecteEngagement: IAdhesionCollecte) => {
+        setDataEngagementCollecte(collecteEngagement)
+        if (collecteEngagement.option && collecteEngagement.date) {
+            setIsDisabled(false)
+        } else {
+            setIsDisabled(true)
+        }
+    }
     return (
         <div className='space-y-2 overflow-y-auto'>
             <span className='text-lg text-center'> Veuillez renseigner les informations ci-dessous</span><br />
@@ -138,7 +149,9 @@ const PersonneMorale = ({ prev, next, adhesionCollecte }: Props) => {
                                 </div>
                             </div>
                             <div className='flex flex-row justify-between space-x-2'>
-                                {!adhesionCollecte ? (<><ChoixMembreMorale /></>) : (<><AdhesionCollecte /></>)}
+                                {!adhesionCollecte ? (<><ChoixMembreMorale /></>) : (<>
+                                    <AdhesionCollecte handleEngagement={handleEngagement} collecteEngagement={dataEngagementCollecte} />
+                                </>)}
                             </div >
 
                             <div className=' flex justify-end space-x-2'>
@@ -152,9 +165,11 @@ const PersonneMorale = ({ prev, next, adhesionCollecte }: Props) => {
                                 <Button
                                     type='primary'
                                     onClick={() => handleSubmit()}
-                                    style={{ marginTop: 20, height: 35, width: 150, fontSize: 15, backgroundColor: 'brown' }}
+                                    style={dataEngagementCollecte.option === "1" ? { marginTop: 20, height: 35, width: 150, fontSize: 15, backgroundColor: 'maroon' } : { marginTop: 20, height: 35, width: 150, fontSize: 15, backgroundColor: 'green' }}
+                                    disabled={isDisabled}
                                 >
-                                    Suivant
+                                    {dataEngagementCollecte.option === "1" ? "Suivant" : "Enregitrer"}
+
                                 </Button>
                             </div>
                         </div>

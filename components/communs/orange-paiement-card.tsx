@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { PhoneInput } from 'react-international-phone';
 import 'react-international-phone/style.css';
 import CurrencyInput from 'react-currency-input-field';
-const WavePaiementCard = () => {
+const OrangePaiementCard = () => {
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         console.log('Change:', e.target.value);
@@ -21,7 +21,7 @@ const WavePaiementCard = () => {
     return (
         <div className='p-3 flex flex-col items-center justify-center space-y-3 border rounded-lg'>
             <div className='text-xl font-medium text-center '>
-                <Image src="/images/logoWave.webp" alt="logo wave" width={150} height={100} style={{ borderRadius: '20%' }} />
+                <Image src="/images/logoOm.webp" alt="logo wave" width={150} height={100} style={{ borderRadius: '20%' }} />
             </div>
             <Flex vertical gap={32}>
                 <div className='w-full'>
@@ -51,10 +51,11 @@ const WavePaiementCard = () => {
                         className='border p-2 rounded-lg'
                     />
                 </div>
+
             </Flex >
         </div>
 
     )
 }
 
-export default WavePaiementCard
+export default OrangePaiementCard

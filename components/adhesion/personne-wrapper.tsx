@@ -8,15 +8,15 @@ import PersonneMorale from './personne-morale-card'
 interface Props {
     next: () => void
     prev: () => void
-    adhesionCollecte?: boolean
+    modeCollecte?: boolean
 }
-const PersonneWrapper = ({ next, prev, adhesionCollecte }: Props) => {
+const PersonneWrapper = ({ next, prev, modeCollecte: adhesionCollecte }: Props) => {
     const { dataTypePersonne } = useDataStore()
 
     switch (dataTypePersonne?.typePersonne) {
         case "1":
             return (
-                <PersonnePhysique next={next} prev={prev} adhesionCollecte={adhesionCollecte} />
+                <PersonnePhysique next={next} prev={prev} modeCollecte={adhesionCollecte} />
             )
         case "2":
             return (

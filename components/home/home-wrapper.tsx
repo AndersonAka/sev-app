@@ -52,11 +52,11 @@ import Link from "next/link";
 
 const HomePage = () => {
     const router = useRouter();
-    const { setCurrent } = useDataStore();
+    const { resetStore } = useDataStore();
 
     useEffect(() => {
-        setCurrent(0);
         // Préchargez les routes de destination
+        resetStore()
         router.prefetch("/adhesion");
         router.prefetch("/collecte");
     }, []);

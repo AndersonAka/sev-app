@@ -5,6 +5,7 @@ import { typePersonneSchema } from '@/helpers/schema'
 import useDataStore from '@/store/dataStore'
 import { Button, Select } from 'antd'
 import { Form, Formik } from 'formik'
+import { useState } from 'react'
 
 interface Props {
     next: () => void
@@ -37,7 +38,7 @@ const TypePersonne = ({ next }: Props) => {
     return (
         <>
             <div className='flex flex-col space-y-2'>
-                <span className='text-lg text-center'> Veuillez choisir le type de personne</span>
+                <span className='text-sm md:text-lg text-center'> Veuillez choisir le type de personne</span>
                 <Formik
                     initialValues={initialValues}
                     onSubmit={handleSubmit}
@@ -46,11 +47,11 @@ const TypePersonne = ({ next }: Props) => {
                     {({ values, errors, touched, handleSubmit, setFieldValue }) => (
                         <Form className='flex flex-col'>
                             <div className='flex flex-col'>
-                                <label className="block text-lg font-medium text-dark dark:text-white">
+                                <label className="text-sm md:text-lg font-medium text-dark dark:text-white">
                                     Type de personne
                                 </label>
                                 <Select
-                                    style={{ height: 50 }}
+                                    style={{ height: 35, width: '100%', textTransform: 'uppercase' }}
                                     placeholder="Choisir le type de personne"
                                     options={options}
                                     // Utiliser `values.typePersonne` pour définir la valeur du champ Select
@@ -61,7 +62,7 @@ const TypePersonne = ({ next }: Props) => {
                                 {errors.typePersonne && touched.typePersonne && <div className="text-red-500">{errors.typePersonne}</div>}
                             </div>
 
-                            <div className='flex justify-end'>
+                            <div className='flex justify-center md:justify-end'>
                                 <Button
                                     type='primary'
                                     onClick={() => handleSubmit()}

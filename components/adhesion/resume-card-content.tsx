@@ -2,10 +2,9 @@
 import { retournerChoixMembre } from '@/helpers/fonctions'
 import { IPersonneMorale, IPersonnePhysique } from '@/helpers/interface'
 import useDataStore from '@/store/dataStore'
-import { Button, Divider } from 'antd'
-import React from 'react'
-import ResumeCardPersonnePhysique from './resume-card-personne-physique'
+import { Button, message } from 'antd'
 import ResumeCardPersonneMorale from './resume-card-personne-morale'
+import ResumeCardPersonnePhysique from './resume-card-personne-physique'
 
 interface Props {
     typePersonne: string
@@ -13,16 +12,15 @@ interface Props {
     personneMorale?: IPersonneMorale
     next: () => void
     prev: () => void
+    modeCollecte?: boolean
 }
 
-const ResumeCardContent = ({ typePersonne, personnePhysique, personneMorale, next, prev }: Props) => {
-    const { dataTypePersonne, dataChoixMembre, setCurrent } = useDataStore()
-
+const ResumeCardContent = ({ typePersonne, personnePhysique, personneMorale, modeCollecte, next, prev }: Props) => {
+    const { dataTypePersonne, dataChoixMembre, setCurrent, dataEngagementCollecte, } = useDataStore()
     const retour = () => {
         setCurrent(2)
         prev()
     }
-
 
     const suivant = () => {
         setCurrent(2)
@@ -43,21 +41,34 @@ const ResumeCardContent = ({ typePersonne, personnePhysique, personneMorale, nex
 
                 {dataTypePersonne.typePersonne === "1" && <ResumeCardPersonnePhysique personnePhysique={personnePhysique!} />}
                 {dataTypePersonne.typePersonne === "2" && <ResumeCardPersonneMorale personneMorale={personneMorale!} />}
-                <div className='p-2 bg-slate-50 flex rounded-lg flex-col justify-between space-y-2'>
-                    <span className='text-xl font-medium'>{dataChoixMembre?.type === "m" ? "Membre" : "Donateur"}</span>
-                    <span className='text-xl font-medium'>{dataChoixMembre?.type === "d" ?
-                        (
-                            <>
-                                <span className='text-lg italic'>{retournerChoixMembre(dataChoixMembre?.option!)} {dataChoixMembre?.option === 'd' ? `${dataChoixMembre?.montant} F CFA/mois` : null}</span><br />
-                                <span className='text-lg italic'></span><br />
-                            </>) : <>
-                            <div className='flex flex-col space-y-2'>
-                                <span className='text-lg italic'>Droit d\'adhésion (10.000 F CFA)</span>
-                                <span className='text-lg italic'>Cotisation mensuelle (10.000 F CFA / mois)</span>
-                            </div>
-                        </>
-                    }</span>
-                </div>
+
+                {!modeCollecte ? (
+                    <>
+                        <div className='p-2 bg-slate-50 flex rounded-lg flex-col justify-between space-y-2'>
+                            <span className='text-xl font-medium'>{dataChoixMembre?.type === "m" ? "Membre" : "Donateur"}</span>
+                            <span className='text-xl font-medium'>{dataChoixMembre?.type === "d" ?
+                                (
+                                    <>
+                                        <span className='text-lg italic'>{retournerChoixMembre(dataChoixMembre?.option!)} {dataChoixMembre?.option === 'd' ? `${dataChoixMembre?.montant} F CFA/mois` : null}</span><br />
+                                        <span className='text-lg italic'></span><br />
+                                    </>) : <>
+                                    <div className='flex flex-col space-y-2'>
+                                        <span className='text-lg italic'>Droit d\'adhésion (10.000 F CFA)</span>
+                                        <span className='text-lg italic'>Cotisation mensuelle (10.000 F CFA / mois)</span>
+                                    </div>
+                                </>
+                            }</span>
+                        </div>
+                    </>
+                ) : (
+                    <>
+                        <div className='p-2 bg-red-50 flex rounded-lg flex-col justify-between space-y-2'>
+                            <span className='text-xl text-red-400 font-medium'>Engagement</span>
+                            <span className='text-xl text-red-400 font-medium'>{`${dataEngagementCollecte.montant} FCFA`}</span>
+                            <span className='text-xl text-red-400 font-medium'>{dataEngagementCollecte.option === '1' ? 'Paiement immédiat' : `Délai de paiement: ${dataEngagementCollecte.date}`}</span>
+                        </div>
+                    </>)}
+
             </div>
 
             <div className=' flex justify-end space-x-2'>
@@ -71,9 +82,9 @@ const ResumeCardContent = ({ typePersonne, personnePhysique, personneMorale, nex
                 <Button
                     type='primary'
                     onClick={() => suivant()}
-                    style={{ marginTop: 20, height: 35, width: 150, fontSize: 15, backgroundColor: 'brown' }}
+                    style={dataEngagementCollecte.option === "1" ? { marginTop: 20, height: 35, width: 150, fontSize: 15, backgroundColor: 'maroon' } : { marginTop: 20, height: 35, width: 150, fontSize: 15, backgroundColor: 'green' }}
                 >
-                    Suivant
+                    {dataEngagementCollecte.option === "1" ? "Suivant" : "Enregitrer"}
                 </Button>
             </div>
         </div>
