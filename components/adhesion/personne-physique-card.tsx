@@ -2,10 +2,10 @@ import { IAdhesionCollecte, IChoixMembre, IPersonnePhysique } from '@/helpers/in
 import { personnePhysiqueSchema } from '@/helpers/schema'
 import useDataStore from '@/store/dataStore'
 import { Button, Input } from 'antd'
-import clsx from 'clsx'
 import { Formik } from 'formik'
 import { useState } from 'react'
 import { PhoneInput } from 'react-international-phone'
+import 'react-international-phone/style.css'
 import AdhesionCollecte from '../collecte/adhesion-collecte'
 import ChoixMembre from './membre-card'
 
@@ -16,11 +16,11 @@ interface Props {
 }
 
 const PersonnePhysique = ({ prev, next, modeCollecte }: Props) => {
-    const { dataPersonnePhysique, dataEngagementCollecte, dataChoixMembre, setDataChoixMembre, setDataEngagementCollecte, setCurrent, setDataPersonnePhysique } = useDataStore()
+    const { dataPersonnePhysique, dataEngagementCollecte, dataChoixMembre, setDataChoixMembre, setDataEngagementCollecte, setCurrent, setDataPersonnePhysique, dataChoixModePaiement } = useDataStore()
     const [error, setError] = useState(false)
     const [isDisabled, setIsDisabled] = useState(!dataEngagementCollecte.option || !dataEngagementCollecte.date)
     const [isDisabledMembre, setIsDisabledMembre] = useState(!dataChoixMembre.type || !dataChoixMembre.passe)
-
+    const [errorChoixModePaiement, setErrorChoixModePaiement] = useState('')
     const initialValues: IPersonnePhysique = {
         nom: dataPersonnePhysique?.nom || null,
         prenom: dataPersonnePhysique?.prenom || null,
@@ -31,6 +31,20 @@ const PersonnePhysique = ({ prev, next, modeCollecte }: Props) => {
     }
 
     const handleSubmit = async (value: IPersonnePhysique) => {
+        setErrorChoixModePaiement('')
+        //on n'est pas en mode collecte
+        if (!modeCollecte) {
+            if (!dataChoixModePaiement.optionPaiement || dataChoixModePaiement.modePaiement === '' || (dataChoixModePaiement.optionPaiement === '1' && !dataChoixModePaiement.modePaiement) || (dataChoixModePaiement.optionPaiement === '2' && !dataChoixModePaiement.date)) {
+                setErrorChoixModePaiement('Choisir une option')
+                return
+            }
+        } else {
+            if (!dataEngagementCollecte.option || dataEngagementCollecte.option === '' || (dataEngagementCollecte.option === '1' && !dataEngagementCollecte.modePaiement) || (dataEngagementCollecte.option === '2' && !dataEngagementCollecte.date)) {
+                setErrorChoixModePaiement('Choisir une option')
+                return
+            }
+        }
+
         setDataPersonnePhysique(value)
         setCurrent(1);
         next()
@@ -160,28 +174,19 @@ const PersonnePhysique = ({ prev, next, modeCollecte }: Props) => {
                                         preferredCountries={['ci']}
                                         hideDropdown
                                         defaultCountry="ci"
+                                        placeholder='+225 00 00 00 00'
+                                        style={errors.telephone && touched.telephone ? { border: '1px solid red', borderRadius: 5 } : {}}
+                                        disableDialCodePrefill
                                         value={values.telephone!}
                                         onChange={(values) => setFieldValue('telephone', values)}
                                         inputClassName="w-full border rounded-lg" // Input plein avec style
-                                        className={clsx(
-                                            errors.telephone && touched.telephone ? 'border-red-500' : '',)}
                                     />
-                                    {/* <Input
-                                        type="text"
-                                        name='telephone'
-                                        onChange={handleChange}
-                                        value={values.telephone!}
-                                        placeholder="N° de téléphone"
-                                        allowClear
-                                        style={{ height: 35, textTransform: 'uppercase' }}
-                                        status={errors.telephone && touched.telephone ? 'error' : ''}
-                                    /> */}
                                     {errors.telephone && touched.telephone && <p className='text-red-500'>{errors.telephone}</p>}
                                 </div>
                             </div >
-                            <div className='mb-3 flex flex-col md:flex-row justify-between md:space-x-2'>
-                                {!modeCollecte ? (<><ChoixMembre handleMembre={handleMembre} choixMembre={dataChoixMembre} /></>) : (<>
-                                    <AdhesionCollecte handleEngagement={handleEngagement} collecteEngagement={dataEngagementCollecte} />
+                            <div className='mb-3 flex flex-col  justify-between md:space-x-2'>
+                                {!modeCollecte ? (<><ChoixMembre handleMembre={handleMembre} choixMembre={dataChoixMembre} errorChoixModePaiement={errorChoixModePaiement} /></>) : (<>
+                                    <AdhesionCollecte handleEngagement={handleEngagement} collecteEngagement={dataEngagementCollecte} errorChoixModePaiement={errorChoixModePaiement} />
                                 </>)}
                             </div >
                             <div className=' flex justify-end space-x-2'>

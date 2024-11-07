@@ -15,12 +15,12 @@ interface Props {
     prev: () => void
 }
 const ApiPaiementCard = ({ next, prev }: Props) => {
-    const { setCurrent, dataChoixPaiement, dataEngagementCollecte, setDataMotEnregistrement } = useDataStore()
+    const { setCurrent, dataChoixPaiement, dataEngagementCollecte, setDataMotEnregistrement, dataChoixModePaiement } = useDataStore()
     const [choixPaiement, setChoixPaimenet] = useState<number>(Number(dataChoixPaiement.option))
     const [loading, setLoading] = useState(false)
     const router = useRouter()
     const suivant = () => {
-        if (dataEngagementCollecte.option === "1" && dataEngagementCollecte.modePaiement === "v") {
+        if ((dataEngagementCollecte.option === "1" && dataEngagementCollecte.modePaiement === "v") || (dataChoixModePaiement.optionPaiement === "1" && dataChoixModePaiement.modePaiement === "v")) {
             setDataMotEnregistrement({ titre: "Enregistrement effectué avec succès!", texte: "L'ONG SEMENCE POUR LA VIE vous remercie pour votre soutien financier!" })
             setLoading(true)
             router.push('/remerciement')

@@ -8,7 +8,9 @@ export const personnePhysiqueSchema = Yup.object().shape({
   nom: Yup.string().required("Ce champ est obligatoire"),
   prenom: Yup.string().required("Ce champ est obligatoire"),
   eglise: Yup.string().required("Ce champ est obligatoire"),
-  telephone: Yup.string().required("Ce champ est obligatoire"),
+  telephone: Yup.string()
+    .min(14, "Numéro de telephone est icorrect. Ex: +225 00 00 00 00")
+    .required("Ce champ est obligatoire"),
 });
 
 export const personneMoraleSchema = Yup.object().shape({
@@ -16,7 +18,9 @@ export const personneMoraleSchema = Yup.object().shape({
   personneDeReference: Yup.string().required("Ce champ est obligatoire"),
   fonction: Yup.string().required("Ce champ est obligatoire"),
   adresseEmail: Yup.string().email("Email non valide"),
-  telephone: Yup.string().required("Ce champ est obligatoire"),
+  telephone: Yup.string()
+    .min(14, "Numéro de telephone est icorrect. Ex: +225 00 00 00 00")
+    .required("Ce champ est obligatoire"),
 });
 
 export const adhesionCollectSchema = Yup.object().shape({

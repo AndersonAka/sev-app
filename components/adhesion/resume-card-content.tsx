@@ -18,7 +18,7 @@ interface Props {
 }
 
 const ResumeCardContent = ({ typePersonne, personnePhysique, personneMorale, modeCollecte, next, prev }: Props) => {
-    const { dataTypePersonne, dataChoixMembre, setCurrent, dataEngagementCollecte, setDataMotEnregistrement } = useDataStore()
+    const { dataTypePersonne, dataChoixMembre, setCurrent, dataEngagementCollecte, setDataMotEnregistrement, dataChoixModePaiement } = useDataStore()
     const retour = () => {
         setCurrent(2)
         prev()
@@ -27,17 +27,24 @@ const ResumeCardContent = ({ typePersonne, personnePhysique, personneMorale, mod
     const [loading, setLoading] = useState(false)
 
     const suivant = () => {
+        setLoading(true)
         //Si le modde de paiement est par mobile money
-        if (dataEngagementCollecte.option === "1" && dataEngagementCollecte.modePaiement === "m") {
-            setLoading(true)
+        if ((dataEngagementCollecte.option === "1" && dataEngagementCollecte.modePaiement === "m") || (dataChoixModePaiement.optionPaiement === "1" && dataChoixModePaiement.modePaiement === "m")) {
             router.push('/paiement')
             return
         }
+        if ((dataEngagementCollecte.option === "2") || (dataChoixModePaiement.optionPaiement === "2")) {
+            setDataMotEnregistrement({ titre: "Enregistrement effectué avec succès!", texte: "L'ONG SEMENCE POUR LA VIE vous remercie pour votre soutien financier!" })
+            router.push('/remerciement')
+            return
+        }
         setCurrent(2)
+        setLoading(false)
         next()
     }
 
     useEffect(() => {
+        router.prefetch('/remerciement')
         router.prefetch('/paiement')
     })
 
@@ -58,20 +65,30 @@ const ResumeCardContent = ({ typePersonne, personnePhysique, personneMorale, mod
 
                 {!modeCollecte ? (
                     <>
-                        <div className='p-2 bg-red-50 text-red-400 flex rounded-lg flex-col justify-between space-y-2'>
+                        <div className='p-2 bg-red-50 text-red-400 flex rounded-lg flex-col justify-between '>
                             <span className=' text-xl font-medium'>{dataChoixMembre?.type === "m" ? "Membre" : "Donateur"}</span>
-                            <span className='-400 text-xl font-medium'>{dataChoixMembre?.type === "d" ?
-                                (
-                                    <>
-                                        <span className='text-lg italic'>{retournerChoixMembre(dataChoixMembre?.option!)} {dataChoixMembre?.option === 'd' ? `${dataChoixMembre?.montant} F CFA/mois` : null}</span><br />
-                                        <span className='text-lg italic'></span><br />
-                                    </>) : <>
-                                    <div className='flex flex-col space-y-2'>
-                                        <span className='text-lg italic'>Droit d\'adhésion (10.000 F CFA)</span>
-                                        <span className='text-lg italic'>Cotisation mensuelle (10.000 F CFA / mois)</span>
+                            <span className='text-xl font-medium'>
+                                {dataChoixMembre?.type === "d" ?
+                                    (
+                                        <>
+                                            <span className='text-lg italic'>{retournerChoixMembre(dataChoixMembre?.option!)} {dataChoixMembre?.option === 'd' ? `${dataChoixMembre?.montant} F CFA/mois` : null}</span><br />
+                                            <span className='text-lg italic'></span><br />
+                                        </>) : <>
+                                        <div className='flex flex-col space-y-2'>
+                                            <span className='text-lg italic'>Droit d\'adhésion (10.000 F CFA)</span>
+                                            <span className='text-lg italic'>Cotisation mensuelle (10.000 F CFA / mois)</span>
+                                        </div>
+                                    </>
+                                }
+                            </span>
+                            {dataChoixModePaiement.optionPaiement && (
+                                <>
+                                    <div className='flex flex-row space-x-2 text-xl font-medium'>
+                                        {dataChoixModePaiement.optionPaiement === '1' ? 'Paiement immédiat: ' : `Délai de paiement: ${dataChoixModePaiement.date}`}
+                                        <span className='text-xl font-medium'>{dataChoixModePaiement.
+                                            optionPaiement === '1' && dataChoixModePaiement.modePaiement === 'v' ? ' Virement bancaire' : dataChoixModePaiement.optionPaiement === '1' && dataChoixModePaiement.modePaiement === 'm' ? ` Mobile money` : null}</span>
                                     </div>
-                                </>
-                            }</span>
+                                </>)}
                         </div>
                     </>
                 ) : (
@@ -79,10 +96,13 @@ const ResumeCardContent = ({ typePersonne, personnePhysique, personneMorale, mod
                         <div className='p-2 bg-red-50 text-red-400 flex rounded-lg flex-col justify-between space-y-2'>
                             <span className='text-xl font-medium'>Engagement</span>
                             <span className='text-xl font-medium'>{`${dataEngagementCollecte.montant} FCFA`}</span>
-                            <div className='flex flex-row space-x-2 text-xl font-medium'>
-                                {dataEngagementCollecte.option === '1' ? 'Paiement immédiat: ' : `Délai de paiement: ${dataEngagementCollecte.date}`}
-                                <span className='text-xl font-medium'>{dataEngagementCollecte.option === '1' && dataEngagementCollecte.modePaiement === 'v' ? ' Virement bancaire' : dataEngagementCollecte.option === '1' && dataEngagementCollecte.modePaiement === 'm' ? ` Mobile money` : null}</span>
-                            </div>
+                            {dataEngagementCollecte.option && (
+                                <div className='flex flex-row space-x-2 text-xl font-medium'>
+                                    {dataEngagementCollecte.option === '1' ? 'Paiement immédiat: ' : `Délai de paiement: ${dataEngagementCollecte.date}`}
+                                    <span className='text-xl font-medium'>{dataEngagementCollecte.option === '1' && dataEngagementCollecte.modePaiement === 'v' ? ' Virement bancaire' : dataEngagementCollecte.option === '1' && dataEngagementCollecte.modePaiement === 'm' ? ` Mobile money` : null}</span>
+                                </div>
+                            )}
+
                         </div>
                     </>)}
 
@@ -102,9 +122,10 @@ const ResumeCardContent = ({ typePersonne, personnePhysique, personneMorale, mod
                             <Button
                                 type='primary'
                                 onClick={() => suivant()}
-                                style={{ marginTop: 20, height: 35, width: 150, fontSize: 15, backgroundColor: 'maroon' }}
+                                style={dataChoixModePaiement.optionPaiement === "1" ? { marginTop: 20, height: 35, width: 150, fontSize: 15, backgroundColor: 'maroon' } : { marginTop: 20, height: 35, width: 150, fontSize: 15, backgroundColor: 'green' }}
+                                loading={loading}
                             >
-                                Suivant
+                                {dataChoixModePaiement.optionPaiement === "1" ? "Suivant" : "Enregitrer"}
                             </Button>
                         </>
                     ) : (

@@ -33,12 +33,12 @@ const AdhesionWrapper = () => {
             title: 'Etape 3',
             content: <ResumeCard next={next} prev={prev} />,
         },
+        // {
+        //     title: 'Etape 4',
+        //     content: <MoyenPaiement next={next} prev={prev} />,
+        // },
         {
             title: 'Etape 4',
-            content: <MoyenPaiement next={next} prev={prev} />,
-        },
-        {
-            title: 'Etape 5',
             content: <ApiPaiementCard next={next} prev={prev} />,
         },
     ];

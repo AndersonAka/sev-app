@@ -11,7 +11,7 @@ interface Props {
     texte?: string
 }
 
-const ResultCpt = ({ titre, texte = '' }: Props) => {
+const ResultCpt = ({ titre = 'Paiement effectué avec succès!', texte = "L'ONG SEMENCE POUR LA VIE vous remercie pour votre soutien financier!" }: Props) => {
     const { resetStore, dataMotEnregistrement } = useDataStore()
 
     const router = useRouter();
@@ -22,13 +22,16 @@ const ResultCpt = ({ titre, texte = '' }: Props) => {
     }
     useEffect(() => {
         // Préchargez les routes de destination
+        resetStore()
         router.prefetch("/");
     }, []);
     return (
         <Result
             status="success"
-            title={!dataMotEnregistrement.titre ? titre : dataMotEnregistrement.titre}
-            subTitle={!dataMotEnregistrement.texte ? texte : dataMotEnregistrement.texte}
+            title={<>
+                <span className='text-lg md:text-xl font-semibold'>{!dataMotEnregistrement.titre ? titre : dataMotEnregistrement.titre}</span>
+            </>}
+            subTitle={<><span className='text-lg md:text-xl font-semibold'>{!dataMotEnregistrement.texte ? texte : dataMotEnregistrement.texte}</span></>}
             extra={[
                 <Button
                     type="primary"

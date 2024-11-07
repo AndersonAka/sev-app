@@ -8,9 +8,10 @@ import RadioGroupPayerMaintenantPlusTard from '../communs/radio-payer-maintenant
 interface Props {
     handleEngagement: (collecteEngagement: IAdhesionCollecte) => void
     collecteEngagement?: IAdhesionCollecte
+    errorChoixModePaiement?: string
 }
 
-const AdhesionCollecte = ({ collecteEngagement, handleEngagement }: Props) => {
+const AdhesionCollecte = ({ collecteEngagement, handleEngagement, errorChoixModePaiement }: Props) => {
 
     const [choix, setChoix] = useState(collecteEngagement?.option ? collecteEngagement?.option : '');
     const [montant, setMontant] = useState(collecteEngagement?.montant ? collecteEngagement?.montant : '');
@@ -29,8 +30,8 @@ const AdhesionCollecte = ({ collecteEngagement, handleEngagement }: Props) => {
             const collecte: IAdhesionCollecte = {
                 option: value,
                 montant: montant,
-                date: value === '1' ? new Date().toString() : dateString!,
-                modePaiement: value === '1' ? modePaiement : 'p'
+                date: value === '1' ? new Date().toString() : dateString!, //1:Paiement Maintenant, 2:Paiement Plus tard
+                modePaiement: value === '1' ? modePaiement : 'p' //p:Par paiement, m:Par mobile money, v:Par virement bancaire
             }
             handleEngagement(collecte)
         }
@@ -78,6 +79,7 @@ const AdhesionCollecte = ({ collecteEngagement, handleEngagement }: Props) => {
             {montant && Number(montant) >= 1000 && (
                 <div className='w-full flex flex-col space-y-2'>
                     <RadioGroupPayerMaintenantPlusTard handleRadioChange={handleRadioChange} handleRadioChange2={handleRadioChange2} onChangeDate={onChangeDate} choix={choix} modePaiement={modePaiement} />
+                    {errorChoixModePaiement && <div className='text-red-500'>{errorChoixModePaiement}</div>}
                 </div>
             )}
         </div >

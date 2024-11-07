@@ -5,37 +5,54 @@ import { personneMoraleSchema } from '@/helpers/schema'
 import useDataStore from '@/store/dataStore'
 import { Button, Input } from 'antd'
 import { Formik } from 'formik'
-import ChoixMembreMorale from './membre-morale-card'
-import AdhesionCollecte from '../collecte/adhesion-collecte'
 import { useState } from 'react'
+import { PhoneInput } from 'react-international-phone'
+import AdhesionCollecte from '../collecte/adhesion-collecte'
+import ChoixMembreMorale from './membre-morale-card'
 interface Props {
     prev: () => void
     next: () => void
     modeCollecte?: boolean
 }
 const PersonneMorale = ({ prev, next, modeCollecte }: Props) => {
-    const { setCurrent, dataPersonneMorale, dataEngagementCollecte, dataChoixMembre, setDataChoixMembre, setDataEngagementCollecte, setDataPersonneMorale } = useDataStore()
-    const [isDisabled, setIsDisabled] = useState(!dataEngagementCollecte.option && !dataEngagementCollecte.date)
-    const [isDisabledMembre, setIsDisabledMembre] = useState(!dataChoixMembre.type || !dataChoixMembre.passe)
+    const { setCurrent, dataPersonneMorale, dataEngagementCollecte, dataChoixMembre, setDataChoixMembre, setDataEngagementCollecte, setDataPersonneMorale, dataChoixModePaiement } = useDataStore()
+    const [isDisabled, setIsDisabled] = useState(!dataEngagementCollecte.option && !dataEngagementCollecte.date && !dataEngagementCollecte.modePaiement)
+    const [isDisabledMembre, setIsDisabledMembre] = useState(!dataChoixMembre.type || !dataChoixMembre.passe || !dataChoixModePaiement.optionPaiement)
+    const [errorChoixModePaiement, setErrorChoixModePaiement] = useState('')
 
     const initialValues: IPersonneMorale = {
         raisonSociale: dataPersonneMorale.raisonSociale || null,
         personneDeReference: dataPersonneMorale.personneDeReference || null,
         fonction: dataPersonneMorale.fonction || null,
         adresseEmail: dataPersonneMorale.adresseEmail || null,
-        telephone: dataPersonneMorale.telephone || null
+        telephone: dataPersonneMorale.telephone || ''
     }
 
     const handleSubmit = async (value: IPersonneMorale) => {
+        setErrorChoixModePaiement('')
+        //on n'est pas en mode collecte
+        if (!modeCollecte) {
+            if (!dataChoixModePaiement.optionPaiement || dataChoixModePaiement.modePaiement === '' || (dataChoixModePaiement.optionPaiement === '1' && !dataChoixModePaiement.modePaiement) || (dataChoixModePaiement.optionPaiement === '2' && !dataChoixModePaiement.date)) {
+                setErrorChoixModePaiement('Choisir une option')
+                return
+            }
+        }
+        else {
+            if (!dataEngagementCollecte.option || dataEngagementCollecte.option === '' || (dataEngagementCollecte.option === '1' && !dataEngagementCollecte.modePaiement) || (dataEngagementCollecte.option === '2' && !dataEngagementCollecte.date)) {
+                setErrorChoixModePaiement('Choisir une option')
+                return
+            }
+        }
         setDataPersonneMorale(value)
         setCurrent(1)
         next()
     }
 
-    const retour = () => {
+    const retour = () => {  
         setCurrent(1);
         prev()
     }
+
     const handleEngagement = (collecteEngagement: IAdhesionCollecte) => {
         setDataEngagementCollecte(collecteEngagement)
         if (collecteEngagement.option && collecteEngagement.date) {
@@ -63,7 +80,7 @@ const PersonneMorale = ({ prev, next, modeCollecte }: Props) => {
                 onSubmit={handleSubmit}
                 validationSchema={personneMoraleSchema}
             >
-                {({ values, errors, touched, handleSubmit, handleChange }) => (
+                {({ values, errors, touched, handleSubmit, handleChange, setFieldValue }) => (
                     <form onSubmit={handleSubmit}>
                         <div className='flex flex-col space-y-2 p-2'>
                             <div className=' flex flex-col md:flex-row justify-between md:space-x-2'>
@@ -146,27 +163,26 @@ const PersonneMorale = ({ prev, next, modeCollecte }: Props) => {
 
                             <div className='flex flex-row justify-between space-x-2'>
                                 <div className='w-full md:w-1/2'>
-                                    <label className="mb-3 block text-lg font-medium text-dark ">
+                                    <label className="text-sm md:text-lg font-medium text-dark ">
                                         N° de téléphone* (WhatSapp)
                                     </label>
-                                    <Input
-                                        type="text"
-                                        placeholder="N° de téléphone"
-                                        name='telephone'
-                                        allowClear
-                                        onChange={handleChange}
+                                    <PhoneInput
+                                        preferredCountries={['ci']}
+                                        hideDropdown
+                                        defaultCountry="ci"
+                                        placeholder='+225 00 00 00 00'
+                                        style={errors.telephone && touched.telephone ? { border: '1px solid red', borderRadius: 5 } : {}}
+                                        disableDialCodePrefill
                                         value={values.telephone!}
-                                        style={{ height: 35 }}
-                                        status={errors.telephone && touched.telephone ? 'error' : ''}
+                                        onChange={(values) => setFieldValue('telephone', values)}
+                                        inputClassName="w-full border rounded-lg" // Input plein avec style
                                     />
-                                    {errors.telephone && touched.telephone && (
-                                        <div className="text-red-500">{errors.telephone}</div>
-                                    )}
+                                    {errors.telephone && touched.telephone && <p className='text-red-500'>{errors.telephone}</p>}
                                 </div>
                             </div>
-                            <div className='flex flex-row justify-between space-x-2'>
-                                {!modeCollecte ? (<><ChoixMembreMorale handleMembre={handleMembre} choixMembre={dataChoixMembre} /></>) : (<>
-                                    <AdhesionCollecte handleEngagement={handleEngagement} collecteEngagement={dataEngagementCollecte} />
+                            <div className='flex flex-col justify-between space-x-2'>
+                                {!modeCollecte ? (<><ChoixMembreMorale handleMembre={handleMembre} choixMembre={dataChoixMembre} errorChoixModePaiement={errorChoixModePaiement} /></>) : (<>
+                                    <AdhesionCollecte handleEngagement={handleEngagement} collecteEngagement={dataEngagementCollecte} errorChoixModePaiement={errorChoixModePaiement} />
                                 </>)}
                             </div >
 

@@ -42,31 +42,31 @@ const CheckBoxDonateur = ({ onSelected, value, onSelectedDiamant }: Props) => {
                 defaultValue={value}
                 onChange={e => choix(e.target.value)}
             >
-                <div className='flex flex-col md:flex-row p-2 justify-center'>
-                    <div className='flex flex-col'>
-                        <Radio value="b">
-                            Bronze (20.000 F CFA/mois)
-                        </Radio>
-                        <Radio value="a">Argent (10.000 F CFA/mois)</Radio>
-                    </div>
-                    <div className='flex flex-col'>
-                        <Radio value="o">Or (100.000 F CFA/mois)</Radio>
-                        <Radio value="d">
-                            Diamant (+100.000 F CFA/mois) <br />
-                            {value === 'd' ? (
-                                <div>
-                                    <Input
-                                        type="number"
-                                        placeholder="Montant"
-                                        value={inputValue}
-                                        onChange={handleInputChange}
-                                        style={{ width: 100, marginInlineStart: 10 }}
-                                    />
-                                    {error && <p style={{ color: 'red', fontSize: '0.875rem' }}>{error}</p>}
-                                </div>
-                            ) : null}
-                        </Radio>
-                    </div>
+                <div className='flex flex-col p-2'>
+                    {/* <div className='flex flex-col'> */}
+                    <Radio value="b">
+                        Bronze (20.000 F CFA/mois)
+                    </Radio>
+                    <Radio value="a">Argent (10.000 F CFA/mois)</Radio>
+                    {/* </div> */}
+                    {/* <div className='flex flex-col'> */}
+                    <Radio value="o">Or (100.000 F CFA/mois)</Radio>
+                    <Radio value="d">
+                        Diamant (+100.000 F CFA/mois) <br />
+                        {value === 'd' ? (
+                            <div>
+                                <Input
+                                    type="number"
+                                    placeholder="Montant"
+                                    value={inputValue}
+                                    onChange={handleInputChange}
+                                    style={{ width: 100, marginInlineStart: 10 }}
+                                />
+                                {error && <p style={{ color: 'red', fontSize: '0.875rem' }}>{error}</p>}
+                            </div>
+                        ) : null}
+                    </Radio>
+                    {/* </div> */}
                 </div>
             </Radio.Group>
         </Flex>
