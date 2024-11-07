@@ -12,7 +12,8 @@ interface Props {
 }
 
 const ResultCpt = ({ titre, texte = '' }: Props) => {
-    const { resetStore } = useDataStore()
+    const { resetStore, dataMotEnregistrement } = useDataStore()
+
     const router = useRouter();
     const handleClick = () => {
         resetStore();
@@ -26,8 +27,8 @@ const ResultCpt = ({ titre, texte = '' }: Props) => {
     return (
         <Result
             status="success"
-            title={titre}
-            subTitle={texte}
+            title={!dataMotEnregistrement.titre ? titre : dataMotEnregistrement.titre}
+            subTitle={!dataMotEnregistrement.texte ? texte : dataMotEnregistrement.texte}
             extra={[
                 <Button
                     type="primary"

@@ -2,6 +2,7 @@ import {
   IAdhesionCollecte,
   IChoixMembre,
   IChoixMoyenPaiement,
+  IMotEnregistrement,
   IPersonneMorale,
   IPersonnePhysique,
   ITypePersonne,
@@ -17,6 +18,8 @@ interface DataStoreState {
   dataPersonneMorale: IPersonneMorale;
   dataChoixPaiement: IChoixMoyenPaiement;
   dataEngagementCollecte: IAdhesionCollecte;
+  dataMotEnregistrement: IMotEnregistrement;
+  setDataMotEnregistrement: (dataMotEnregistrement: IMotEnregistrement) => void;
   setDataEngagementCollecte: (
     dataEngagementCollecte: IAdhesionCollecte
   ) => void;
@@ -63,7 +66,14 @@ const useDataStore = create<DataStoreState>()(
         option: null,
         montant: null,
         date: null,
+        modePaiement: null,
       },
+      dataMotEnregistrement: {
+        titre: null,
+        texte: null,
+      },
+      setDataMotEnregistrement: (dataMotEnregistrement: IMotEnregistrement) =>
+        set({ dataMotEnregistrement }),
       setDataEngagementCollecte: (dataEngagementCollecte: IAdhesionCollecte) =>
         set({ dataEngagementCollecte }),
       setDataChoixPaiement: (dataChoixPaiement: IChoixMoyenPaiement) =>
@@ -112,6 +122,11 @@ const useDataStore = create<DataStoreState>()(
             option: null,
             montant: null,
             date: null,
+            modePaiement: null,
+          },
+          dataMotEnregistrement: {
+            titre: null,
+            texte: null,
           },
         }),
     }),

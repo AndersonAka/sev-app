@@ -1,7 +1,7 @@
 
 'use client'
 import useDataStore from '@/store/dataStore'
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import WavePaiementCard from './wave-paiement-card'
 import OrangePaiementCard from './orange-paiement-card'
 import MtnPaiementCard from './mtn-paiement-card'
@@ -9,16 +9,23 @@ import MoovPaiementCard from './moov-paiement-card'
 import { Button, message } from 'antd'
 import Image from 'next/image'
 import BankPaiementCard from './bank-paiement-card'
+import { useRouter } from 'next/navigation'
 interface Props {
     next: () => void
     prev: () => void
 }
 const ApiPaiementCard = ({ next, prev }: Props) => {
-    const { setCurrent, dataChoixPaiement } = useDataStore()
+    const { setCurrent, dataChoixPaiement, dataEngagementCollecte, setDataMotEnregistrement } = useDataStore()
     const [choixPaiement, setChoixPaimenet] = useState<number>(Number(dataChoixPaiement.option))
-
+    const [loading, setLoading] = useState(false)
+    const router = useRouter()
     const suivant = () => {
-        message.success('Paiement enregistré')
+        if (dataEngagementCollecte.option === "1" && dataEngagementCollecte.modePaiement === "v") {
+            setDataMotEnregistrement({ titre: "Enregistrement effectué avec succès!", texte: "L'ONG SEMENCE POUR LA VIE vous remercie pour votre soutien financier!" })
+            setLoading(true)
+            router.push('/remerciement')
+            return
+        }
         // setCurrent(4);
         // next()
     }
@@ -50,6 +57,9 @@ const ApiPaiementCard = ({ next, prev }: Props) => {
             content: <BankPaiementCard />,
         },
     ], [dataChoixPaiement.option])
+    useEffect(() => {
+        router.prefetch('/remerciement')
+    })
 
     return (
         <div className='p-3 flex flex-col items-center border rounded-lg'>
@@ -61,7 +71,7 @@ const ApiPaiementCard = ({ next, prev }: Props) => {
                     </span>
                 </div>
                 <div className='p-3 flex flex-col items-center justify-center space-y-3'>
-                    {items[Number(dataChoixPaiement.option) - 1].content}
+                    {items[Number(4)].content}
                 </div>
 
             </div>
@@ -79,6 +89,7 @@ const ApiPaiementCard = ({ next, prev }: Props) => {
                     type='primary'
                     className='w-full'
                     onClick={() => suivant()}
+                    loading={loading}
                     style={{ padding: 20, height: 35, width: 150, fontSize: 15, backgroundColor: 'green' }}
                 >
                     Paiement

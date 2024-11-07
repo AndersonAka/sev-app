@@ -23,16 +23,22 @@ export interface IChoixMembre {
   type?: string | null;
   option?: string | null;
   montant?: string | null;
-  passe?:boolean
+  passe?: boolean;
 }
 
 export interface IAdhesionCollecte {
   option?: string | null; //1:payer maintenant ; 2:payer plus tard
   montant?: string | null;
   date?: string | null;
+  modePaiement?: string | null;
 }
 
 export interface IChoixMoyenPaiement {
   option?: string | null;
   numero?: string | null;
+}
+
+export interface IMotEnregistrement {
+  titre?: string | null;
+  texte?: string | null;
 }

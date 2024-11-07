@@ -10,15 +10,19 @@ import ResumeCard from '../adhesion/resume-card';
 import useDataStore from '@/store/dataStore';
 import ApiPaiementCard from '../communs/api-paiement-card';
 import ResultCpt from '../communs/result-cpt';
+
 const CollecteWrapper = () => {
     // const [current, setCurrent] = useState(0);
     const { current, setCurrent, dataEngagementCollecte } = useDataStore();
+
+
 
     const next = () => {
         if (current === steps.length - 1) {
             message.success('Adhésion enregistrée');
             return
         }
+
         setCurrent(current + 1);
     };
 
@@ -39,13 +43,13 @@ const CollecteWrapper = () => {
             title: 'Etape 3',
             content: <ResumeCard next={next} prev={prev} modeCollecte={true} />,
         },
-        {
-            title: 'Etape 4',
-            content: dataEngagementCollecte.option === "1" ? <MoyenPaiement next={next} prev={prev} /> : <ResultCpt titre='Votre engagement a bien été enregistré!' />,
-        },
+        // {
+        //     title: 'Etape 4',
+        //     content: dataEngagementCollecte.option === "1" ? <MoyenPaiement next={next} prev={prev} /> : <ResultCpt titre='Votre engagement a bien été enregistré!' />,
+        // },
 
         {
-            title: 'Etape 5',
+            title: 'Etape 4',
             content: <ApiPaiementCard next={next} prev={prev} />,
         },
     ], [current, dataEngagementCollecte.option]);

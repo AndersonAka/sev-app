@@ -3,6 +3,7 @@ import useDataStore from '@/store/dataStore';
 import { Divider, Flex, Radio } from 'antd';
 import { useState } from 'react';
 import ChexBoxDonateur from './checkbox-donateur';
+import RadioGroupPayerMaintenantPlusTard from '../communs/radio-payer-maintenant-plustard-cpt';
 
 interface Props {
     handleMembre: (choixMembre: IChoixMembre) => void
@@ -76,6 +77,11 @@ const ChoixMembre = ({ handleMembre, choixMembre }: Props) => {
                     :
                     null
             }
+            {option.type && (<>
+                <div className='w-full flex flex-col justify-center space-y-2'>
+                    <RadioGroupPayerMaintenantPlusTard handleRadioChange={(value) => console.log(value)} handleRadioChange2={(value) => console.log(value)} onChangeDate={(date, dateString) => console.log(dateString)} choix={""} modePaiement={''} />
+                </div>
+            </>)}
         </div>
     );
 };

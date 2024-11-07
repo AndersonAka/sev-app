@@ -5,6 +5,8 @@ import useDataStore from '@/store/dataStore'
 import { Button, message } from 'antd'
 import ResumeCardPersonneMorale from './resume-card-personne-morale'
 import ResumeCardPersonnePhysique from './resume-card-personne-physique'
+import { useRouter } from 'next/navigation'
+import { use, useEffect, useState } from 'react'
 
 interface Props {
     typePersonne: string
@@ -16,16 +18,28 @@ interface Props {
 }
 
 const ResumeCardContent = ({ typePersonne, personnePhysique, personneMorale, modeCollecte, next, prev }: Props) => {
-    const { dataTypePersonne, dataChoixMembre, setCurrent, dataEngagementCollecte, } = useDataStore()
+    const { dataTypePersonne, dataChoixMembre, setCurrent, dataEngagementCollecte, setDataMotEnregistrement } = useDataStore()
     const retour = () => {
         setCurrent(2)
         prev()
     }
+    const router = useRouter()
+    const [loading, setLoading] = useState(false)
 
     const suivant = () => {
+        //Si le modde de paiement est par mobile money
+        if (dataEngagementCollecte.option === "1" && dataEngagementCollecte.modePaiement === "m") {
+            setLoading(true)
+            router.push('/paiement')
+            return
+        }
         setCurrent(2)
         next()
     }
+
+    useEffect(() => {
+        router.prefetch('/paiement')
+    })
 
     return (
         <div className='flex flex-col space-y-3 '>
@@ -65,7 +79,10 @@ const ResumeCardContent = ({ typePersonne, personnePhysique, personneMorale, mod
                         <div className='p-2 bg-red-50 text-red-400 flex rounded-lg flex-col justify-between space-y-2'>
                             <span className='text-xl font-medium'>Engagement</span>
                             <span className='text-xl font-medium'>{`${dataEngagementCollecte.montant} FCFA`}</span>
-                            <span className='text-xl font-medium'>{dataEngagementCollecte.option === '1' ? 'Paiement immédiat' : `Délai de paiement: ${dataEngagementCollecte.date}`}</span>
+                            <div className='flex flex-row space-x-2 text-xl font-medium'>
+                                {dataEngagementCollecte.option === '1' ? 'Paiement immédiat: ' : `Délai de paiement: ${dataEngagementCollecte.date}`}
+                                <span className='text-xl font-medium'>{dataEngagementCollecte.option === '1' && dataEngagementCollecte.modePaiement === 'v' ? ' Virement bancaire' : dataEngagementCollecte.option === '1' && dataEngagementCollecte.modePaiement === 'm' ? ` Mobile money` : null}</span>
+                            </div>
                         </div>
                     </>)}
 
@@ -96,6 +113,7 @@ const ResumeCardContent = ({ typePersonne, personnePhysique, personneMorale, mod
                                 type='primary'
                                 onClick={() => suivant()}
                                 style={dataEngagementCollecte.option === "1" ? { marginTop: 20, height: 35, width: 150, fontSize: 15, backgroundColor: 'maroon' } : { marginTop: 20, height: 35, width: 150, fontSize: 15, backgroundColor: 'green' }}
+                                loading={loading}
                             >
                                 {dataEngagementCollecte.option === "1" ? "Suivant" : "Enregitrer"}
                             </Button>
