@@ -13,7 +13,7 @@ interface Props {
 }
 const ChoixMembreMorale = ({ handleMembre, choixMembre, errorChoixModePaiement }: Props) => {
 
-    const { dataChoixMembre, setDataChoixMembre } = useDataStore()
+    const { dataChoixMembre, setDataChoixMembre, setMontantApayer } = useDataStore()
     const [option, setOption] = useState<IChoixMembre>(choixMembre);
 
     const { dataChoixModePaiement, setDataChoixModePaiement } = useDataStore()
@@ -58,11 +58,28 @@ const ChoixMembreMorale = ({ handleMembre, choixMembre, errorChoixModePaiement }
     }
 
     const choixDonateur = (value: string) => {
+        let mont = ''
+        switch (value) {
+            case 'b': //bronze
+                mont = '20000'
+                break;
+            case 'a': //argent
+                mont = '10000'
+                break;
+            case 'o':  //or
+                mont = '100000'
+                break;
+            default:
+                break;
+        }
+
         const membre: IChoixMembre = {
             type: option.type,
             option: value,
-            passe: value !== 'd'
+            passe: value !== 'd',
+            montant: mont
         }
+        setMontantApayer(membre.montant!)
         setOption(membre)
         handleMembre(membre)
     }
@@ -74,6 +91,7 @@ const ChoixMembreMorale = ({ handleMembre, choixMembre, errorChoixModePaiement }
             montant: value,
             passe: true
         }
+        setMontantApayer(membre.montant!)
         // setDataChoixMembre(choix)
         setOption(membre)
         handleMembre(membre)

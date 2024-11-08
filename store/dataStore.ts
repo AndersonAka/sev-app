@@ -21,6 +21,12 @@ interface DataStoreState {
   dataEngagementCollecte: IAdhesionCollecte;
   dataMotEnregistrement: IMotEnregistrement;
   dataChoixModePaiement: IChoixModePaiement;
+  accessToken: string | null;
+  activeFrais: boolean;
+  montantApayer: string | null;
+  setMontantApayer: (montantApayer: string | null) => void;
+  setActiveFrais: (activeFrais: boolean) => void;
+  setAccessToken: (accessToken: string | null) => void;
   setDataChoixModePaiement: (dataChoixModePaiement: IChoixModePaiement) => void;
   setDataMotEnregistrement: (dataMotEnregistrement: IMotEnregistrement) => void;
   setDataEngagementCollecte: (
@@ -80,6 +86,13 @@ const useDataStore = create<DataStoreState>()(
         modePaiement: null,
         date: null,
       },
+      accessToken: null,
+      activeFrais: false,
+      montantApayer: null,
+      setMontantApayer: (montantApayer: string | null) =>
+        set({ montantApayer }),
+      setActiveFrais: (activeFrais: boolean) => set({ activeFrais }),
+      setAccessToken: (accessToken: string | null) => set({ accessToken }),
       setDataChoixModePaiement: (dataChoixModePaiement: IChoixModePaiement) =>
         set({ dataChoixModePaiement }),
       setDataMotEnregistrement: (dataMotEnregistrement: IMotEnregistrement) =>
@@ -143,6 +156,9 @@ const useDataStore = create<DataStoreState>()(
             modePaiement: null,
             date: null,
           },
+          accessToken: null,
+          activeFrais: false,
+          montantApayer: null,
         }),
     }),
     {

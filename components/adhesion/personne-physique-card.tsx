@@ -16,11 +16,12 @@ interface Props {
 }
 
 const PersonnePhysique = ({ prev, next, modeCollecte }: Props) => {
-    const { dataPersonnePhysique, dataEngagementCollecte, dataChoixMembre, setDataChoixMembre, setDataEngagementCollecte, setCurrent, setDataPersonnePhysique, dataChoixModePaiement } = useDataStore()
+    const { dataPersonnePhysique, dataEngagementCollecte, dataChoixMembre, setDataChoixMembre, setDataEngagementCollecte, setCurrent, setDataPersonnePhysique, dataChoixModePaiement, setMontantApayer: setMotantApayer } = useDataStore()
     const [error, setError] = useState(false)
     const [isDisabled, setIsDisabled] = useState(!dataEngagementCollecte.option || !dataEngagementCollecte.date)
     const [isDisabledMembre, setIsDisabledMembre] = useState(!dataChoixMembre.type || !dataChoixMembre.passe)
     const [errorChoixModePaiement, setErrorChoixModePaiement] = useState('')
+
     const initialValues: IPersonnePhysique = {
         nom: dataPersonnePhysique?.nom || null,
         prenom: dataPersonnePhysique?.prenom || null,
@@ -39,6 +40,7 @@ const PersonnePhysique = ({ prev, next, modeCollecte }: Props) => {
                 return
             }
         } else {
+            setMotantApayer(dataChoixMembre.montant!)
             if (!dataEngagementCollecte.option || dataEngagementCollecte.option === '' || (dataEngagementCollecte.option === '1' && !dataEngagementCollecte.modePaiement) || (dataEngagementCollecte.option === '2' && !dataEngagementCollecte.date)) {
                 setErrorChoixModePaiement('Choisir une option')
                 return

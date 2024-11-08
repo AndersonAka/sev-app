@@ -1,14 +1,15 @@
 'use client'
-import { getCurrentDateTime, identifiantClientApi, retournerChoixMembre } from '@/helpers/fonctions'
+import { getCurrentDateTime, identifiantClientApi, retournerChoixMembre, valeurMontantSansFrais } from '@/helpers/fonctions'
 import { IPersonneMorale, IPersonnePhysique } from '@/helpers/interface'
 import useDataStore from '@/store/dataStore'
-import { Button, message } from 'antd'
+import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
+import { Button, Switch } from 'antd'
+import axios from 'axios'
+import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import FraisPaiementCpt from '../communs/frais-paiement-cpt'
 import ResumeCardPersonneMorale from './resume-card-personne-morale'
 import ResumeCardPersonnePhysique from './resume-card-personne-physique'
-import { useRouter } from 'next/navigation'
-import { use, useEffect, useState } from 'react'
-import { hashCode } from '@/helpers/encodeHash'
-import axios from 'axios';
 
 interface Props {
     typePersonne: string
@@ -20,60 +21,82 @@ interface Props {
 }
 
 const ResumeCardContent = ({ typePersonne, personnePhysique, personneMorale, modeCollecte, next, prev }: Props) => {
-    const { dataTypePersonne, dataChoixMembre, setCurrent, dataEngagementCollecte, setDataMotEnregistrement, dataChoixModePaiement } = useDataStore()
+    const { dataTypePersonne, dataChoixMembre, setCurrent, dataEngagementCollecte, setDataMotEnregistrement, dataChoixModePaiement, activeFrais, setActiveFrais, montantApayer, setMontantApayer: setMotantApayer } = useDataStore()
+    const [active, setActive] = useState(false)
 
     const retour = () => {
         setCurrent(2)
         prev()
     }
     const router = useRouter()
+
     const [loading, setLoading] = useState(false)
 
     const suivant = async () => {
-        setLoading(true)
-        await getTokenApiVerolive()
-        setLoading(false)
         // setLoading(true)
-        //Si le modde de paiement est par mobile money
-        // if ((dataEngagementCollecte.option === "1" && dataEngagementCollecte.modePaiement === "m") || (dataChoixModePaiement.optionPaiement === "1" && dataChoixModePaiement.modePaiement === "m")) {
-        //     router.push('/paiement')
-        //     return
-        // }
-        // if ((dataEngagementCollecte.option === "2") || (dataChoixModePaiement.optionPaiement === "2")) {
-        //     setDataMotEnregistrement({ titre: "Enregistrement effectué avec succès!", texte: "L'ONG SEMENCE POUR LA VIE vous remercie pour votre soutien financier!" })
-        //     router.push('/remerciement')
-        //     return
-        // }
-        // setCurrent(2)
-        // setLoading(false)
-        // next()
+        setLoading(true)
+        // Si le modde de paiement est par mobile money
+        if ((dataEngagementCollecte.option === "1" && dataEngagementCollecte.modePaiement === "m") || (dataChoixModePaiement.optionPaiement === "1" && dataChoixModePaiement.modePaiement === "m")) {
+            await getTokenApiVerolive()
+            setLoading(false)
+            return
+        }
+        if ((dataEngagementCollecte.option === "2") || (dataChoixModePaiement.optionPaiement === "2")) {
+            setDataMotEnregistrement({ titre: "Enregistrement effectué avec succès!", texte: "L'ONG SEMENCE POUR LA VIE vous remercie pour votre soutien financier!" })
+            router.push('/remerciement')
+            return
+        }
+        setCurrent(2)
+        setLoading(false)
+        next()
     }
-
     const getTokenApiVerolive = async () => {
-        const timeLess = getCurrentDateTime()
-        const BearToken = hashCode(identifiantClientApi.reference, identifiantClientApi.cle, timeLess)
         try {
-            const response = await axios.post('https://verolive-secure.com/apiverolive/_get_token',
-                {
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Accept": "application/json",
-                        "Cross-Origin": "*",
-                        "Access-Control-Allow-Origin": "*",
-                        "Authorization": `Bearer ${BearToken}`
-                    },
-                    data: {
-                        "client": identifiantClientApi.reference,
-                        "timeless": timeLess
-                    }
+            const response = await axios.get('/api/getVeroliveToken', {
+                params: {
+                    reference: identifiantClientApi.reference,
+                    cle: identifiantClientApi.cle,
+                },
+            });
+            if (response.data.status === 1) {
+                // setAccessToken(response.data.access_token)
+                const reponseApiPaiement = await getPayementApiVerolive(response.data.access_token, montantApayer!)
+                if (reponseApiPaiement && reponseApiPaiement.data.status === 3) {
+                    router.push(reponseApiPaiement.data.url)
+                    return
                 }
-            )
-            console.log(response.data)
-        } catch (e) {
-            console.log(e)
+            }
+        } catch (error) {
+            console.error('Erreur lors de la récupération du token:', error);
         }
     }
 
+    const getPayementApiVerolive = async (accessToken: string, motant: string) => {
+        const timeless = getCurrentDateTime();
+        const reference = "sev" + timeless
+        try {
+            const response = await axios.get('/api/paiement', {
+                params: {
+                    reference: reference,
+                    montant: motant,
+                    accessToken: accessToken
+                },
+            });
+            console.log('Token data:', response.data);
+            return response
+        } catch (error) {
+            console.error('Erreur lors de la création du token:', error);
+        }
+    }
+
+    const payerLesFrais = async (value: boolean) => {
+        setActive(value)
+        setActiveFrais(value)
+        if (!value) {
+            const initMontant = dataEngagementCollecte.montant! || dataChoixMembre.montant!
+            setMotantApayer(initMontant!.toString())
+        }
+    }
 
     useEffect(() => {
         router.prefetch('/remerciement')
@@ -94,12 +117,11 @@ const ResumeCardContent = ({ typePersonne, personnePhysique, personneMorale, mod
 
                 {dataTypePersonne.typePersonne === "1" && <ResumeCardPersonnePhysique personnePhysique={personnePhysique!} />}
                 {dataTypePersonne.typePersonne === "2" && <ResumeCardPersonneMorale personneMorale={personneMorale!} />}
-
                 {!modeCollecte ? (
                     <>
-                        <div className='p-2 bg-red-50 text-red-400 flex rounded-lg flex-col justify-between '>
-                            <span className=' text-xl font-medium'>{dataChoixMembre?.type === "m" ? "Membre" : "Donateur"}</span>
-                            <span className='text-xl font-medium'>
+                        <div className='p-2 bg-green-50 text-green-900 flex rounded-lg flex-col space-y-2 '>
+                            <span className='text-lg font-medium'>{dataChoixMembre?.type === "m" ? "Membre" : "Donateur"}</span>
+                            <div className='text-lg font-medium'>
                                 {dataChoixMembre?.type === "d" ?
                                     (
                                         <>
@@ -107,25 +129,41 @@ const ResumeCardContent = ({ typePersonne, personnePhysique, personneMorale, mod
                                             <span className='text-lg italic'></span><br />
                                         </>) : <>
                                         <div className='flex flex-col space-y-2'>
-                                            <span className='text-lg italic'>Droit d\'adhésion (10.000 F CFA)</span>
+                                            <span className='text-lg italic'>Droit d'adhésion (10.000 F CFA)</span>
                                             <span className='text-lg italic'>Cotisation mensuelle (10.000 F CFA / mois)</span>
                                         </div>
                                     </>
                                 }
-                            </span>
+
+                            </div>
                             {dataChoixModePaiement.optionPaiement && (
-                                <>
-                                    <div className='flex flex-row space-x-2 text-xl font-medium'>
+                                <div className='flex flex-col space-y-2'>
+                                    <div className='flex flex-row space-x-2 text-lg font-medium'>
                                         {dataChoixModePaiement.optionPaiement === '1' ? 'Paiement immédiat: ' : `Délai de paiement: ${dataChoixModePaiement.date}`}
-                                        <span className='text-xl font-medium'>{dataChoixModePaiement.
+                                        <span className='text-lg font-medium'>{dataChoixModePaiement.
                                             optionPaiement === '1' && dataChoixModePaiement.modePaiement === 'v' ? ' Virement bancaire' : dataChoixModePaiement.optionPaiement === '1' && dataChoixModePaiement.modePaiement === 'm' ? ` Mobile money` : null}</span>
                                     </div>
-                                </>)}
+                                </div>)}
+                            {dataChoixModePaiement.optionPaiement === "1" && dataChoixModePaiement.modePaiement === 'm' ? (
+                                <div className='flex flex-col space-y-2'>
+                                    <div className='flex flex-row space-x-2'>
+                                        <span>Payer les frais ?</span>
+                                        <Switch
+                                            checkedChildren={<CheckOutlined />}
+                                            unCheckedChildren={<CloseOutlined />}
+                                            defaultChecked={activeFrais}
+                                            onChange={(checked) => payerLesFrais(checked)}
+                                        />
+                                    </div>
+                                    <FraisPaiementCpt active={activeFrais} montant={dataChoixMembre.montant!} />
+                                </div>
+                            ) : null}
                         </div>
+
                     </>
                 ) : (
                     <>
-                        <div className='p-2 bg-red-50 text-red-400 flex rounded-lg flex-col justify-between space-y-2'>
+                        <div className='p-2 bg-green-50 text-green-900 flex rounded-lg flex-col justify-between space-y-2'>
                             <span className='text-xl font-medium'>Engagement</span>
                             <span className='text-xl font-medium'>{`${dataEngagementCollecte.montant} FCFA`}</span>
                             {dataEngagementCollecte.option && (
@@ -134,10 +172,22 @@ const ResumeCardContent = ({ typePersonne, personnePhysique, personneMorale, mod
                                     <span className='text-xl font-medium'>{dataEngagementCollecte.option === '1' && dataEngagementCollecte.modePaiement === 'v' ? ' Virement bancaire' : dataEngagementCollecte.option === '1' && dataEngagementCollecte.modePaiement === 'm' ? ` Mobile money` : null}</span>
                                 </div>
                             )}
-
+                            {dataEngagementCollecte.option === "1" && dataEngagementCollecte.modePaiement === 'm' ? (
+                                <div className='flex flex-col space-y-2'>
+                                    <div className='flex flex-row space-x-2'>
+                                        <span>Payer les frais ?</span>
+                                        <Switch
+                                            checkedChildren={<CheckOutlined />}
+                                            unCheckedChildren={<CloseOutlined />}
+                                            defaultChecked={activeFrais}
+                                            onChange={(checked) => payerLesFrais(checked)}
+                                        />
+                                    </div>
+                                    <FraisPaiementCpt active={activeFrais} montant={dataEngagementCollecte.montant!} />
+                                </div>
+                            ) : null}
                         </div>
                     </>)}
-
             </div>
 
             <div className='flex  justify-center md:justify-end space-x-2'>
@@ -171,7 +221,6 @@ const ResumeCardContent = ({ typePersonne, personnePhysique, personneMorale, mod
                                 {dataEngagementCollecte.option === "1" ? "Paiement" : "Enregitrer"}
                             </Button>
                         </>)}
-
             </div>
         </div>
     )
@@ -179,11 +228,4 @@ const ResumeCardContent = ({ typePersonne, personnePhysique, personneMorale, mod
 
 export default ResumeCardContent
 
-
-export const resumeCardPersonneMorale = () => {
-    return (
-        <>
-        </>
-    )
-}
 

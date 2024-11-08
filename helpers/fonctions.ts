@@ -37,4 +37,18 @@ export const identifiantClientApi = {
   cle: "c8156034539479b46bf2",
 };
 
+export const calculTotal = (montant: string) => {
+  const total = Number(montant) + Number(montant) * 0.02;
+  return total;
+};
+
+export const valeurMontantSansFrais = (montant: string) => {
+  return montant;
+};
+
+export const calculFrais = (montant: string) => {
+  const total = Number(montant) * 0.02;
+  return total;
+};
+
 export const bearToken = "";

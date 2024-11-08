@@ -4,6 +4,7 @@ import { DatePickerProps, Flex, Input, Radio, DatePicker } from 'antd'
 import React, { useState } from 'react'
 import CurrencyInput from 'react-currency-input-field';
 import RadioGroupPayerMaintenantPlusTard from '../communs/radio-payer-maintenant-plustard-cpt';
+import useDataStore from '@/store/dataStore';
 
 interface Props {
     handleEngagement: (collecteEngagement: IAdhesionCollecte) => void
@@ -12,7 +13,7 @@ interface Props {
 }
 
 const AdhesionCollecte = ({ collecteEngagement, handleEngagement, errorChoixModePaiement }: Props) => {
-
+    const { setMontantApayer } = useDataStore()
     const [choix, setChoix] = useState(collecteEngagement?.option ? collecteEngagement?.option : '');
     const [montant, setMontant] = useState(collecteEngagement?.montant ? collecteEngagement?.montant : '');
     const [date, setDate] = useState<string | string[]>(collecteEngagement?.date ? collecteEngagement?.date : '');
@@ -33,6 +34,7 @@ const AdhesionCollecte = ({ collecteEngagement, handleEngagement, errorChoixMode
                 date: value === '1' ? new Date().toString() : dateString!, //1:Paiement Maintenant, 2:Paiement Plus tard
                 modePaiement: value === '1' ? modePaiement : 'p' //p:Par paiement, m:Par mobile money, v:Par virement bancaire
             }
+            setMontantApayer(montant)
             handleEngagement(collecte)
         }
     };

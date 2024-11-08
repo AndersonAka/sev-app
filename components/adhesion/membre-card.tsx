@@ -12,7 +12,7 @@ interface Props {
 }
 const ChoixMembre = ({ handleMembre, choixMembre, errorChoixModePaiement }: Props) => {
     const [optionChoixMembre, setOptionChoixMembre] = useState<IChoixMembre>(choixMembre);
-    const { dataChoixModePaiement, setDataChoixModePaiement } = useDataStore()
+    const { dataChoixModePaiement, setDataChoixModePaiement, setMontantApayer } = useDataStore()
     const [choixPaiement, setChoixPaiement] = useState(dataChoixModePaiement?.optionPaiement ? dataChoixModePaiement?.optionPaiement : '');
     const [modePaiement, setModePaiement] = useState(dataChoixModePaiement?.modePaiement ? dataChoixModePaiement?.modePaiement : '');
     const [date, setDate] = useState<string | string[]>(dataChoixModePaiement?.date ? dataChoixModePaiement?.date : '');
@@ -49,8 +49,10 @@ const ChoixMembre = ({ handleMembre, choixMembre, errorChoixModePaiement }: Prop
         setDataChoixModePaiement({ optionPaiement: null, modePaiement: null, date: null })
         const membre: IChoixMembre = {
             type: value,
-            passe: value === 'm'
+            passe: value === 'm',
+            montant: "10000"
         }
+        setMontantApayer(membre.montant!)
         setOptionChoixMembre(membre)
         handleMembre(membre)
         //setDataChoixMembre(choix)
@@ -58,11 +60,28 @@ const ChoixMembre = ({ handleMembre, choixMembre, errorChoixModePaiement }: Prop
 
     const choixDonateur = (value: string, dateString?: string) => {
         setDataChoixModePaiement({ optionPaiement: null, modePaiement: null, date: null })
+        let mont = ''
+        switch (value) {
+            case 'b': //bronze
+                mont = '20000'
+                break;
+            case 'a': //argent
+                mont = '10000'
+                break;
+            case 'o':  //or
+                mont = '100000'
+                break;
+            default:
+                break;
+        }
+
         const membre: IChoixMembre = {
             type: optionChoixMembre.type,
             option: value,
-            passe: true
+            passe: true,
+            montant: mont
         }
+        setMontantApayer(membre.montant!)
         setOptionChoixMembre(membre)
         handleMembre(membre)
     }
@@ -76,6 +95,7 @@ const ChoixMembre = ({ handleMembre, choixMembre, errorChoixModePaiement }: Prop
             passe: true
         }
         // setDataChoixMembre(choix)
+        setMontantApayer(membre.montant!)
         setOptionChoixMembre(membre)
         handleMembre(membre)
     }
