@@ -73,7 +73,8 @@ const ResumeCardContent = ({ typePersonne, personnePhysique, personneMorale, mod
 
     const getPayementApiVerolive = async (accessToken: string, motant: string) => {
         const timeless = getCurrentDateTime();
-        const reference = "sev" + timeless
+        const numTel = personnePhysique?.telephone || personneMorale?.telephone
+        const reference = "SEV" + numTel + timeless
         try {
             const response = await axios.get('/api/paiement', {
                 params: {
