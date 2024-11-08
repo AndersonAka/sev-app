@@ -19,3 +19,22 @@ const optionsDonateur = [
   { label: "Or (100.000 F CFA/mois)", value: "o" },
   { label: "Diamant (+100.000 F CFA/mois)", value: "d" },
 ];
+
+export function getCurrentDateTime() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0"); // Mois au format MM
+  const day = String(now.getDate()).padStart(2, "0"); // Jour au format DD
+  const hours = String(now.getHours()).padStart(2, "0"); // Heure au format HH
+  const minutes = String(now.getMinutes()).padStart(2, "0"); // Minute au format MM
+  const seconds = String(now.getSeconds()).padStart(2, "0"); // Seconde au format SS
+
+  return `⁠${year}${month}${day}${hours}${minutes}${seconds}`;
+}
+
+export const identifiantClientApi = {
+  reference: "BE62E1",
+  cle: "c8156034539479b46bf2",
+};
+
+export const bearToken = "";
