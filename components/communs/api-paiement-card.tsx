@@ -48,21 +48,6 @@ const ApiPaiementCard = ({ next, prev }: Props) => {
             const typePersonne = dataTypePersonne.typePersonne === "1" ? "personnePhysique" : "personneMorale"
             //Cas 2 : paiement par virement bancaire
 
-            // typeOperation,
-            // typePersonne,
-            // typePaiement,
-            // datePaiement: date,
-            // montantEngagement: montant,
-            // statusPaiement,
-            // typeMembre: "",
-            // modePaiement: dataEngagementCollecte.modePaiement!,
-            // referencePaiement: referenceSev,
-            // optionMembreDonateur: dataEngagementCollecte.option!,
-            // PersonneMorale: dataPersonneMorale,
-            // personnePhysique: dataPersonnePhysique,
-            // referenceVerolive,
-            // montantPayer: montant!
-
             let response = null
             if (typeOperation === 'collecte') {
                 response = await enregistrementCollecte({
@@ -72,7 +57,7 @@ const ApiPaiementCard = ({ next, prev }: Props) => {
                     datePaiement: date,
                     montantEngagement: montant!,
                     statusPaiement,
-                    typeMembre: "",
+                    typeMembre: dataEngagementCollecte.option,
                     modePaiement: dataEngagementCollecte.modePaiement!,
                     referencePaiement: referencePaieBanque!,
                     optionMembreDonateur: dataEngagementCollecte.option!,
@@ -89,7 +74,7 @@ const ApiPaiementCard = ({ next, prev }: Props) => {
                     datePaiement: date,
                     montantEngagement: dataChoixMembre.montant!,
                     statusPaiement,
-                    typeMembre: "",
+                    typeMembre: dataChoixMembre.type,
                     modePaiement: dataChoixModePaiement.modePaiement!,
                     referencePaiement: referencePaieBanque!,
                     optionMembreDonateur: dataChoixModePaiement.optionPaiement!,

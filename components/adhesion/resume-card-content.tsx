@@ -49,8 +49,8 @@ const ResumeCardContent = ({ typePersonne, personnePhysique, personneMorale, mod
             const statusPaiement = "en attente"
             try {
                 //Cas de paiement plus tard
-                const typePersonne = dataTypePersonne.typePersonne === "1" ? "personnePhysique" : "personneMorale"
                 let response = null
+                const typePersonne = dataTypePersonne.typePersonne === "1" ? "personnePhysique" : "personneMorale"
                 if (typeOperation === 'collecte') {
                     response = await enregistrementCollecte({
                         typeOperation,
@@ -59,7 +59,7 @@ const ResumeCardContent = ({ typePersonne, personnePhysique, personneMorale, mod
                         datePaiement: dataEngagementCollecte.date!,
                         montantEngagement: dataEngagementCollecte.montant!,
                         statusPaiement,
-                        typeMembre: "",
+                        typeMembre: dataEngagementCollecte.option,
                         modePaiement: dataEngagementCollecte.modePaiement,
                         referencePaiement: "",
                         optionMembreDonateur: dataEngagementCollecte.option,
@@ -76,7 +76,7 @@ const ResumeCardContent = ({ typePersonne, personnePhysique, personneMorale, mod
                         datePaiement: dataChoixModePaiement.date!,
                         montantEngagement: dataChoixMembre.montant!,
                         statusPaiement,
-                        typeMembre: "",
+                        typeMembre: dataChoixMembre.type,
                         modePaiement: dataChoixModePaiement.modePaiement,
                         referencePaiement: "",
                         optionMembreDonateur: dataChoixModePaiement.optionPaiement,
@@ -86,7 +86,6 @@ const ResumeCardContent = ({ typePersonne, personnePhysique, personneMorale, mod
                         montantPayer: ""
                     })
                 }
-
                 if (response.data) {
                     setDataMotEnregistrement({ titre: "Enregistrement effectué avec succès!", texte: "L'ONG SEMENCE POUR LA VIE vous remercie pour votre soutien financier!" })
                     router.push('/remerciement')
@@ -96,8 +95,6 @@ const ResumeCardContent = ({ typePersonne, personnePhysique, personneMorale, mod
                 setLoading(false)
                 console.log(error)
             }
-
-            //router.push('/remerciement')
             return
         }
         setCurrent(2)
@@ -145,7 +142,7 @@ const ResumeCardContent = ({ typePersonne, personnePhysique, personneMorale, mod
                 datePaiement: date,
                 montantEngagement: montant,
                 statusPaiement,
-                typeMembre: "",
+                typeMembre: dataEngagementCollecte.option,
                 modePaiement: dataEngagementCollecte.modePaiement!,
                 referencePaiement: referenceSev,
                 optionMembreDonateur: dataEngagementCollecte.option!,
@@ -162,7 +159,7 @@ const ResumeCardContent = ({ typePersonne, personnePhysique, personneMorale, mod
                 datePaiement: date,
                 montantEngagement: dataChoixMembre.montant!,
                 statusPaiement,
-                typeMembre: "",
+                typeMembre: dataChoixMembre.type,
                 modePaiement: dataChoixModePaiement.modePaiement!,
                 referencePaiement: referenceSev,
                 optionMembreDonateur: dataChoixModePaiement.optionPaiement!,
