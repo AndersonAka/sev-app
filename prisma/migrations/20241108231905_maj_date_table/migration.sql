@@ -1,0 +1,22 @@
+BEGIN TRY
+
+BEGIN TRAN;
+
+-- AlterTable
+ALTER TABLE [dbo].[Adhesion] ALTER COLUMN [datePaiement] NVARCHAR(1000) NULL;
+
+-- AlterTable
+ALTER TABLE [dbo].[Collecte] ALTER COLUMN [datePaiement] NVARCHAR(1000) NULL;
+
+COMMIT TRAN;
+
+END TRY
+BEGIN CATCH
+
+IF @@TRANCOUNT > 0
+BEGIN
+    ROLLBACK TRAN;
+END;
+THROW
+
+END CATCH

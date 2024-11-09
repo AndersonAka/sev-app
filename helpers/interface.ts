@@ -48,3 +48,7 @@ export interface IMotEnregistrement {
   titre?: string | null;
   texte?: string | null;
 }
+
+export interface IBanquePaiement {
+  reference?: string | null;
+}

@@ -39,7 +39,7 @@ const ChoixMembreMorale = ({ handleMembre, choixMembre, errorChoixModePaiement }
             date: value === '1' ? new Date().toString() : dateString!,
         }
         setDataChoixModePaiement(_optionChoixMembre)
-        console.log(_optionChoixMembre)
+        // console.log(_optionChoixMembre)
     };
 
     const handleRadioChange2 = (modePaiement?: string) => {

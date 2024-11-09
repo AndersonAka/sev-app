@@ -17,7 +17,9 @@ export const personneMoraleSchema = Yup.object().shape({
   raisonSociale: Yup.string().required("Ce champ est obligatoire"),
   personneDeReference: Yup.string().required("Ce champ est obligatoire"),
   fonction: Yup.string().required("Ce champ est obligatoire"),
-  adresseEmail: Yup.string().email("Email non valide"),
+  adresseEmail: Yup.string()
+    .email("Email non valide")
+    .required("Ce champ est obligatoire"),
   telephone: Yup.string()
     .min(14, "Numéro de telephone est icorrect. Ex: +225 00 00 00 00")
     .required("Ce champ est obligatoire"),
@@ -26,4 +28,10 @@ export const personneMoraleSchema = Yup.object().shape({
 export const adhesionCollectSchema = Yup.object().shape({
   montant: Yup.number().required("Ce champ est obligatoire"),
   date: Yup.date().required("Ce champ est obligatoire"),
+});
+
+export const banquePaiementSchema = Yup.object().shape({
+  referencePaiement: Yup.string()
+    .min(5, "Référence incorrecte")
+    .required("Ce champ est obligatoire"),
 });

@@ -27,7 +27,7 @@ const AdhesionCollecte = ({ collecteEngagement, handleEngagement, errorChoixMode
 
     const handleRadioChange = (value: string, dateString?: string, modePaiement?: string) => {
         setChoix(value);
-        if (Number(montant) >= 1000) {
+        if (Number(montant) >= 1) {
             const collecte: IAdhesionCollecte = {
                 option: value,
                 montant: montant,
@@ -46,8 +46,8 @@ const AdhesionCollecte = ({ collecteEngagement, handleEngagement, errorChoixMode
 
     const handleMontantChange = (value: string) => {
         setMontant(value);
-        if (value && Number(value) < 1000) {
-            setErreur("Le montant doit être supérieur ou égale à 1000 F CFA.");
+        if (value && Number(value) < 1) {
+            setErreur("Le montant doit être supérieur ou égale à 1 F CFA.");
         } else {
             setErreur(null);
         }
@@ -78,7 +78,7 @@ const AdhesionCollecte = ({ collecteEngagement, handleEngagement, errorChoixMode
                     {erreur && <p style={{ color: 'red', fontSize: '0.875rem' }}>{erreur}</p>}
                 </div>
             </div>
-            {montant && Number(montant) >= 1000 && (
+            {montant && Number(montant) >= 1 && (
                 <div className='w-full flex flex-col space-y-2'>
                     <RadioGroupPayerMaintenantPlusTard handleRadioChange={handleRadioChange} handleRadioChange2={handleRadioChange2} onChangeDate={onChangeDate} choix={choix} modePaiement={modePaiement} />
                     {errorChoixModePaiement && <div className='text-red-500'>{errorChoixModePaiement}</div>}

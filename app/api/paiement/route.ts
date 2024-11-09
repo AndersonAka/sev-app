@@ -32,7 +32,7 @@ export async function GET(request: Request) {
     );
     return NextResponse.json(response.data);
   } catch (error: any) {
-    console.error("Erreur lors de la requête vers l'API Verolive :", error);
+    // console.error("Erreur lors de la requête vers l'API Verolive :", error);
     return NextResponse.json(
       {
         message: "Erreur lors de la récupération du token",

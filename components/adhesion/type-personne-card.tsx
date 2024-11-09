@@ -12,13 +12,14 @@ interface Props {
 }
 
 const TypePersonne = ({ next }: Props) => {
-    const { dataTypePersonne, setCurrent, setDataTypePersonne } = useDataStore()
+    const { dataTypePersonne, setCurrent, setDataTypePersonne, resetStore } = useDataStore()
 
     const initialValues: ITypePersonne = {
         typePersonne: dataTypePersonne?.typePersonne || null
     }
 
     const handleSubmit = async (value: ITypePersonne) => {
+        resetStore()
         setDataTypePersonne(value)
         setCurrent(0)
         next()

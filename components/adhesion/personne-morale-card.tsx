@@ -48,7 +48,7 @@ const PersonneMorale = ({ prev, next, modeCollecte }: Props) => {
         next()
     }
 
-    const retour = () => {  
+    const retour = () => {
         setCurrent(1);
         prev()
     }
@@ -143,7 +143,7 @@ const PersonneMorale = ({ prev, next, modeCollecte }: Props) => {
                                 </div>
                                 <div className='w-full md:w-1/2'>
                                     <label className="mb-3 block text-lg font-medium text-dark ">
-                                        Adresse email
+                                        Adresse email*
                                     </label>
                                     <Input
                                         type="text"

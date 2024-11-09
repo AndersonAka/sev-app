@@ -1,58 +1,32 @@
-// "use client";
-
-// import React from "react";
-// import ImageTitre from "../communs/image-titre";
-// import { useRouter } from "next/navigation";
-
-// const HomeWrapper = () => {
-//     const router = useRouter();
-
-//     return (
-//         <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-green-200 to-green-600 p-6 sm:p-10 font-sans">
-//             <main className="flex flex-col items-center gap-8 w-full max-w-2xl bg-white rounded-xl shadow-lg overflow-hidden">
-//                 <header className="w-full bg-green-600 p-4 text-center text-white font-semibold text-2xl md:text-3xl">
-//                     {"L'EVANGILE AU SERVICE DE LA COMMUNAUTE"}
-//                 </header>
-//                 <ImageTitre />
-//                 <div className="flex flex-col items-center text-center px-6 py-4 space-y-4">
-//                     <p className="text-lg md:text-2xl font-medium text-gray-700">
-//                         Bienvenu-e, faites une action pour l'avancement de votre communauté
-//                     </p>
-//                     <div className="flex flex-col sm:flex-row sm:space-x-4 w-full">
-//                         <button
-//                             className="w-full sm:w-1/2 bg-green-600 text-white text-lg font-semibold rounded-lg py-3 hover:bg-green-700 transition"
-//                             onClick={() => router.push("/adhesion")}
-//                         >
-//                             ADHESION / DONS
-//                         </button>
-//                         <button
-//                             className="w-full sm:w-1/2 bg-green-600 text-white text-lg font-semibold rounded-lg py-3 mt-4 sm:mt-0 hover:bg-green-700 transition"
-//                             onClick={() => router.push("/collecte")}
-//                         >
-//                             COLLECTE DE FONDS
-//                         </button>
-//                     </div>
-//                 </div>
-//             </main>
-//         </div>
-//     );
-// };
-
-// export default HomeWrapper;
-
 
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import ImageTitre from "../communs/image-titre";
 import useDataStore from "@/store/dataStore";
 import Link from "next/link";
+import { Button } from "antd";
 
 const HomePage = () => {
     const router = useRouter();
-    const { resetStore } = useDataStore();
+    const { resetStore, setTypeOperation } = useDataStore();
+    const [loadingAdhesion, setLoadingAdhesion] = useState(false);
+    const [loadingCollecte, setLoadingCollecte] = useState(false);
+
+    const handleAdhesion = () => {
+        setLoadingAdhesion(true)
+        setTypeOperation("adhesion")
+        router.push("/adhesion")
+    }
+
+    const handleCollecte = () => {
+        setLoadingCollecte(true)
+        setTypeOperation("collecte")
+        router.push("/collecte")
+    }
+
 
     useEffect(() => {
         // Préchargez les routes de destination
@@ -78,16 +52,22 @@ const HomePage = () => {
                     </p>
                     <div className="flex space-x-3 sm:space-x-4">
                         {/* Utilisation de Link pour le préchargement */}
-                        <Link href="/adhesion" prefetch>
+                        {/* <Link href="/adhesion" prefetch>
                             <button className="bg-amber-800 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition text-sm sm:text-base">
-                                Adhésion
+
                             </button>
                         </Link>
                         <Link href="/collecte" prefetch>
                             <button className="bg-amber-800 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition text-sm sm:text-base">
                                 Collecte de Fonds
                             </button>
-                        </Link>
+                        </Link> */}
+                        <Button disabled={loadingAdhesion || loadingCollecte} loading={loadingAdhesion} onClick={handleAdhesion} style={{ marginTop: 20, height: 35, width: 150, fontSize: 15, backgroundColor: 'brown', color: 'white', borderRadius: 10, padding: 10 }}>
+                            Adhésion
+                        </Button>
+                        <Button disabled={loadingAdhesion || loadingCollecte} loading={loadingCollecte} onClick={handleCollecte} style={{ marginTop: 20, height: 35, width: 150, fontSize: 15, backgroundColor: 'brown', color: 'white', borderRadius: 10, padding: 10 }}>
+                            Collecte de Fonds
+                        </Button>
                     </div>
                 </div>
 

@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import ImageTitre from '../communs/image-titre';
 import { Button, message, Steps, theme } from 'antd';
 import TypePersonne from '../adhesion/type-personne-card';
@@ -13,9 +13,7 @@ import ResultCpt from '../communs/result-cpt';
 
 const CollecteWrapper = () => {
     // const [current, setCurrent] = useState(0);
-    const { current, setCurrent, dataEngagementCollecte } = useDataStore();
-
-
+    const { current, setCurrent, dataEngagementCollecte, setTypeOperation } = useDataStore();
 
     const next = () => {
         if (current === steps.length - 1) {
@@ -29,7 +27,9 @@ const CollecteWrapper = () => {
     const prev = () => {
         setCurrent(current - 1);
     };
-
+    useEffect(() => {
+        setTypeOperation("collecte")
+    }, [])
     const steps = useMemo(() => [
         {
             title: 'Etape 1',

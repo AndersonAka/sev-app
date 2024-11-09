@@ -6,9 +6,10 @@ import PersonneWrapper from './personne-wrapper';
 import ResumeCard from './resume-card';
 import TypePersonne from './type-personne-card';
 import ApiPaiementCard from '../communs/api-paiement-card';
+import { useEffect } from 'react';
 const AdhesionWrapper = () => {
     // const [current, setCurrent] = useState(0);
-    const { current, setCurrent } = useDataStore()
+    const { current, setCurrent, setTypeOperation } = useDataStore()
 
     const next = async () => {
         if (current === steps.length - 1) {
@@ -46,6 +47,9 @@ const AdhesionWrapper = () => {
 
     const items = steps.map((item) => ({ key: item.title, title: item.title }));
 
+    useEffect(() => {
+        setTypeOperation("adhesion")
+    }, [])
     return (
         <div className="flex flex-col bg-gray-100 items-center min-h-screen  sm:p-12 font-sans">
             <div className="flex flex-col bg-white shadow-xl justify-center max-w-3xl w-full overflow-auto">

@@ -24,6 +24,8 @@ interface DataStoreState {
   accessToken: string | null;
   activeFrais: boolean;
   montantApayer: string | null;
+  typeOperation: string | null;
+  setTypeOperation: (typeOperation: string | null) => void;
   setMontantApayer: (montantApayer: string | null) => void;
   setActiveFrais: (activeFrais: boolean) => void;
   setAccessToken: (accessToken: string | null) => void;
@@ -89,6 +91,9 @@ const useDataStore = create<DataStoreState>()(
       accessToken: null,
       activeFrais: false,
       montantApayer: null,
+      typeOperation: null,
+      setTypeOperation: (typeOperation: string | null) =>
+        set({ typeOperation }),
       setMontantApayer: (montantApayer: string | null) =>
         set({ montantApayer }),
       setActiveFrais: (activeFrais: boolean) => set({ activeFrais }),
@@ -159,6 +164,7 @@ const useDataStore = create<DataStoreState>()(
           accessToken: null,
           activeFrais: false,
           montantApayer: null,
+          // typeOperation: null,
         }),
     }),
     {

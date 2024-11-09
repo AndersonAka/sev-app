@@ -11,7 +11,7 @@ type OTPProps = GetProps<typeof Input.OTP>;;
 const MoovPaiementCard = () => {
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        console.log('Change:', e.target.value);
+        // console.log('Change:', e.target.value);
     };
     const [phone, setPhone] = useState("");
     const handlePhoneChange = (value: string) => {
@@ -22,7 +22,7 @@ const MoovPaiementCard = () => {
     };
 
     const onChangeOpt: OTPProps['onChange'] = (text) => {
-        console.log('onChange:', text);
+        // console.log('onChange:', text);
     };
 
     const sharedProps: OTPProps = {

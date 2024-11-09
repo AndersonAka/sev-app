@@ -9,6 +9,63 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  // provider = "postgresql"
+  provider = "sqlserver"
   url      = env("DATABASE_URL")
+}
+
+model Collecte {
+  id                   Int      @id @default(autoincrement())
+  typeOperation        String?
+  typePersonne         String? // "physique" or "morale"
+  nom                  String?
+  prenom               String?
+  lieuResidence        String?
+  eglise               String?
+  profession           String?
+  raisonSociale        String?
+  personneReference    String?
+  fonction             String?
+  adresseMail          String? //@unique
+  telephone            String?
+  typeMembre           String? // "membre" or "donateur"
+  optionMembreDonateur String? // "argent", "bronze", "or", or "diamant"
+  typePaiement         String? // "immediat" or "differe"
+  datePaiement         String?
+  modePaiement         String? // "mobile" or "virement"
+  referencePaiement    String?
+  referenceVerolive    String?
+  statusPaiement       String? // "valider or en attente"
+  montantEngagement    Float?
+  montantPayer         Float?
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+}
+
+model Adhesion {
+  id                   Int      @id @default(autoincrement())
+  typeOperation        String?
+  typePersonne         String? // "physique" or "morale"
+  nom                  String?
+  prenom               String?
+  lieuResidence        String?
+  eglise               String?
+  profession           String?
+  raisonSociale        String?
+  personneReference    String?
+  fonction             String?
+  adresseMail          String? //@unique
+  telephone            String?
+  typeMembre           String? // "membre" or "donateur"
+  optionMembreDonateur String? // "argent", "bronze", "or", or "diamant"
+  typePaiement         String? // "immediat" or "differe"
+  datePaiement         String?
+  modePaiement         String? // "mobile" or "virement"
+  referencePaiement    String?
+  referenceVerolive    String?
+  statusPaiement       String? // "valider or en attente"
+  montantEngagement    Float?
+  montantPayer         Float?
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
 }

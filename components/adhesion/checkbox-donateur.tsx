@@ -44,10 +44,10 @@ const CheckBoxDonateur = ({ onSelected, value, onSelectedDiamant }: Props) => {
             >
                 <div className='flex flex-col p-2'>
                     {/* <div className='flex flex-col'> */}
+                    <Radio value="a">Argent (10.000 F CFA/mois)</Radio>
                     <Radio value="b">
                         Bronze (20.000 F CFA/mois)
                     </Radio>
-                    <Radio value="a">Argent (10.000 F CFA/mois)</Radio>
                     {/* </div> */}
                     {/* <div className='flex flex-col'> */}
                     <Radio value="o">Or (100.000 F CFA/mois)</Radio>

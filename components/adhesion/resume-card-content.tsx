@@ -10,6 +10,8 @@ import { useEffect, useState } from 'react'
 import FraisPaiementCpt from '../communs/frais-paiement-cpt'
 import ResumeCardPersonneMorale from './resume-card-personne-morale'
 import ResumeCardPersonnePhysique from './resume-card-personne-physique'
+import { enregistrementAdhesion, enregistrementCollecte } from '@/action/operations'
+import dayjs from 'dayjs'
 
 interface Props {
     typePersonne: string
@@ -21,7 +23,7 @@ interface Props {
 }
 
 const ResumeCardContent = ({ typePersonne, personnePhysique, personneMorale, modeCollecte, next, prev }: Props) => {
-    const { dataTypePersonne, dataChoixMembre, setCurrent, dataEngagementCollecte, setDataMotEnregistrement, dataChoixModePaiement, activeFrais, setActiveFrais, montantApayer, setMontantApayer: setMotantApayer } = useDataStore()
+    const { typeOperation, dataTypePersonne, dataChoixMembre, setCurrent, dataEngagementCollecte, setDataMotEnregistrement, dataChoixModePaiement, activeFrais, setActiveFrais, montantApayer, setMontantApayer: setMotantApayer, dataPersonneMorale, dataPersonnePhysique } = useDataStore()
     const [active, setActive] = useState(false)
 
     const retour = () => {
@@ -42,8 +44,28 @@ const ResumeCardContent = ({ typePersonne, personnePhysique, personneMorale, mod
             return
         }
         if ((dataEngagementCollecte.option === "2") || (dataChoixModePaiement.optionPaiement === "2")) {
-            setDataMotEnregistrement({ titre: "Enregistrement effectué avec succès!", texte: "L'ONG SEMENCE POUR LA VIE vous remercie pour votre soutien financier!" })
-            router.push('/remerciement')
+            const typePaiement = "differe"
+            const statusPaiement = "en attente"
+            try {
+                //Cas de paiement plus tard
+                const typePersonne = dataTypePersonne.typePersonne === "1" ? "personnePhysique" : "personneMorale"
+                let response = null
+                if (typeOperation === 'collecte') {
+                    response = await enregistrementCollecte(typeOperation, typePersonne, typePaiement, dataEngagementCollecte.date!, dataEngagementCollecte.montant!, statusPaiement, "", "", "", "", dataPersonneMorale, dataPersonnePhysique, "", "")
+                } else {
+                    response = await enregistrementAdhesion(typeOperation!, typePersonne, typePaiement, dataChoixModePaiement.date!, dataChoixMembre.montant!, statusPaiement, "", "", "", "", dataPersonneMorale, dataPersonnePhysique, "", "")
+                }
+
+                if (response.data) {
+                    setDataMotEnregistrement({ titre: "Enregistrement effectué avec succès!", texte: "L'ONG SEMENCE POUR LA VIE vous remercie pour votre soutien financier!" })
+                    router.push('/remerciement')
+                }
+            } catch (error) {
+                alert('Une erreur s\'est produite')
+                // console.log(error)
+            }
+
+            //router.push('/remerciement')
             return
         }
         setCurrent(2)
@@ -60,33 +82,50 @@ const ResumeCardContent = ({ typePersonne, personnePhysique, personneMorale, mod
             });
             if (response.data.status === 1) {
                 // setAccessToken(response.data.access_token)
-                const reponseApiPaiement = await getPayementApiVerolive(response.data.access_token, montantApayer!)
+                const timeless = getCurrentDateTime();
+                // const numTel = personnePhysique?.telephone || personneMorale?.telephone
+                let referenceSev = "S" + timeless
+                const reponseApiPaiement = await getPayementApiVerolive(referenceSev, response.data.access_token, montantApayer!)
                 if (reponseApiPaiement && reponseApiPaiement.data.status === 3) {
+                    referenceSev = referenceSev + reponseApiPaiement.data.reference
+                    await enregistrementPaiementMobileMoney(reponseApiPaiement.data.reference, referenceSev)
                     router.push(reponseApiPaiement.data.url)
                     return
                 }
             }
         } catch (error) {
-            console.error('Erreur lors de la récupération du token:', error);
+            // console.error('Erreur lors de la récupération du token:', error);
         }
     }
 
-    const getPayementApiVerolive = async (accessToken: string, motant: string) => {
-        const timeless = getCurrentDateTime();
-        const numTel = personnePhysique?.telephone || personneMorale?.telephone
-        const reference = "SEV" + numTel + timeless
+    const enregistrementPaiementMobileMoney = async (referenceVerolive: string, referenceSev: string) => {
+        const date = dayjs(new Date()).format('YYYY-MM-DD')
+        const statusPaiement = "en attente"
+        const typePaiement = "immediat"
+        const montant = dataEngagementCollecte.montant
+        let response = null
+        if (typeOperation === 'collecte') {
+            response = await enregistrementCollecte(typeOperation, dataTypePersonne.typePersonne!, typePaiement, date, montant!, statusPaiement, "", dataEngagementCollecte.modePaiement!, referenceSev, dataEngagementCollecte.option!, dataPersonneMorale, dataPersonnePhysique, referenceVerolive, montant!)
+        } else {
+            response = await enregistrementAdhesion(typeOperation!, dataTypePersonne.typePersonne!, typePaiement, date, dataChoixMembre.montant!, statusPaiement, "", dataChoixModePaiement.modePaiement!, referenceSev, dataChoixModePaiement.optionPaiement!, dataPersonneMorale, dataPersonnePhysique, referenceVerolive, dataChoixMembre.montant!)
+        }
+    }
+
+    const getPayementApiVerolive = async (referenceSev: string, accessToken: string, motant: string) => {
+
+        // 
         try {
             const response = await axios.get('/api/paiement', {
                 params: {
-                    reference: reference,
+                    reference: referenceSev,
                     montant: motant,
                     accessToken: accessToken
                 },
             });
-            console.log('Token data:', response.data);
+            // console.log('Token data:', response.data);
             return response
         } catch (error) {
-            console.error('Erreur lors de la création du token:', error);
+            // console.error('Erreur lors de la création du token:', error);
         }
     }
 
