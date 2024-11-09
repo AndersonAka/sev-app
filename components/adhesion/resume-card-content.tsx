@@ -62,7 +62,7 @@ const ResumeCardContent = ({ typePersonne, personnePhysique, personneMorale, mod
                 }
             } catch (error) {
                 alert('Une erreur s\'est produite')
-                // console.log(error)
+                console.log(error)
             }
 
             //router.push('/remerciement')
