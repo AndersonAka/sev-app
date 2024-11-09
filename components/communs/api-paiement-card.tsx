@@ -47,11 +47,58 @@ const ApiPaiementCard = ({ next, prev }: Props) => {
             const montant = dataEngagementCollecte.montant
             const typePersonne = dataTypePersonne.typePersonne === "1" ? "personnePhysique" : "personneMorale"
             //Cas 2 : paiement par virement bancaire
+
+            // typeOperation,
+            // typePersonne,
+            // typePaiement,
+            // datePaiement: date,
+            // montantEngagement: montant,
+            // statusPaiement,
+            // typeMembre: "",
+            // modePaiement: dataEngagementCollecte.modePaiement!,
+            // referencePaiement: referenceSev,
+            // optionMembreDonateur: dataEngagementCollecte.option!,
+            // PersonneMorale: dataPersonneMorale,
+            // personnePhysique: dataPersonnePhysique,
+            // referenceVerolive,
+            // montantPayer: montant!
+
             let response = null
             if (typeOperation === 'collecte') {
-                response = await enregistrementCollecte(typeOperation, typePersonne, typePaiement, date, montant!, statusPaiement, "", dataEngagementCollecte.modePaiement!, referencePaieBanque!, dataEngagementCollecte.option!, dataPersonneMorale, dataPersonnePhysique, "", montant!)
+                response = await enregistrementCollecte({
+                    typeOperation,
+                    typePersonne,
+                    typePaiement,
+                    datePaiement: date,
+                    montantEngagement: montant!,
+                    statusPaiement,
+                    typeMembre: "",
+                    modePaiement: dataEngagementCollecte.modePaiement!,
+                    referencePaiement: referencePaieBanque!,
+                    optionMembreDonateur: dataEngagementCollecte.option!,
+                    PersonneMorale: dataPersonneMorale,
+                    personnePhysique: dataPersonnePhysique,
+                    referenceVerolive: "",
+                    montantPayer: montant!
+                })
             } else {
-                response = await enregistrementAdhesion(typeOperation!, typePersonne, typePaiement, date, dataChoixMembre.montant!, statusPaiement, "", dataChoixModePaiement.modePaiement!, referencePaieBanque!, dataChoixModePaiement.optionPaiement!, dataPersonneMorale, dataPersonnePhysique, "", dataChoixMembre.montant!)
+                response = await enregistrementAdhesion({
+                    typeOperation,
+                    typePersonne,
+                    typePaiement,
+                    datePaiement: date,
+                    montantEngagement: dataChoixMembre.montant!,
+                    statusPaiement,
+                    typeMembre: "",
+                    modePaiement: dataChoixModePaiement.modePaiement!,
+                    referencePaiement: referencePaieBanque!,
+                    optionMembreDonateur: dataChoixModePaiement.optionPaiement!,
+                    PersonneMorale: dataPersonneMorale,
+                    personnePhysique: dataPersonnePhysique,
+                    referenceVerolive: "",
+                    montantPayer: dataChoixMembre.montant!
+
+                })
             }
             setDataMotEnregistrement({ titre: "Enregistrement effectué avec succès!", texte: "L'ONG SEMENCE POUR LA VIE vous remercie pour votre soutien financier!" })
             router.push('/remerciement')

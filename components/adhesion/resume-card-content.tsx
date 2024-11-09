@@ -51,9 +51,39 @@ const ResumeCardContent = ({ typePersonne, personnePhysique, personneMorale, mod
                 const typePersonne = dataTypePersonne.typePersonne === "1" ? "personnePhysique" : "personneMorale"
                 let response = null
                 if (typeOperation === 'collecte') {
-                    response = await enregistrementCollecte(typeOperation, typePersonne, typePaiement, dataEngagementCollecte.date!, dataEngagementCollecte.montant!, statusPaiement, "", "", "", "", dataPersonneMorale, dataPersonnePhysique, "", "")
+                    response = await enregistrementCollecte({
+                        typeOperation,
+                        typePersonne,
+                        typePaiement,
+                        datePaiement: dataEngagementCollecte.date!,
+                        montantEngagement: dataEngagementCollecte.montant!,
+                        statusPaiement,
+                        typeMembre: "",
+                        modePaiement: dataEngagementCollecte.modePaiement,
+                        referencePaiement: "",
+                        optionMembreDonateur: dataEngagementCollecte.option,
+                        PersonneMorale: dataPersonneMorale,
+                        personnePhysique: dataPersonnePhysique,
+                        referenceVerolive: "",
+                        montantPayer: ""
+                    })
                 } else {
-                    response = await enregistrementAdhesion(typeOperation!, typePersonne, typePaiement, dataChoixModePaiement.date!, dataChoixMembre.montant!, statusPaiement, "", "", "", "", dataPersonneMorale, dataPersonnePhysique, "", "")
+                    response = await enregistrementAdhesion({
+                        typeOperation,
+                        typePersonne,
+                        typePaiement,
+                        datePaiement: dataChoixModePaiement.date!,
+                        montantEngagement: dataChoixMembre.montant!,
+                        statusPaiement,
+                        typeMembre: "",
+                        modePaiement: dataChoixModePaiement.modePaiement,
+                        referencePaiement: "",
+                        optionMembreDonateur: dataChoixModePaiement.optionPaiement,
+                        PersonneMorale: dataPersonneMorale,
+                        personnePhysique: dataPersonnePhysique,
+                        referenceVerolive: "",
+                        montantPayer: ""
+                    })
                 }
 
                 if (response.data) {
@@ -104,14 +134,53 @@ const ResumeCardContent = ({ typePersonne, personnePhysique, personneMorale, mod
         const statusPaiement = "en attente"
         const typePaiement = "immediat"
         const montant = dataEngagementCollecte.montant
+        const typePersonne = dataTypePersonne.typePersonne === "1" ? "personnePhysique" : "personneMorale"
         let response = null
         if (typeOperation === 'collecte') {
-            response = await enregistrementCollecte(typeOperation, dataTypePersonne.typePersonne!, typePaiement, date, montant!, statusPaiement, "", dataEngagementCollecte.modePaiement!, referenceSev, dataEngagementCollecte.option!, dataPersonneMorale, dataPersonnePhysique, referenceVerolive, montant!)
+            response = await enregistrementCollecte({
+                typeOperation,
+                typePersonne,
+                typePaiement,
+                datePaiement: date,
+                montantEngagement: montant,
+                statusPaiement,
+                typeMembre: "",
+                modePaiement: dataEngagementCollecte.modePaiement!,
+                referencePaiement: referenceSev,
+                optionMembreDonateur: dataEngagementCollecte.option!,
+                PersonneMorale: dataPersonneMorale,
+                personnePhysique: dataPersonnePhysique,
+                referenceVerolive,
+                montantPayer: montant!
+            })
         } else {
-            response = await enregistrementAdhesion(typeOperation!, dataTypePersonne.typePersonne!, typePaiement, date, dataChoixMembre.montant!, statusPaiement, "", dataChoixModePaiement.modePaiement!, referenceSev, dataChoixModePaiement.optionPaiement!, dataPersonneMorale, dataPersonnePhysique, referenceVerolive, dataChoixMembre.montant!)
+            response = await enregistrementAdhesion({
+                typeOperation,
+                typePersonne,
+                typePaiement,
+                datePaiement: date,
+                montantEngagement: dataChoixMembre.montant!,
+                statusPaiement,
+                typeMembre: "",
+                modePaiement: dataChoixModePaiement.modePaiement!,
+                referencePaiement: referenceSev,
+                optionMembreDonateur: dataChoixModePaiement.optionPaiement!,
+                PersonneMorale: dataPersonneMorale,
+                personnePhysique: dataPersonnePhysique,
+                referenceVerolive,
+                montantPayer: dataChoixMembre.montant!
+            })
         }
     }
-
+    // statusPaiement,
+    // typeMembre: "",
+    // modePaiement: dataChoixModePaiement.modePaiement,
+    // referencePaiement: "",
+    // optionMembreDonateur: dataChoixModePaiement.optionPaiement,
+    // PersonneMorale: dataPersonneMorale,
+    // personnePhysique: dataPersonnePhysique,
+    // referenceVerolive: "",
+    // montantPayer: ""
     const getPayementApiVerolive = async (referenceSev: string, accessToken: string, motant: string) => {
 
         // 
