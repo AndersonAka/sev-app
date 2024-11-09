@@ -39,6 +39,7 @@ const ResumeCardContent = ({ typePersonne, personnePhysique, personneMorale, mod
         setLoading(true)
         // Si le modde de paiement est par mobile money
         if ((dataEngagementCollecte.option === "1" && dataEngagementCollecte.modePaiement === "m") || (dataChoixModePaiement.optionPaiement === "1" && dataChoixModePaiement.modePaiement === "m")) {
+
             await getTokenApiVerolive()
             setLoading(false)
             return
@@ -104,8 +105,8 @@ const ResumeCardContent = ({ typePersonne, personnePhysique, personneMorale, mod
         next()
     }
     const getTokenApiVerolive = async () => {
-        try {
-            const response = await axios.get('/api/getVeroliveToken', {
+        try { //
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/getVeroliveToken`, {
                 params: {
                     reference: identifiantClientApi.reference,
                     cle: identifiantClientApi.cle,
