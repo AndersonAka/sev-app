@@ -128,7 +128,7 @@ const ChoixMembre = ({ handleMembre, choixMembre, errorChoixModePaiement }: Prop
                 }
                 {optionChoixMembre.type && (<>
                     <div className='flex flex-col justify-center space-y-2'>
-                        <RadioGroupPayerMaintenantPlusTard handleRadioChange={handleRadioChange} handleRadioChange2={handleRadioChange2} onChangeDate={onChangeDate} choix={dataChoixModePaiement.optionPaiement!} modePaiement={dataChoixModePaiement.modePaiement!} />
+                        <RadioGroupPayerMaintenantPlusTard optionChoixMembre={optionChoixMembre} handleRadioChange={handleRadioChange} handleRadioChange2={handleRadioChange2} onChangeDate={onChangeDate} choix={dataChoixModePaiement.optionPaiement!} modePaiement={dataChoixModePaiement.modePaiement!} />
                         {errorChoixModePaiement && <div className='text-red-500'>{errorChoixModePaiement}</div>}
                     </div>
                 </>)}
