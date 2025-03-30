@@ -50,17 +50,16 @@ const RadioGroupPayerMaintenantPlusTard = ({ handleRadioChange, handleRadioChang
                                 </div>
                             ) : null}
                         </Radio>
-                        <Radio value="2">
+                        {/* <Radio value="2">
                             <div className='w-full flex flex-col md:flex-row space-x-2'>
                                 <span className="block">Payer plus tard</span>
                                 {choix === '2' ? (
                                     <div className='w-'>
                                         <DatePicker disabledDate={disabledDate} onChange={onChangeDate} placeholder='Choisir une date' style={{ width: 150 }} />
-                                        {/* {error && <p style={{ color: 'red', fontSize: '0.875rem' }}>{error}</p>} */}
                                     </div>
                                 ) : null}
                             </div>
-                        </Radio>
+                        </Radio> */}
                     </div>
                 </Radio.Group>
             </Flex>

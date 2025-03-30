@@ -35,20 +35,24 @@ const ResumeCardContent = ({ typePersonne, personnePhysique, personneMorale, mod
     const [loading, setLoading] = useState(false)
 
     const suivant = async () => {
-        // setLoading(true)
         setLoading(true)
-        // Si le modde de paiement est par mobile money
-        if ((dataEngagementCollecte.option === "1" && dataEngagementCollecte.modePaiement === "m") || (dataChoixModePaiement.optionPaiement === "1" && dataChoixModePaiement.modePaiement === "m")) {
 
-            await getTokenApiVerolive()
+        // Génération du code de référence unique
+        const timestamp = new Date().getTime();
+        const randomStr = Math.random().toString(36).substring(2, 8).toUpperCase();
+        const referenceSev = `SEV-${timestamp}-${randomStr}`;
+
+        if ((dataEngagementCollecte.option === "1" && dataEngagementCollecte.modePaiement === "m") || (dataChoixModePaiement.optionPaiement === "1" && dataChoixModePaiement.modePaiement === "m")) {
+            // await enregistrementPaiementMobileMoney(referenceSev, referenceSev)
             setLoading(false)
+            router.push('/remerciement');
             return
         }
+
         if ((dataEngagementCollecte.option === "2") || (dataChoixModePaiement.optionPaiement === "2")) {
             const typePaiement = "differe"
             const statusPaiement = "en attente"
             try {
-                //Cas de paiement plus tard
                 let response = null
                 const typePersonne = dataTypePersonne.typePersonne === "1" ? "personnePhysique" : "personneMorale"
                 if (typeOperation === 'collecte') {
@@ -169,19 +173,13 @@ const ResumeCardContent = ({ typePersonne, personnePhysique, personneMorale, mod
                 montantPayer: dataChoixMembre.montant!
             })
         }
+        console.log(response)
+        if (response?.data) {
+            router.push('/remerciement');
+        }
     }
-    // statusPaiement,
-    // typeMembre: "",
-    // modePaiement: dataChoixModePaiement.modePaiement,
-    // referencePaiement: "",
-    // optionMembreDonateur: dataChoixModePaiement.optionPaiement,
-    // PersonneMorale: dataPersonneMorale,
-    // personnePhysique: dataPersonnePhysique,
-    // referenceVerolive: "",
-    // montantPayer: ""
-    const getPayementApiVerolive = async (referenceSev: string, accessToken: string, motant: string) => {
 
-        // 
+    const getPayementApiVerolive = async (referenceSev: string, accessToken: string, motant: string) => {
         try {
             const response = await axios.get('/api/paiement', {
                 params: {
@@ -190,10 +188,8 @@ const ResumeCardContent = ({ typePersonne, personnePhysique, personneMorale, mod
                     accessToken: accessToken
                 },
             });
-            // console.log('Token data:', response.data);
             return response
         } catch (error) {
-            // console.error('Erreur lors de la création du token:', error);
         }
     }
 
@@ -252,20 +248,6 @@ const ResumeCardContent = ({ typePersonne, personnePhysique, personneMorale, mod
                                             optionPaiement === '1' && dataChoixModePaiement.modePaiement === 'v' ? ' Virement bancaire' : dataChoixModePaiement.optionPaiement === '1' && dataChoixModePaiement.modePaiement === 'm' ? ` Mobile money` : null}</span>
                                     </div>
                                 </div>)}
-                            {dataChoixModePaiement.optionPaiement === "1" && dataChoixModePaiement.modePaiement === 'm' ? (
-                                <div className='flex flex-col space-y-2'>
-                                    <div className='flex flex-row space-x-2'>
-                                        <span>Payer les frais ?</span>
-                                        <Switch
-                                            checkedChildren={<CheckOutlined />}
-                                            unCheckedChildren={<CloseOutlined />}
-                                            defaultChecked={activeFrais}
-                                            onChange={(checked) => payerLesFrais(checked)}
-                                        />
-                                    </div>
-                                    <FraisPaiementCpt active={activeFrais} montant={dataChoixMembre.montant!} />
-                                </div>
-                            ) : null}
                         </div>
 
                     </>
@@ -280,7 +262,7 @@ const ResumeCardContent = ({ typePersonne, personnePhysique, personneMorale, mod
                                     <span className='text-xl font-medium'>{dataEngagementCollecte.option === '1' && dataEngagementCollecte.modePaiement === 'v' ? ' Virement bancaire' : dataEngagementCollecte.option === '1' && dataEngagementCollecte.modePaiement === 'm' ? ` Mobile money` : null}</span>
                                 </div>
                             )}
-                            {dataEngagementCollecte.option === "1" && dataEngagementCollecte.modePaiement === 'm' ? (
+                            {/* {dataEngagementCollecte.option === "1" && dataEngagementCollecte.modePaiement === 'm' ? (
                                 <div className='flex flex-col space-y-2'>
                                     <div className='flex flex-row space-x-2'>
                                         <span>Payer les frais ?</span>
@@ -293,7 +275,7 @@ const ResumeCardContent = ({ typePersonne, personnePhysique, personneMorale, mod
                                     </div>
                                     <FraisPaiementCpt active={activeFrais} montant={dataEngagementCollecte.montant!} />
                                 </div>
-                            ) : null}
+                            ) : null} */}
                         </div>
                     </>)}
             </div>
