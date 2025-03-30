@@ -37,23 +37,23 @@ const HomePage = () => {
     const valeurs = [
         {
             icone: <FaHandHoldingHeart className="w-12 h-12 text-green-600" />,
-            titre: "Solidarité",
-            description: "Nous croyons en la force de la communauté et de l'entraide mutuelle."
+            titre: "Amour",
+            description: "Par nos actions, nous manifestons l’amour de Dieu afin de contribuerau salut du plus grand nombre en Jésus-Christ qui est lui-même l’expressionde l’amour parfait de Dieu pour toute l’humanité. Si nous avons reçu de Dieucet amour parfait en Christ, nous pouvons aimer notre prochain comme nousmême et comme le Seigneur nous a aimé."
         },
-        {
-            icone: <FaUsers className="w-12 h-12 text-green-600" />,
-            titre: "Inclusion",
-            description: "Chacun a sa place dans notre communauté, quelles que soient ses origines."
-        },
+        // {
+        //     icone: <FaUsers className="w-12 h-12 text-green-600" />,
+        //     titre: "Inclusion",
+        //     description: "Chacun a sa place dans notre communauté, quelles que soient ses origines."
+        // },
         {
             icone: <FaHandshake className="w-12 h-12 text-green-600" />,
             titre: "Engagement",
-            description: "Nous nous engageons pour un monde plus juste et plus durable."
+            description: "Nous sommes déterminés et pleinement engagés dans toutesles initiatives visant à l’expansion de l’Evangile et l’assistance aux plus faibles.Nous sommes résolus à surmonter les défis qui se dressent devant nous etrestons attachés à la vision que le Seigneur nous a donné pour toucher les contrées reculées voire hostiles en Côte d’Ivoire comme au-delà."
         },
         {
             icone: <FaLeaf className="w-12 h-12 text-green-600" />,
-            titre: "Durabilité",
-            description: "Nos actions sont pensées pour un impact positif sur le long terme."
+            titre: "Excellence",
+            description: "Nous sommes toujours à la quête constante de stratégiesinnovantes pour attirer les cœurs à Christ. Nous voulons nous distinguer par laqualité de nos interventions en nous améliorant à partir des expériences Texte d'introduction corrigé"
         }
     ];
 
@@ -70,7 +70,8 @@ const HomePage = () => {
                         <p className="text-lg sm:text-xl lg:text-2xl font-satoshi text-gray-700 leading-relaxed animate-fade-in-up">
                             Bienvenu-e, contribuez à soutenir les actions en faveur des communautés.<br />
                             Que vous souhaitiez adhérer, faire un don, ou participer aux
-                            événements, il y a une place pour vous.
+                            événements, il y a une place pour vous.<br />
+                            Semence pour la vie est une organisation Chrétienne et humanitaire qui œuvre à l'expansion de l'évangile dans les lieux reculé, isolé voire hostiles tout en contribuant à l'amélioration des conditions de vie des communautés.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 w-full sm:w-auto">
                             <Button
@@ -98,7 +99,7 @@ const HomePage = () => {
                     <div className="hidden lg:flex flex-1 justify-end items-center p-8">
                         <div className="relative w-full h-[600px] rounded-2xl overflow-hidden shadow-2xl transform hover:scale-105 transition-transform duration-300">
                             <Image
-                                src={'/images/landingpage.webp'}
+                                src={'/images/logosev.webp'}
                                 alt="sev-logo"
                                 fill
                                 priority
@@ -113,7 +114,7 @@ const HomePage = () => {
                     <h2 className="text-3xl sm:text-4xl font-bold text-center text-gray-800 mb-12 animate-fade-in">
                         Nos Valeurs
                     </h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {valeurs.map((valeur, index) => (
                             <div
                                 key={index}

@@ -35,9 +35,9 @@ const Footer = () => {
                     <div className="space-y-4">
                         <h3 className="text-xl font-bold">Contact</h3>
                         <ul className="space-y-2 text-gray-300">
-                            <li>Email: contact@semeurs.org</li>
-                            <li>Tél: +33 1 23 45 67 89</li>
-                            <li>Adresse: 123 rue des Semeurs, 75000 Paris</li>
+                            <li>Email: info@semencepourlavie.org </li>
+                            <li>Tél: +225 27 22 23 88 30 / 07 07 88 94 49</li>
+                            <li>Adresse: Cocody Angré Star 6 lot 14, Abidjan, République de Côte d’Ivoire</li>
                         </ul>
                     </div>
 
