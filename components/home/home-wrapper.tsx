@@ -72,6 +72,7 @@ const HomePage = () => {
                             Que vous souhaitiez adhérer, faire un don, ou participer aux
                             événements, il y a une place pour vous.<br />
                             Semence pour la vie est une organisation Chrétienne et humanitaire qui œuvre à l'expansion de l'évangile dans les lieux reculé, isolé voire hostiles tout en contribuant à l'amélioration des conditions de vie des communautés.
+
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 w-full sm:w-auto">
                             <Button
