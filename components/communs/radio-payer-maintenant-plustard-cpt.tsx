@@ -8,9 +8,10 @@ interface Props {
     onChangeDate: DatePickerProps['onChange']
     choix: string
     modePaiement: string
+    afficherPlusTard?: boolean
 }
 // const dateFormat = 'YYYY-MM-DD';
-const RadioGroupPayerMaintenantPlusTard = ({ handleRadioChange, handleRadioChange2, onChangeDate, choix, modePaiement }: Props) => {
+const RadioGroupPayerMaintenantPlusTard = ({ handleRadioChange, handleRadioChange2, onChangeDate, choix, modePaiement, afficherPlusTard = true }: Props) => {
     // const [date, setDate] = useState<dayjs.Dayjs | null>(null); // Valeur initiale modifiée
     // const formattedDateDebut = date?.format('YYYY-MM-DD');
     // Définir la plage de date min et max pour la sélection
@@ -50,7 +51,8 @@ const RadioGroupPayerMaintenantPlusTard = ({ handleRadioChange, handleRadioChang
                                 </div>
                             ) : null}
                         </Radio>
-                        {/* <Radio value="2">
+
+                        <Radio value="2">
                             <div className='w-full flex flex-col md:flex-row space-x-2'>
                                 <span className="block">Payer plus tard</span>
                                 {choix === '2' ? (
@@ -59,7 +61,8 @@ const RadioGroupPayerMaintenantPlusTard = ({ handleRadioChange, handleRadioChang
                                     </div>
                                 ) : null}
                             </div>
-                        </Radio> */}
+                        </Radio>
+
                     </div>
                 </Radio.Group>
             </Flex>

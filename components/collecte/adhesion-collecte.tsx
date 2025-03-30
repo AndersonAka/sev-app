@@ -80,7 +80,7 @@ const AdhesionCollecte = ({ collecteEngagement, handleEngagement, errorChoixMode
             </div>
             {montant && Number(montant) >= 1000 && (
                 <div className='w-full flex flex-col space-y-2'>
-                    <RadioGroupPayerMaintenantPlusTard handleRadioChange={handleRadioChange} handleRadioChange2={handleRadioChange2} onChangeDate={onChangeDate} choix={choix} modePaiement={modePaiement} />
+                    <RadioGroupPayerMaintenantPlusTard afficherPlusTard={false} handleRadioChange={handleRadioChange} handleRadioChange2={handleRadioChange2} onChangeDate={onChangeDate} choix={choix} modePaiement={modePaiement} />
                     {errorChoixModePaiement && <div className='text-red-500'>{errorChoixModePaiement}</div>}
                 </div>
             )}

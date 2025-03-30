@@ -52,53 +52,55 @@ const ResumeCardContent = ({ typePersonne, personnePhysique, personneMorale, mod
         if ((dataEngagementCollecte.option === "2") || (dataChoixModePaiement.optionPaiement === "2")) {
             const typePaiement = "differe"
             const statusPaiement = "en attente"
-            try {
-                let response = null
-                const typePersonne = dataTypePersonne.typePersonne === "1" ? "personnePhysique" : "personneMorale"
-                if (typeOperation === 'collecte') {
-                    response = await enregistrementCollecte({
-                        typeOperation,
-                        typePersonne,
-                        typePaiement,
-                        datePaiement: dataEngagementCollecte.date!,
-                        montantEngagement: dataEngagementCollecte.montant!,
-                        statusPaiement,
-                        typeMembre: dataEngagementCollecte.option,
-                        modePaiement: dataEngagementCollecte.modePaiement,
-                        referencePaiement: "",
-                        optionMembreDonateur: dataEngagementCollecte.option,
-                        PersonneMorale: dataPersonneMorale,
-                        personnePhysique: dataPersonnePhysique,
-                        referenceVerolive: "",
-                        montantPayer: ""
-                    })
-                } else {
-                    response = await enregistrementAdhesion({
-                        typeOperation,
-                        typePersonne,
-                        typePaiement,
-                        datePaiement: dataChoixModePaiement.date!,
-                        montantEngagement: dataChoixMembre.montant!,
-                        statusPaiement,
-                        typeMembre: dataChoixMembre.type,
-                        modePaiement: dataChoixModePaiement.modePaiement,
-                        referencePaiement: "",
-                        optionMembreDonateur: dataChoixModePaiement.optionPaiement,
-                        PersonneMorale: dataPersonneMorale,
-                        personnePhysique: dataPersonnePhysique,
-                        referenceVerolive: "",
-                        montantPayer: ""
-                    })
-                }
-                if (response.data) {
-                    setDataMotEnregistrement({ titre: "Enregistrement effectué avec succès!", texte: "L'ONG SEMENCE POUR LA VIE vous remercie pour votre soutien financier!" })
-                    router.push('/remerciement')
-                }
-            } catch (error) {
-                alert('Une erreur s\'est produite')
-                setLoading(false)
-                console.log(error)
-            }
+            setDataMotEnregistrement({ titre: "Enregistrement effectué avec succès!", texte: "L'ONG SEMENCE POUR LA VIE vous remercie pour votre soutien financier!" })
+            router.push('/remerciement')
+            // try {
+            //     let response = null
+            //     const typePersonne = dataTypePersonne.typePersonne === "1" ? "personnePhysique" : "personneMorale"
+            //     if (typeOperation === 'collecte') {
+            //         response = await enregistrementCollecte({
+            //             typeOperation,
+            //             typePersonne,
+            //             typePaiement,
+            //             datePaiement: dataEngagementCollecte.date!,
+            //             montantEngagement: dataEngagementCollecte.montant!,
+            //             statusPaiement,
+            //             typeMembre: dataEngagementCollecte.option,
+            //             modePaiement: dataEngagementCollecte.modePaiement,
+            //             referencePaiement: "",
+            //             optionMembreDonateur: dataEngagementCollecte.option,
+            //             PersonneMorale: dataPersonneMorale,
+            //             personnePhysique: dataPersonnePhysique,
+            //             referenceVerolive: "",
+            //             montantPayer: ""
+            //         })
+            //     } else {
+            //         response = await enregistrementAdhesion({
+            //             typeOperation,
+            //             typePersonne,
+            //             typePaiement,
+            //             datePaiement: dataChoixModePaiement.date!,
+            //             montantEngagement: dataChoixMembre.montant!,
+            //             statusPaiement,
+            //             typeMembre: dataChoixMembre.type,
+            //             modePaiement: dataChoixModePaiement.modePaiement,
+            //             referencePaiement: "",
+            //             optionMembreDonateur: dataChoixModePaiement.optionPaiement,
+            //             PersonneMorale: dataPersonneMorale,
+            //             personnePhysique: dataPersonnePhysique,
+            //             referenceVerolive: "",
+            //             montantPayer: ""
+            //         })
+            //     }
+            //     if (response.data) {
+            //         setDataMotEnregistrement({ titre: "Enregistrement effectué avec succès!", texte: "L'ONG SEMENCE POUR LA VIE vous remercie pour votre soutien financier!" })
+            //         router.push('/remerciement')
+            //     }
+            // } catch (error) {
+            //     alert('Une erreur s\'est produite')
+            //     setLoading(false)
+            //     console.log(error)
+            // }
             return
         }
         setCurrent(2)
